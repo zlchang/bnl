@@ -1,0 +1,567 @@
+  *******************************************
+  *                                         *
+  *        W E L C O M E  to  R O O T       *
+  *                                         *
+  *   Version   5.34/30     23 April 2015   *
+  *                                         *
+  *  You are welcome to visit our Web site  *
+  *          http://root.cern.ch            *
+  *                                         *
+  *******************************************
+
+ROOT 5.34/30 (v5-34-30@v5-34-30, Apr 23 2015, 18:31:46 on linux)
+
+CINT/ROOT C/C++ Interpreter version 5.18.00, July 2, 2010
+Type ? for help. Commands must be C++ statements.
+Enclose multiple statements between { }.
+*** Float Point Exception is OFF ***
+ *** Start at Date : Mon Sep 25 17:20:32 2017
+QAInfo:You are using STAR_LEVEL : pro, ROOT_LEVEL : 5.34.30 and node : rcas6010.rcf.bnl.gov 
+
+Processing UnfoldJet.C...
+15
+content: 0 error:0 err1:0 err2:0
+content: 0 error:0 err1:0 err2:0
+content: 0 error:0 err1:0 err2:0
+content: 0.00123874 error:2.59442e-05 err1:2.59204e-05 err2:1.1125e-06
+content: 0.00115315 error:1.92537e-05 err1:1.92431e-05 err2:6.39944e-07
+content: 0.000921503 error:1.33601e-05 err1:1.33503e-05 err2:5.12512e-07
+content: 0.000672871 error:8.95503e-06 err1:8.94748e-06 err2:3.67495e-07
+content: 0.000382065 error:4.44297e-06 err1:4.43555e-06 err2:2.56732e-07
+content: 0.000194399 error:2.20791e-06 err1:2.20448e-06 err2:1.23042e-07
+content: 8.70178e-05 error:9.15552e-07 err1:9.1342e-07 err2:6.2454e-08
+content: 3.27855e-05 error:4.04132e-07 err1:4.0295e-07 err2:3.08919e-08
+content: 1.09096e-05 error:1.58011e-07 err1:1.5741e-07 err2:1.37688e-08
+content: 3.38179e-06 error:7.62369e-08 err1:7.61282e-08 err2:4.06879e-09
+content: 0 error:0 err1:0 err2:0
+content: 0 error:0 err1:0 err2:0
+TH1.Print Name  = JP1JetPtMcTrunc, Entries= 0, Total sum= 0.00469682
+ fSumw[0]=0, x=7.78, error=0
+ fSumw[1]=0.00123874, x=10.4, error=0
+ fSumw[2]=0.00115315, x=12.15, error=0
+ fSumw[3]=0.000921503, x=14.2, error=0
+ fSumw[4]=0.000672871, x=16.6, error=0
+ fSumw[5]=0.000382065, x=19.4, error=0
+ fSumw[6]=0.000194399, x=22.7, error=0
+ fSumw[7]=8.70178e-05, x=26.6, error=0
+ fSumw[8]=3.27855e-05, x=31.15, error=0
+ fSumw[9]=1.09096e-05, x=36.45, error=0
+ fSumw[10]=3.38179e-06, x=42.65, error=0
+ fSumw[11]=0, x=47.82, error=0
+response matrix: 
+TH1.Print Name  = JP1JetPtVsPartonJetPtResTrunc, Entries= 0, Total sum= 0.00463303
+ fSumw[0][0]=0, x=-2.3, y=-2.28, error=0
+ fSumw[1][0]=0, x=5.6, y=-2.28, error=0
+ fSumw[2][0]=0, x=12.15, y=-2.28, error=0
+ fSumw[3][0]=0, x=14.2, y=-2.28, error=0
+ fSumw[4][0]=0, x=16.6, y=-2.28, error=0
+ fSumw[5][0]=0, x=19.4, y=-2.28, error=0
+ fSumw[6][0]=0, x=22.7, y=-2.28, error=0
+ fSumw[7][0]=0, x=26.6, y=-2.28, error=0
+ fSumw[8][0]=0, x=31.15, y=-2.28, error=0
+ fSumw[9][0]=0, x=36.45, y=-2.28, error=0
+ fSumw[10][0]=0, x=42.65, y=-2.28, error=0
+ fSumw[11][0]=0, x=48.3, y=-2.28, error=0
+ fSumw[0][1]=0, x=-2.3, y=4.25, error=0
+ fSumw[1][1]=0.0001908, x=5.6, y=4.25, error=0
+ fSumw[2][1]=8.07764e-05, x=12.15, y=4.25, error=0
+ fSumw[3][1]=3.709e-05, x=14.2, y=4.25, error=0
+ fSumw[4][1]=8.12542e-06, x=16.6, y=4.25, error=0
+ fSumw[5][1]=4.00014e-06, x=19.4, y=4.25, error=0
+ fSumw[6][1]=3.79641e-07, x=22.7, y=4.25, error=0
+ fSumw[7][1]=2.34817e-08, x=26.6, y=4.25, error=0
+ fSumw[8][1]=8.44943e-10, x=31.15, y=4.25, error=0
+ fSumw[9][1]=4.02653e-10, x=36.45, y=4.25, error=0
+ fSumw[10][1]=0, x=42.65, y=4.25, error=0
+ fSumw[11][1]=0, x=48.3, y=4.25, error=0
+ fSumw[0][2]=0, x=-2.3, y=9.35, error=0
+ fSumw[1][2]=0.000166112, x=5.6, y=9.35, error=0
+ fSumw[2][2]=8.98452e-05, x=12.15, y=9.35, error=0
+ fSumw[3][2]=3.98114e-05, x=14.2, y=9.35, error=0
+ fSumw[4][2]=8.05942e-06, x=16.6, y=9.35, error=0
+ fSumw[5][2]=3.30696e-06, x=19.4, y=9.35, error=0
+ fSumw[6][2]=2.78441e-07, x=22.7, y=9.35, error=0
+ fSumw[7][2]=7.11979e-08, x=26.6, y=9.35, error=0
+ fSumw[8][2]=1.49954e-09, x=31.15, y=9.35, error=0
+ fSumw[9][2]=0, x=36.45, y=9.35, error=0
+ fSumw[10][2]=0, x=42.65, y=9.35, error=0
+ fSumw[11][2]=0, x=48.3, y=9.35, error=0
+ fSumw[0][3]=0, x=-2.3, y=11.25, error=0
+ fSumw[1][3]=0.000242477, x=5.6, y=11.25, error=0
+ fSumw[2][3]=0.000190613, x=12.15, y=11.25, error=0
+ fSumw[3][3]=7.50775e-05, x=14.2, y=11.25, error=0
+ fSumw[4][3]=2.13734e-05, x=16.6, y=11.25, error=0
+ fSumw[5][3]=5.5522e-06, x=19.4, y=11.25, error=0
+ fSumw[6][3]=7.37405e-07, x=22.7, y=11.25, error=0
+ fSumw[7][3]=1.26043e-07, x=26.6, y=11.25, error=0
+ fSumw[8][3]=4.66507e-09, x=31.15, y=11.25, error=0
+ fSumw[9][3]=1.38144e-09, x=36.45, y=11.25, error=0
+ fSumw[10][3]=0, x=42.65, y=11.25, error=0
+ fSumw[11][3]=0, x=48.3, y=11.25, error=0
+ fSumw[0][4]=0, x=-2.3, y=13.55, error=0
+ fSumw[1][4]=0.000315532, x=5.6, y=13.55, error=0
+ fSumw[2][4]=0.00031969, x=12.15, y=13.55, error=0
+ fSumw[3][4]=0.000177796, x=14.2, y=13.55, error=0
+ fSumw[4][4]=7.02665e-05, x=16.6, y=13.55, error=0
+ fSumw[5][4]=1.09853e-05, x=19.4, y=13.55, error=0
+ fSumw[6][4]=2.48983e-06, x=22.7, y=13.55, error=0
+ fSumw[7][4]=2.97473e-07, x=26.6, y=13.55, error=0
+ fSumw[8][4]=3.0076e-08, x=31.15, y=13.55, error=0
+ fSumw[9][4]=5.20753e-10, x=36.45, y=13.55, error=0
+ fSumw[10][4]=0, x=42.65, y=13.55, error=0
+ fSumw[11][4]=0, x=48.3, y=13.55, error=0
+ fSumw[0][5]=0, x=-2.3, y=16.35, error=0
+ fSumw[1][5]=0.00018375, x=5.6, y=16.35, error=0
+ fSumw[2][5]=0.000275564, x=12.15, y=16.35, error=0
+ fSumw[3][5]=0.000283269, x=14.2, y=16.35, error=0
+ fSumw[4][5]=0.000173811, x=16.6, y=16.35, error=0
+ fSumw[5][5]=4.77204e-05, x=19.4, y=16.35, error=0
+ fSumw[6][5]=9.37543e-06, x=22.7, y=16.35, error=0
+ fSumw[7][5]=9.50782e-07, x=26.6, y=16.35, error=0
+ fSumw[8][5]=6.19352e-08, x=31.15, y=16.35, error=0
+ fSumw[9][5]=1.01631e-08, x=36.45, y=16.35, error=0
+ fSumw[10][5]=1.57736e-10, x=42.65, y=16.35, error=0
+ fSumw[11][5]=0, x=48.3, y=16.35, error=0
+ fSumw[0][6]=0, x=-2.3, y=19.75, error=0
+ fSumw[1][6]=7.19321e-05, x=5.6, y=19.75, error=0
+ fSumw[2][6]=0.000137734, x=12.15, y=19.75, error=0
+ fSumw[3][6]=0.00020881, x=14.2, y=19.75, error=0
+ fSumw[4][6]=0.000223323, x=16.6, y=19.75, error=0
+ fSumw[5][6]=0.00012457, x=19.4, y=19.75, error=0
+ fSumw[6][6]=3.15913e-05, x=22.7, y=19.75, error=0
+ fSumw[7][6]=3.97382e-06, x=26.6, y=19.75, error=0
+ fSumw[8][6]=3.16171e-07, x=31.15, y=19.75, error=0
+ fSumw[9][6]=4.39473e-08, x=36.45, y=19.75, error=0
+ fSumw[10][6]=9.63043e-10, x=42.65, y=19.75, error=0
+ fSumw[11][6]=0, x=48.3, y=19.75, error=0
+ fSumw[0][7]=0, x=-2.3, y=23.8, error=0
+ fSumw[1][7]=1.92126e-05, x=5.6, y=23.8, error=0
+ fSumw[2][7]=3.83433e-05, x=12.15, y=23.8, error=0
+ fSumw[3][7]=7.2427e-05, x=14.2, y=23.8, error=0
+ fSumw[4][7]=0.000119406, x=16.6, y=23.8, error=0
+ fSumw[5][7]=0.000125332, x=19.4, y=23.8, error=0
+ fSumw[6][7]=7.5236e-05, x=22.7, y=23.8, error=0
+ fSumw[7][7]=1.92812e-05, x=26.6, y=23.8, error=0
+ fSumw[8][7]=1.83673e-06, x=31.15, y=23.8, error=0
+ fSumw[9][7]=9.92474e-08, x=36.45, y=23.8, error=0
+ fSumw[10][7]=2.13485e-08, x=42.65, y=23.8, error=0
+ fSumw[11][7]=0, x=48.3, y=23.8, error=0
+ fSumw[0][8]=0, x=-2.3, y=28.7, error=0
+ fSumw[1][8]=4.01414e-06, x=5.6, y=28.7, error=0
+ fSumw[2][8]=8.43651e-06, x=12.15, y=28.7, error=0
+ fSumw[3][8]=1.81608e-05, x=14.2, y=28.7, error=0
+ fSumw[4][8]=3.37876e-05, x=16.6, y=28.7, error=0
+ fSumw[5][8]=4.67567e-05, x=19.4, y=28.7, error=0
+ fSumw[6][8]=5.41589e-05, x=22.7, y=28.7, error=0
+ fSumw[7][8]=3.70578e-05, x=26.6, y=28.7, error=0
+ fSumw[8][8]=9.33757e-06, x=31.15, y=28.7, error=0
+ fSumw[9][8]=7.71543e-07, x=36.45, y=28.7, error=0
+ fSumw[10][8]=8.49605e-08, x=42.65, y=28.7, error=0
+ fSumw[11][8]=0, x=48.3, y=28.7, error=0
+ fSumw[0][9]=0, x=-2.3, y=34.6, error=0
+ fSumw[1][9]=8.66111e-07, x=5.6, y=34.6, error=0
+ fSumw[2][9]=1.90791e-06, x=12.15, y=34.6, error=0
+ fSumw[3][9]=3.81684e-06, x=14.2, y=34.6, error=0
+ fSumw[4][9]=7.55215e-06, x=16.6, y=34.6, error=0
+ fSumw[5][9]=1.11872e-05, x=19.4, y=34.6, error=0
+ fSumw[6][9]=1.60485e-05, x=22.7, y=34.6, error=0
+ fSumw[7][9]=1.97938e-05, x=26.6, y=34.6, error=0
+ fSumw[8][9]=1.46088e-05, x=31.15, y=34.6, error=0
+ fSumw[9][9]=3.8542e-06, x=36.45, y=34.6, error=0
+ fSumw[10][9]=3.73474e-07, x=42.65, y=34.6, error=0
+ fSumw[11][9]=0, x=48.3, y=34.6, error=0
+ fSumw[0][10]=0, x=-2.3, y=41.7, error=0
+ fSumw[1][10]=1.66279e-07, x=5.6, y=41.7, error=0
+ fSumw[2][10]=4.9436e-07, x=12.15, y=41.7, error=0
+ fSumw[3][10]=8.83771e-07, x=14.2, y=41.7, error=0
+ fSumw[4][10]=1.7388e-06, x=16.6, y=41.7, error=0
+ fSumw[5][10]=2.49352e-06, x=19.4, y=41.7, error=0
+ fSumw[6][10]=4.01405e-06, x=22.7, y=41.7, error=0
+ fSumw[7][10]=5.4178e-06, x=26.6, y=41.7, error=0
+ fSumw[8][10]=6.55891e-06, x=31.15, y=41.7, error=0
+ fSumw[9][10]=6.08963e-06, x=36.45, y=41.7, error=0
+ fSumw[10][10]=2.85662e-06, x=42.65, y=41.7, error=0
+ fSumw[11][10]=0, x=48.3, y=41.7, error=0
+ fSumw[0][11]=0, x=-2.3, y=47.88, error=0
+ fSumw[1][11]=0, x=5.6, y=47.88, error=0
+ fSumw[2][11]=0, x=12.15, y=47.88, error=0
+ fSumw[3][11]=0, x=14.2, y=47.88, error=0
+ fSumw[4][11]=0, x=16.6, y=47.88, error=0
+ fSumw[5][11]=0, x=19.4, y=47.88, error=0
+ fSumw[6][11]=0, x=22.7, y=47.88, error=0
+ fSumw[7][11]=0, x=26.6, y=47.88, error=0
+ fSumw[8][11]=0, x=31.15, y=47.88, error=0
+ fSumw[9][11]=0, x=36.45, y=47.88, error=0
+ fSumw[10][11]=0, x=42.65, y=47.88, error=0
+ fSumw[11][11]=0, x=48.3, y=47.88, error=0
+TH1.Print Name  = JP1JetPtMcTrunc, Entries= 0, Total sum= 0.00469682
+ fSumw[0]=0, x=7.78, error=0
+ fSumw[1]=0.00123874, x=10.4, error=0
+ fSumw[2]=0.00115315, x=12.15, error=0
+ fSumw[3]=0.000921503, x=14.2, error=0
+ fSumw[4]=0.000672871, x=16.6, error=0
+ fSumw[5]=0.000382065, x=19.4, error=0
+ fSumw[6]=0.000194399, x=22.7, error=0
+ fSumw[7]=8.70178e-05, x=26.6, error=0
+ fSumw[8]=3.27855e-05, x=31.15, error=0
+ fSumw[9]=1.09096e-05, x=36.45, error=0
+ fSumw[10]=3.38179e-06, x=42.65, error=0
+ fSumw[11]=0, x=47.82, error=0
+TH1.Print Name  = JP1TwoJetPtMcVar0Trunc, Entries= 0, Total sum= 1.33301e-09
+ fSumw[0][0]=0, x=-2.3, y=-2.3, error=0
+ fSumw[1][0]=0, x=5.6, y=-2.3, error=0
+ fSumw[2][0]=0, x=12.15, y=-2.3, error=0
+ fSumw[3][0]=0, x=14.2, y=-2.3, error=0
+ fSumw[4][0]=0, x=16.6, y=-2.3, error=0
+ fSumw[5][0]=0, x=19.4, y=-2.3, error=0
+ fSumw[6][0]=0, x=22.7, y=-2.3, error=0
+ fSumw[7][0]=0, x=26.6, y=-2.3, error=0
+ fSumw[8][0]=0, x=31.15, y=-2.3, error=0
+ fSumw[9][0]=0, x=36.45, y=-2.3, error=0
+ fSumw[10][0]=0, x=42.65, y=-2.3, error=0
+ fSumw[11][0]=0, x=48.3, y=-2.3, error=0
+ fSumw[0][1]=0, x=-2.3, y=5.6, error=0
+ fSumw[1][1]=6.73103e-10, x=5.6, y=5.6, error=0
+ fSumw[2][1]=3.38499e-13, x=12.15, y=5.6, error=0
+ fSumw[3][1]=2.50008e-13, x=14.2, y=5.6, error=0
+ fSumw[4][1]=2.10674e-13, x=16.6, y=5.6, error=0
+ fSumw[5][1]=6.7467e-14, x=19.4, y=5.6, error=0
+ fSumw[6][1]=2.6625e-14, x=22.7, y=5.6, error=0
+ fSumw[7][1]=7.90832e-15, x=26.6, y=5.6, error=0
+ fSumw[8][1]=3.86086e-15, x=31.15, y=5.6, error=0
+ fSumw[9][1]=1.98438e-16, x=36.45, y=5.6, error=0
+ fSumw[10][1]=6.0738e-17, x=42.65, y=5.6, error=0
+ fSumw[11][1]=0, x=48.3, y=5.6, error=0
+ fSumw[0][2]=0, x=-2.3, y=12.15, error=0
+ fSumw[1][2]=3.38499e-13, x=5.6, y=12.15, error=0
+ fSumw[2][2]=3.70706e-10, x=12.15, y=12.15, error=0
+ fSumw[3][2]=3.94581e-13, x=14.2, y=12.15, error=0
+ fSumw[4][2]=1.53251e-13, x=16.6, y=12.15, error=0
+ fSumw[5][2]=9.75123e-14, x=19.4, y=12.15, error=0
+ fSumw[6][2]=3.31583e-14, x=22.7, y=12.15, error=0
+ fSumw[7][2]=1.11719e-14, x=26.6, y=12.15, error=0
+ fSumw[8][2]=2.26264e-15, x=31.15, y=12.15, error=0
+ fSumw[9][2]=7.74682e-16, x=36.45, y=12.15, error=0
+ fSumw[10][2]=9.67753e-17, x=42.65, y=12.15, error=0
+ fSumw[11][2]=0, x=48.3, y=12.15, error=0
+ fSumw[0][3]=0, x=-2.3, y=14.2, error=0
+ fSumw[1][3]=2.50008e-13, x=5.6, y=14.2, error=0
+ fSumw[2][3]=3.94581e-13, x=12.15, y=14.2, error=0
+ fSumw[3][3]=1.78493e-10, x=14.2, y=14.2, error=0
+ fSumw[4][3]=2.15547e-13, x=16.6, y=14.2, error=0
+ fSumw[5][3]=3.43039e-13, x=19.4, y=14.2, error=0
+ fSumw[6][3]=4.34316e-14, x=22.7, y=14.2, error=0
+ fSumw[7][3]=1.53315e-14, x=26.6, y=14.2, error=0
+ fSumw[8][3]=4.61386e-15, x=31.15, y=14.2, error=0
+ fSumw[9][3]=4.79099e-16, x=36.45, y=14.2, error=0
+ fSumw[10][3]=6.62083e-17, x=42.65, y=14.2, error=0
+ fSumw[11][3]=0, x=48.3, y=14.2, error=0
+ fSumw[0][4]=0, x=-2.3, y=16.6, error=0
+ fSumw[1][4]=2.10674e-13, x=5.6, y=16.6, error=0
+ fSumw[2][4]=1.53251e-13, x=12.15, y=16.6, error=0
+ fSumw[3][4]=2.15547e-13, x=14.2, y=16.6, error=0
+ fSumw[4][4]=8.01925e-11, x=16.6, y=16.6, error=0
+ fSumw[5][4]=1.00485e-13, x=19.4, y=16.6, error=0
+ fSumw[6][4]=3.65505e-14, x=22.7, y=16.6, error=0
+ fSumw[7][4]=1.22377e-14, x=26.6, y=16.6, error=0
+ fSumw[8][4]=3.67469e-15, x=31.15, y=16.6, error=0
+ fSumw[9][4]=9.16947e-16, x=36.45, y=16.6, error=0
+ fSumw[10][4]=1.14637e-16, x=42.65, y=16.6, error=0
+ fSumw[11][4]=0, x=48.3, y=16.6, error=0
+ fSumw[0][5]=0, x=-2.3, y=19.4, error=0
+ fSumw[1][5]=6.7467e-14, x=5.6, y=19.4, error=0
+ fSumw[2][5]=9.75123e-14, x=12.15, y=19.4, error=0
+ fSumw[3][5]=3.43039e-13, x=14.2, y=19.4, error=0
+ fSumw[4][5]=1.00485e-13, x=16.6, y=19.4, error=0
+ fSumw[5][5]=1.974e-11, x=19.4, y=19.4, error=0
+ fSumw[6][5]=3.09206e-14, x=22.7, y=19.4, error=0
+ fSumw[7][5]=1.14167e-14, x=26.6, y=19.4, error=0
+ fSumw[8][5]=3.58625e-15, x=31.15, y=19.4, error=0
+ fSumw[9][5]=6.65655e-16, x=36.45, y=19.4, error=0
+ fSumw[10][5]=1.15001e-16, x=42.65, y=19.4, error=0
+ fSumw[11][5]=0, x=48.3, y=19.4, error=0
+ fSumw[0][6]=0, x=-2.3, y=22.7, error=0
+ fSumw[1][6]=2.6625e-14, x=5.6, y=22.7, error=0
+ fSumw[2][6]=3.31583e-14, x=12.15, y=22.7, error=0
+ fSumw[3][6]=4.34316e-14, x=14.2, y=22.7, error=0
+ fSumw[4][6]=3.65505e-14, x=16.6, y=22.7, error=0
+ fSumw[5][6]=3.09206e-14, x=19.4, y=22.7, error=0
+ fSumw[6][6]=4.87487e-12, x=22.7, y=22.7, error=0
+ fSumw[7][6]=7.86661e-15, x=26.6, y=22.7, error=0
+ fSumw[8][6]=3.47361e-15, x=31.15, y=22.7, error=0
+ fSumw[9][6]=5.44938e-16, x=36.45, y=22.7, error=0
+ fSumw[10][6]=1.42663e-16, x=42.65, y=22.7, error=0
+ fSumw[11][6]=0, x=48.3, y=22.7, error=0
+ fSumw[0][7]=0, x=-2.3, y=26.6, error=0
+ fSumw[1][7]=7.90832e-15, x=5.6, y=26.6, error=0
+ fSumw[2][7]=1.11719e-14, x=12.15, y=26.6, error=0
+ fSumw[3][7]=1.53315e-14, x=14.2, y=26.6, error=0
+ fSumw[4][7]=1.22377e-14, x=16.6, y=26.6, error=0
+ fSumw[5][7]=1.14167e-14, x=19.4, y=26.6, error=0
+ fSumw[6][7]=7.86661e-15, x=22.7, y=26.6, error=0
+ fSumw[7][7]=8.38236e-13, x=26.6, y=26.6, error=0
+ fSumw[8][7]=1.8021e-15, x=31.15, y=26.6, error=0
+ fSumw[9][7]=4.13725e-16, x=36.45, y=26.6, error=0
+ fSumw[10][7]=1.00701e-16, x=42.65, y=26.6, error=0
+ fSumw[11][7]=0, x=48.3, y=26.6, error=0
+ fSumw[0][8]=0, x=-2.3, y=31.15, error=0
+ fSumw[1][8]=3.86086e-15, x=5.6, y=31.15, error=0
+ fSumw[2][8]=2.26264e-15, x=12.15, y=31.15, error=0
+ fSumw[3][8]=4.61386e-15, x=14.2, y=31.15, error=0
+ fSumw[4][8]=3.67469e-15, x=16.6, y=31.15, error=0
+ fSumw[5][8]=3.58625e-15, x=19.4, y=31.15, error=0
+ fSumw[6][8]=3.47361e-15, x=22.7, y=31.15, error=0
+ fSumw[7][8]=1.8021e-15, x=26.6, y=31.15, error=0
+ fSumw[8][8]=1.63323e-13, x=31.15, y=31.15, error=0
+ fSumw[9][8]=2.98862e-16, x=36.45, y=31.15, error=0
+ fSumw[10][8]=5.42657e-17, x=42.65, y=31.15, error=0
+ fSumw[11][8]=0, x=48.3, y=31.15, error=0
+ fSumw[0][9]=0, x=-2.3, y=36.45, error=0
+ fSumw[1][9]=1.98438e-16, x=5.6, y=36.45, error=0
+ fSumw[2][9]=7.74682e-16, x=12.15, y=36.45, error=0
+ fSumw[3][9]=4.79099e-16, x=14.2, y=36.45, error=0
+ fSumw[4][9]=9.16947e-16, x=16.6, y=36.45, error=0
+ fSumw[5][9]=6.65655e-16, x=19.4, y=36.45, error=0
+ fSumw[6][9]=5.44938e-16, x=22.7, y=36.45, error=0
+ fSumw[7][9]=4.13725e-16, x=26.6, y=36.45, error=0
+ fSumw[8][9]=2.98862e-16, x=31.15, y=36.45, error=0
+ fSumw[9][9]=2.49676e-14, x=36.45, y=36.45, error=0
+ fSumw[10][9]=4.58976e-17, x=42.65, y=36.45, error=0
+ fSumw[11][9]=0, x=48.3, y=36.45, error=0
+ fSumw[0][10]=0, x=-2.3, y=42.65, error=0
+ fSumw[1][10]=6.0738e-17, x=5.6, y=42.65, error=0
+ fSumw[2][10]=9.67753e-17, x=12.15, y=42.65, error=0
+ fSumw[3][10]=6.62083e-17, x=14.2, y=42.65, error=0
+ fSumw[4][10]=1.14637e-16, x=16.6, y=42.65, error=0
+ fSumw[5][10]=1.15001e-16, x=19.4, y=42.65, error=0
+ fSumw[6][10]=1.42663e-16, x=22.7, y=42.65, error=0
+ fSumw[7][10]=1.00701e-16, x=26.6, y=42.65, error=0
+ fSumw[8][10]=5.42657e-17, x=31.15, y=42.65, error=0
+ fSumw[9][10]=4.58976e-17, x=36.45, y=42.65, error=0
+ fSumw[10][10]=5.81206e-15, x=42.65, y=42.65, error=0
+ fSumw[11][10]=0, x=48.3, y=42.65, error=0
+ fSumw[0][11]=0, x=-2.3, y=48.3, error=0
+ fSumw[1][11]=0, x=5.6, y=48.3, error=0
+ fSumw[2][11]=0, x=12.15, y=48.3, error=0
+ fSumw[3][11]=0, x=14.2, y=48.3, error=0
+ fSumw[4][11]=0, x=16.6, y=48.3, error=0
+ fSumw[5][11]=0, x=19.4, y=48.3, error=0
+ fSumw[6][11]=0, x=22.7, y=48.3, error=0
+ fSumw[7][11]=0, x=26.6, y=48.3, error=0
+ fSumw[8][11]=0, x=31.15, y=48.3, error=0
+ fSumw[9][11]=0, x=36.45, y=48.3, error=0
+ fSumw[10][11]=0, x=42.65, y=48.3, error=0
+ fSumw[11][11]=0, x=48.3, y=48.3, error=0
+TH1.Print Name  = JP1Par, Entries= 0, Total sum= 0.00463303
+ fSumw[0]=0, x=-2.28, error=0
+ fSumw[1]=0.000321197, x=4.25, error=0
+ fSumw[2]=0.000307486, x=9.35, error=0
+ fSumw[3]=0.000535963, x=11.25, error=0
+ fSumw[4]=0.000897087, x=13.55, error=0
+ fSumw[5]=0.000974512, x=16.35, error=0
+ fSumw[6]=0.000802295, x=19.75, error=0
+ fSumw[7]=0.000471196, x=23.8, error=0
+ fSumw[8]=0.000212566, x=28.7, error=0
+ fSumw[9]=8.0009e-05, x=34.6, error=0
+ fSumw[10]=3.07137e-05, x=41.7, error=0
+ fSumw[11]=0, x=47.88, error=0
+TH1.Print Name  = JP1JetPtVsPartonJetPtResTrunc, Entries= 0, Total sum= 0.00463303
+ fSumw[0][0]=0, x=-2.3, y=-2.28, error=0
+ fSumw[1][0]=0, x=5.6, y=-2.28, error=0
+ fSumw[2][0]=0, x=12.15, y=-2.28, error=0
+ fSumw[3][0]=0, x=14.2, y=-2.28, error=0
+ fSumw[4][0]=0, x=16.6, y=-2.28, error=0
+ fSumw[5][0]=0, x=19.4, y=-2.28, error=0
+ fSumw[6][0]=0, x=22.7, y=-2.28, error=0
+ fSumw[7][0]=0, x=26.6, y=-2.28, error=0
+ fSumw[8][0]=0, x=31.15, y=-2.28, error=0
+ fSumw[9][0]=0, x=36.45, y=-2.28, error=0
+ fSumw[10][0]=0, x=42.65, y=-2.28, error=0
+ fSumw[11][0]=0, x=48.3, y=-2.28, error=0
+ fSumw[0][1]=0, x=-2.3, y=4.25, error=0
+ fSumw[1][1]=0.0001908, x=5.6, y=4.25, error=0
+ fSumw[2][1]=8.07764e-05, x=12.15, y=4.25, error=0
+ fSumw[3][1]=3.709e-05, x=14.2, y=4.25, error=0
+ fSumw[4][1]=8.12542e-06, x=16.6, y=4.25, error=0
+ fSumw[5][1]=4.00014e-06, x=19.4, y=4.25, error=0
+ fSumw[6][1]=3.79641e-07, x=22.7, y=4.25, error=0
+ fSumw[7][1]=2.34817e-08, x=26.6, y=4.25, error=0
+ fSumw[8][1]=8.44943e-10, x=31.15, y=4.25, error=0
+ fSumw[9][1]=4.02653e-10, x=36.45, y=4.25, error=0
+ fSumw[10][1]=0, x=42.65, y=4.25, error=0
+ fSumw[11][1]=0, x=48.3, y=4.25, error=0
+ fSumw[0][2]=0, x=-2.3, y=9.35, error=0
+ fSumw[1][2]=0.000166112, x=5.6, y=9.35, error=0
+ fSumw[2][2]=8.98452e-05, x=12.15, y=9.35, error=0
+ fSumw[3][2]=3.98114e-05, x=14.2, y=9.35, error=0
+ fSumw[4][2]=8.05942e-06, x=16.6, y=9.35, error=0
+ fSumw[5][2]=3.30696e-06, x=19.4, y=9.35, error=0
+ fSumw[6][2]=2.78441e-07, x=22.7, y=9.35, error=0
+ fSumw[7][2]=7.11979e-08, x=26.6, y=9.35, error=0
+ fSumw[8][2]=1.49954e-09, x=31.15, y=9.35, error=0
+ fSumw[9][2]=0, x=36.45, y=9.35, error=0
+ fSumw[10][2]=0, x=42.65, y=9.35, error=0
+ fSumw[11][2]=0, x=48.3, y=9.35, error=0
+ fSumw[0][3]=0, x=-2.3, y=11.25, error=0
+ fSumw[1][3]=0.000242477, x=5.6, y=11.25, error=0
+ fSumw[2][3]=0.000190613, x=12.15, y=11.25, error=0
+ fSumw[3][3]=7.50775e-05, x=14.2, y=11.25, error=0
+ fSumw[4][3]=2.13734e-05, x=16.6, y=11.25, error=0
+ fSumw[5][3]=5.5522e-06, x=19.4, y=11.25, error=0
+ fSumw[6][3]=7.37405e-07, x=22.7, y=11.25, error=0
+ fSumw[7][3]=1.26043e-07, x=26.6, y=11.25, error=0
+ fSumw[8][3]=4.66507e-09, x=31.15, y=11.25, error=0
+ fSumw[9][3]=1.38144e-09, x=36.45, y=11.25, error=0
+ fSumw[10][3]=0, x=42.65, y=11.25, error=0
+ fSumw[11][3]=0, x=48.3, y=11.25, error=0
+ fSumw[0][4]=0, x=-2.3, y=13.55, error=0
+ fSumw[1][4]=0.000315532, x=5.6, y=13.55, error=0
+ fSumw[2][4]=0.00031969, x=12.15, y=13.55, error=0
+ fSumw[3][4]=0.000177796, x=14.2, y=13.55, error=0
+ fSumw[4][4]=7.02665e-05, x=16.6, y=13.55, error=0
+ fSumw[5][4]=1.09853e-05, x=19.4, y=13.55, error=0
+ fSumw[6][4]=2.48983e-06, x=22.7, y=13.55, error=0
+ fSumw[7][4]=2.97473e-07, x=26.6, y=13.55, error=0
+ fSumw[8][4]=3.0076e-08, x=31.15, y=13.55, error=0
+ fSumw[9][4]=5.20753e-10, x=36.45, y=13.55, error=0
+ fSumw[10][4]=0, x=42.65, y=13.55, error=0
+ fSumw[11][4]=0, x=48.3, y=13.55, error=0
+ fSumw[0][5]=0, x=-2.3, y=16.35, error=0
+ fSumw[1][5]=0.00018375, x=5.6, y=16.35, error=0
+ fSumw[2][5]=0.000275564, x=12.15, y=16.35, error=0
+ fSumw[3][5]=0.000283269, x=14.2, y=16.35, error=0
+ fSumw[4][5]=0.000173811, x=16.6, y=16.35, error=0
+ fSumw[5][5]=4.77204e-05, x=19.4, y=16.35, error=0
+ fSumw[6][5]=9.37543e-06, x=22.7, y=16.35, error=0
+ fSumw[7][5]=9.50782e-07, x=26.6, y=16.35, error=0
+ fSumw[8][5]=6.19352e-08, x=31.15, y=16.35, error=0
+ fSumw[9][5]=1.01631e-08, x=36.45, y=16.35, error=0
+ fSumw[10][5]=1.57736e-10, x=42.65, y=16.35, error=0
+ fSumw[11][5]=0, x=48.3, y=16.35, error=0
+ fSumw[0][6]=0, x=-2.3, y=19.75, error=0
+ fSumw[1][6]=7.19321e-05, x=5.6, y=19.75, error=0
+ fSumw[2][6]=0.000137734, x=12.15, y=19.75, error=0
+ fSumw[3][6]=0.00020881, x=14.2, y=19.75, error=0
+ fSumw[4][6]=0.000223323, x=16.6, y=19.75, error=0
+ fSumw[5][6]=0.00012457, x=19.4, y=19.75, error=0
+ fSumw[6][6]=3.15913e-05, x=22.7, y=19.75, error=0
+ fSumw[7][6]=3.97382e-06, x=26.6, y=19.75, error=0
+ fSumw[8][6]=3.16171e-07, x=31.15, y=19.75, error=0
+ fSumw[9][6]=4.39473e-08, x=36.45, y=19.75, error=0
+ fSumw[10][6]=9.63043e-10, x=42.65, y=19.75, error=0
+ fSumw[11][6]=0, x=48.3, y=19.75, error=0
+ fSumw[0][7]=0, x=-2.3, y=23.8, error=0
+ fSumw[1][7]=1.92126e-05, x=5.6, y=23.8, error=0
+ fSumw[2][7]=3.83433e-05, x=12.15, y=23.8, error=0
+ fSumw[3][7]=7.2427e-05, x=14.2, y=23.8, error=0
+ fSumw[4][7]=0.000119406, x=16.6, y=23.8, error=0
+ fSumw[5][7]=0.000125332, x=19.4, y=23.8, error=0
+ fSumw[6][7]=7.5236e-05, x=22.7, y=23.8, error=0
+ fSumw[7][7]=1.92812e-05, x=26.6, y=23.8, error=0
+ fSumw[8][7]=1.83673e-06, x=31.15, y=23.8, error=0
+ fSumw[9][7]=9.92474e-08, x=36.45, y=23.8, error=0
+ fSumw[10][7]=2.13485e-08, x=42.65, y=23.8, error=0
+ fSumw[11][7]=0, x=48.3, y=23.8, error=0
+ fSumw[0][8]=0, x=-2.3, y=28.7, error=0
+ fSumw[1][8]=4.01414e-06, x=5.6, y=28.7, error=0
+ fSumw[2][8]=8.43651e-06, x=12.15, y=28.7, error=0
+ fSumw[3][8]=1.81608e-05, x=14.2, y=28.7, error=0
+ fSumw[4][8]=3.37876e-05, x=16.6, y=28.7, error=0
+ fSumw[5][8]=4.67567e-05, x=19.4, y=28.7, error=0
+ fSumw[6][8]=5.41589e-05, x=22.7, y=28.7, error=0
+ fSumw[7][8]=3.70578e-05, x=26.6, y=28.7, error=0
+ fSumw[8][8]=9.33757e-06, x=31.15, y=28.7, error=0
+ fSumw[9][8]=7.71543e-07, x=36.45, y=28.7, error=0
+ fSumw[10][8]=8.49605e-08, x=42.65, y=28.7, error=0
+ fSumw[11][8]=0, x=48.3, y=28.7, error=0
+ fSumw[0][9]=0, x=-2.3, y=34.6, error=0
+ fSumw[1][9]=8.66111e-07, x=5.6, y=34.6, error=0
+ fSumw[2][9]=1.90791e-06, x=12.15, y=34.6, error=0
+ fSumw[3][9]=3.81684e-06, x=14.2, y=34.6, error=0
+ fSumw[4][9]=7.55215e-06, x=16.6, y=34.6, error=0
+ fSumw[5][9]=1.11872e-05, x=19.4, y=34.6, error=0
+ fSumw[6][9]=1.60485e-05, x=22.7, y=34.6, error=0
+ fSumw[7][9]=1.97938e-05, x=26.6, y=34.6, error=0
+ fSumw[8][9]=1.46088e-05, x=31.15, y=34.6, error=0
+ fSumw[9][9]=3.8542e-06, x=36.45, y=34.6, error=0
+ fSumw[10][9]=3.73474e-07, x=42.65, y=34.6, error=0
+ fSumw[11][9]=0, x=48.3, y=34.6, error=0
+ fSumw[0][10]=0, x=-2.3, y=41.7, error=0
+ fSumw[1][10]=1.66279e-07, x=5.6, y=41.7, error=0
+ fSumw[2][10]=4.9436e-07, x=12.15, y=41.7, error=0
+ fSumw[3][10]=8.83771e-07, x=14.2, y=41.7, error=0
+ fSumw[4][10]=1.7388e-06, x=16.6, y=41.7, error=0
+ fSumw[5][10]=2.49352e-06, x=19.4, y=41.7, error=0
+ fSumw[6][10]=4.01405e-06, x=22.7, y=41.7, error=0
+ fSumw[7][10]=5.4178e-06, x=26.6, y=41.7, error=0
+ fSumw[8][10]=6.55891e-06, x=31.15, y=41.7, error=0
+ fSumw[9][10]=6.08963e-06, x=36.45, y=41.7, error=0
+ fSumw[10][10]=2.85662e-06, x=42.65, y=41.7, error=0
+ fSumw[11][10]=0, x=48.3, y=41.7, error=0
+ fSumw[0][11]=0, x=-2.3, y=47.88, error=0
+ fSumw[1][11]=0, x=5.6, y=47.88, error=0
+ fSumw[2][11]=0, x=12.15, y=47.88, error=0
+ fSumw[3][11]=0, x=14.2, y=47.88, error=0
+ fSumw[4][11]=0, x=16.6, y=47.88, error=0
+ fSumw[5][11]=0, x=19.4, y=47.88, error=0
+ fSumw[6][11]=0, x=22.7, y=47.88, error=0
+ fSumw[7][11]=0, x=26.6, y=47.88, error=0
+ fSumw[8][11]=0, x=31.15, y=47.88, error=0
+ fSumw[9][11]=0, x=36.45, y=47.88, error=0
+ fSumw[10][11]=0, x=42.65, y=47.88, error=0
+ fSumw[11][11]=0, x=48.3, y=47.88, error=0
+TH1.Print Name  = sv, Entries= 10, Total sum= 7.24661e+06
+ fSumw[0]=0, x=-0.5, error=0
+ fSumw[1]=7.24599e+06, x=0.5, error=0
+ fSumw[2]=472.453, x=1.5, error=0
+ fSumw[3]=95.7795, x=2.5, error=0
+ fSumw[4]=30.6997, x=3.5, error=0
+ fSumw[5]=11.6655, x=4.5, error=0
+ fSumw[6]=5.04441, x=5.5, error=0
+ fSumw[7]=2.18277, x=6.5, error=0
+ fSumw[8]=0.96316, x=7.5, error=0
+ fSumw[9]=0.0554724, x=8.5, error=0
+ fSumw[10]=0.0129543, x=9.5, error=0
+ fSumw[11]=0, x=10.5, error=0
+TH1.Print Name  = dd, Entries= 15, Total sum= 234.316
+ fSumw[0]=0, x=-0.5, error=0
+ fSumw[1]=230.143, x=0.5, error=0
+ fSumw[2]=0.8964, x=1.5, error=0
+ fSumw[3]=1.0715, x=2.5, error=0
+ fSumw[4]=0.173243, x=3.5, error=0
+ fSumw[5]=0.594126, x=4.5, error=0
+ fSumw[6]=0.242749, x=5.5, error=0
+ fSumw[7]=0.555498, x=6.5, error=0
+ fSumw[8]=0.127551, x=7.5, error=0
+ fSumw[9]=0.510104, x=8.5, error=0
+ fSumw[10]=0.00251456, x=9.5, error=0
+ fSumw[11]=0, x=10.5, error=0
+TH1.Print Name  = SVD5, Entries= 10, Total sum= 0.0046931
+ fSumw[0]=0, x=-2.28, error=0
+ fSumw[1]=0.000344738, x=4.25, error=1.84405e-05
+ fSumw[2]=0.000324552, x=9.35, error=1.27425e-05
+ fSumw[3]=0.000551441, x=11.25, error=1.15975e-05
+ fSumw[4]=0.000902792, x=13.55, error=1.66979e-05
+ fSumw[5]=0.000972404, x=16.35, error=1.90781e-05
+ fSumw[6]=0.000802455, x=19.75, error=1.17188e-05
+ fSumw[7]=0.000471525, x=23.8, error=6.44843e-06
+ fSumw[8]=0.000212186, x=28.7, error=2.79356e-06
+ fSumw[9]=7.99915e-05, x=34.6, error=1.04899e-06
+ fSumw[10]=3.10181e-05, x=41.7, error=5.12847e-07
+ fSumw[11]=0, x=47.88, error=0
+TH1.Print Name  = JP1JetPtMcTrunc, Entries= 0, Total sum= 0.00469682
+ fSumw[0]=0, x=7.78, error=0
+ fSumw[1]=0.00123874, x=10.4, error=0
+ fSumw[2]=0.00115315, x=12.15, error=0
+ fSumw[3]=0.000921503, x=14.2, error=0
+ fSumw[4]=0.000672871, x=16.6, error=0
+ fSumw[5]=0.000382065, x=19.4, error=0
+ fSumw[6]=0.000194399, x=22.7, error=0
+ fSumw[7]=8.70178e-05, x=26.6, error=0
+ fSumw[8]=3.27855e-05, x=31.15, error=0
+ fSumw[9]=1.09096e-05, x=36.45, error=0
+ fSumw[10]=3.38179e-06, x=42.65, error=0
+ fSumw[11]=0, x=47.82, error=0
+
+This is the end of ROOT -- Goodbye
+

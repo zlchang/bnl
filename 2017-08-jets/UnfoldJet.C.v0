@@ -1,0 +1,286 @@
+TFile *mFile;
+const int Ntrg = 3;
+
+const char *trg[] = {"JP0", "JP1", "JP2"};
+
+
+TH2D *hdetVspar;
+TH1D *hdet;
+TH1D *hproj;
+TH1D *hpar;
+
+TH1D *hjet;
+TH2D *htwojet;
+//TH2D *hvar;
+
+int i = 1;
+
+int UnfoldJet(const char *file = "ptbin.list.run12.i.v1.w.cmb.mc.root")
+{
+  TH1::SetDefaultSumw2(kTRUE);
+  gStyle->SetOptStat(0);
+  gStyle->SetHistLineWidth(2);
+
+  gSystem->Load("/star/u/zchang/software/local/lib/libRooUnfold.so");
+  
+  mFile = TFile::Open(file);
+
+  hdetVspar = (TH2D*) mFile->Get(Form("%sJetPtVsPartonJetPt", trg[i]));
+  if(!hdetVspar) { Info("Read", Form("histogram %sJetPtVsPartonJetPt not found", trg[i])); return 0;}
+  hjet = (TH1D*) mFile->Get(Form("%sJetPtMc", trg[i]));
+  if(!hjet) { Info("Read", Form("histogram %sJetPtMc not found", trg[i])); return 0;}
+  htwojet = (TH2D*) mFile->Get(Form("%sTwoJetPtMc", trg[i]));
+  if(!htwojet) { Info("Read", Form("histogram %sTwoJetPtMc not found", trg[i])); return 0;}
+
+  //x: detector y: parton/particle
+  
+  hproj = (TH1D *)hdetVspar->ProjectionX(Form("%sDetector", trg[i]));
+  hdet = updateErrors(hjet, htwojet);
+  //hdet = hproj;
+  hdet->Print("all");
+  TH2D *hcorr = getVariance(hjet, htwojet, true);
+  TCanvas *c0 = new TCanvas("c0", "c0");
+  gPad->SetLogz(1);
+  c0->cd();
+  hcorr->Draw("colz");
+  c0->Print(Form("%sCorrelation.png", trg[i]));
+
+  TCanvas *c0a = new TCanvas("c0a", "c0a");
+  gPad->SetLogz(1);
+  c0a->cd();
+  hdetVspar->Draw("colz");
+  c0a->Print(Form("%sResponse.png", trg[i]));
+  //hcorr->Print("all");
+
+  //matching ratio
+  TProfile *hmatch = (TProfile*) mFile->Get(Form("%sJetPartonNoMatchProf", trg[i]));
+  if(!hmatch) { Info("Read", Form("histogram %sJetPartonNoMatchProf not found", trg[i]));}
+  TCanvas *c0b = new TCanvas("c0b", "c0b");
+  gPad->SetLogz(1);
+  c0b->cd();
+  hmatch->Draw("hist");
+  hmatch->GetYaxis()->SetRangeUser(0.4, 1.2);
+  c0b->Print(Form("%sMatching.png", trg[i]));
+
+
+  hpar = (TH1D *)hdetVspar->ProjectionY(Form("%sPar", trg[i]));
+  TCanvas *c1 = new TCanvas("c1", "c1");
+  c1->cd();
+  hdet->Draw("E");
+
+  hpar->SetLineColor(kRed);
+  hpar->Draw("Esame");
+  
+  TH1D* hreco = UnfoldBayes();
+  hreco->SetLineColor(kBlue);  
+  hreco->Draw("Esame");
+
+  TH1D *hrecoSVD[15];
+
+  int start = 5, end = 8;
+  int step = 3;
+  for(int ir = start; ir <= end; ir+=step){ 
+    hrecoSVD[ir] = UnfoldSVD(ir);
+    hrecoSVD[ir]->SetLineColor(kGreen+(ir-start)/step);
+    hrecoSVD[ir]->Draw("Esame");
+  }
+
+
+  gPad->SetLogy(1);
+/*
+  TH1D *htunfold = UnfoldRoot();
+  htunfold->Draw("Esame");
+  htunfold->SetLineColor(kYellow);
+*/
+  TLegend *lg = new TLegend(0.65, 0.7, 0.85, 0.85);
+  lg->AddEntry(hdet, "Detector", "l");
+  lg->AddEntry(hpar, "Parton/Particle", "l");
+  lg->AddEntry(hreco, "Unfold Bayes", "l");
+  for(int ir = start; ir <= end; ir+=step){
+    lg->AddEntry(hrecoSVD[ir], Form("Unfold SVD reg = %d", ir), "l");
+  }
+  //lg->AddEntry(htunfold, "TUnfold", "l");
+  lg->Draw("same");
+
+  c1->Print(Form("%sUnfold.png", trg[i]));
+  TCanvas *c2 = new TCanvas("c2", "c2");
+  c2->cd();
+  gPad->SetLogy(0);
+  TH1D *hr = ratioHist("M/C", hpar, hpar);
+
+  hr->Draw();
+  hr->GetYaxis()->SetLimits(-1, 1);
+  hr->GetYaxis()->SetRangeUser(-1, 1);
+  hr->SetLineColor(kRed);
+  TH1D *hrbayes = ratioHist("Bayes", hpar, hreco);
+  hrbayes->Draw("same");
+  hrbayes->SetLineColor(kBlue);
+
+  TH1D *hrSVD[15];
+  for(int ir = start; ir <= end; ir+=step){
+    hrSVD[ir] = ratioHist(Form("SVDreg%d", ir), hpar, hrecoSVD[ir]);
+    hrSVD[ir]->Draw("same");
+    hrSVD[ir]->SetLineColor(kGreen+(ir-start)/step);
+  }
+  c2->Print(Form("%sUnfoldRatio.png", trg[i]));
+
+
+  return 1;
+}
+TH1D *UnfoldRoot(int reg = 0)
+{
+  int N = hdet->GetNbinsX();
+  if(reg == 0) reg = N;
+
+  TH2D *hvar = getVariance(hjet, htwojet);
+  //hvar->Print("all");
+
+  //TSVDUnfold svdUnfold(hdet, hdet, hpar, hdetVspar);
+  
+  TUnfold unfoldRoot(hdetVspar, TUnfold::kHistMapOutputVert, TUnfold::kRegModeCurvature, TUnfold::kEConstraintNone);
+  
+  unfoldRoot.SetInput(hdet, 0., 0., hvar);
+  unfoldRoot.DoUnfold(10);
+  TH1D *hrec =  new TH1D(Form("%s", "TUnfold"), ";p_{T} [GeV]", N, hpar->GetXaxis()->GetXbins()->GetArray());
+  unfoldRoot.GetOutput(hrec);
+  
+  //svdUnfold.GetSV()->Print("all");
+  //svdUnfold.GetD()->Print("all");
+  //svdUnfold.GetAdetCovMatrix(10)->Print("all");
+  //svdUnfold.GetUnfoldCovMatrix(10)->Print("all");
+  hrec->Print("all");
+
+  return hrec;
+}
+TH1D *UnfoldBayes()
+{
+  RooUnfoldResponse response(hdet, hpar, hdetVspar, Form("%sResponse", trg[i]));
+
+  RooUnfoldBayes unfold(&response, hdet, 4);
+
+  return (TH1D*) unfold.Hreco();
+
+}
+TH1D *UnfoldSVD(int reg = 0)
+{
+  int N = hdet->GetNbinsX();
+  if(reg == 0) reg = N;
+  /*TH1D *hcov = new TH1D(Form("%sMeasuredCov", trg[i]), ";p_{T} [GeV]", N, hdet->GetXaxis()->GetXbins()->GetArray());
+
+  for(int i = 1; i <= N; i++){
+    float content = hdet->GetBinContent(i);
+    float error = hdet->GetBinError(i);
+    hcov->SetBinContent(i, content);
+    hcov->SetBinError(i, error);
+  }
+  hcov->Sumw2(0);
+  */
+  TH2D *hvar = getVariance(hjet, htwojet);
+  //hvar->Print("all");
+
+  //TSVDUnfold svdUnfold(hdet, hdet, hpar, hdetVspar);
+  
+  TSVDUnfold svdUnfold(hdet, hvar, hproj, hpar, hdetVspar);
+  
+  TH1D *hrec =  recoSVD(svdUnfold, reg);
+  //svdUnfold.GetSV()->Print("all");
+  //svdUnfold.GetD()->Print("all");
+  //svdUnfold.GetAdetCovMatrix(10)->Print("all");
+  //svdUnfold.GetUnfoldCovMatrix(10)->Print("all");
+  hrec->Print("all");
+
+  return hrec;
+}
+TH1D *recoSVD(TSVDUnfold &unfold, int reg)
+{
+  TH1D *hunfold = (TH1D*) unfold.Unfold(reg);
+  unfold.GetSV()->Print("all");
+  unfold.GetD()->Print("all");
+  ///*
+  //int niter = 10;
+  TH2D *hcov = (TH2D*) unfold.GetXtau();
+  for(int ib = 1; ib <= hunfold->GetNbinsX(); ib++){
+     double err = hcov->GetBinContent(ib, ib);
+     err = TMath::Sqrt(err);
+     hunfold->SetBinError(ib, err);
+  }//*/
+  return hunfold;
+}
+TH1D *ratioHist(const char *name, TH1 *ha, TH1 *hb)
+{
+  int N = ha->GetNbinsX();
+  TH1D *hr = 0x0;
+  if(ha->GetXaxis()->GetXbins()->GetSize() > 0)
+    hr = new TH1D(name, Form(";%s;ratio", ha->GetXaxis()->GetTitle()), N, ha->GetXaxis()->GetXbins()->GetArray());
+  else
+    hr = new TH1D(name, Form(";%s;ratio", ha->GetXaxis()->GetTitle()), N, ha->GetXaxis()->GetXmin(), ha->GetXaxis()->GetXmax());
+  for(int ib = 1; ib <= N; ib++){
+    double aa = ha->GetBinContent(ib);
+    //double ea = ha->GetBinError(ib);
+    double bb = hb->GetBinContent(ib);
+    //double eb = hb->GetBinError(ib);
+    double rr = 0;
+    double er = 0;
+    if(aa > 0 || aa < 0){
+      rr = (bb - aa)/aa;
+      //er = bb/aa*TMath::Sqrt(TMath::Power(ea/aa, 2) + TMath::Power(eb/bb, 2));
+    }
+    hr->SetBinContent(ib, rr);
+    hr->SetBinError(ib, er);
+  }
+  return hr;
+}
+TH2D *getVariance(TH1D *h, TH2D *h2d, bool norm = false)
+{
+  TAxis *xaxis = h2d->GetXaxis();
+  TAxis *yaxis = h2d->GetYaxis();
+
+  TH2D *hh = new TH2D(Form("%sVar%d", h2d->GetName(), norm), Form(";%s;%s", xaxis->GetTitle(), yaxis->GetTitle()), xaxis->GetNbins(), xaxis->GetXbins()->GetArray(), yaxis->GetNbins(), yaxis->GetXbins()->GetArray()); 
+  TArrayD arr(xaxis->GetNbins());
+  for(int ix = 1; ix <= xaxis->GetNbins(); ix++){
+    double eh = h->GetBinError(ix);
+    double eh2 = h2d->GetBinError(ix, ix);
+    arr[ix-1] = eh*eh + eh2*eh2;
+  } 
+  for(int ix = 1; ix <= xaxis->GetNbins(); ix++){
+    for(int iy = 1; iy <= yaxis->GetNbins(); iy++){
+      double eh2 = h2d->GetBinError(ix, iy);
+      double content = TMath::Power(eh2, 2);
+      double var = content;
+      if(iy == ix) { double err = h->GetBinError(ix); var += err*err;}
+      
+      if(norm && arr[ix-1] > 0 && arr[iy-1] > 0) var = var/TMath::Sqrt(arr[ix-1]*arr[iy-1]);
+      hh->SetBinContent(ix, iy, var);
+      hh->SetBinError(ix, iy, 0);
+    }
+  }
+  /*
+  for(int ix = 1; ix <= xaxis->GetNbins(); ix++){
+    cout<<h->GetBinError(ix)<<endl;
+    for(int iy = 1; iy <= yaxis->GetNbins(); iy++){
+      if(ix == iy)
+	hh->SetBinContent(ix, iy, h->GetBinError(ix));
+      else hh->SetBinContent(ix, iy, 0);
+    } 
+  }
+  */
+  return hh;
+}
+TH1D* updateErrors(TH1D *h, TH2D *h2d)
+{
+  TAxis* xaxis = h->GetXaxis();
+  //TAxis* yaxis = h->GetYaxis();
+  int N = xaxis->GetNbins();
+  cout<<N<<endl;
+  TH1D *hn = new TH1D(Form("%sUpdate", h->GetName()), Form(";%s", xaxis->GetTitle()), N, xaxis->GetXbins()->GetArray());
+  for(int ib = 1; ib <= N; ib++){
+    double content = h->GetBinContent(ib);
+    double err1 = h->GetBinError(ib);
+    double err2 = h2d->GetBinError(ib, ib);
+    double error = TMath::Sqrt(TMath::Power(err1,2)+TMath::Power(err2, 2));
+    hn->SetBinContent(ib, content);
+    hn->SetBinError(ib, error);
+    cout<<"content: "<<content<<" error:"<<error<<" err1:"<<err1<<" err2:"<<err2<<endl;
+  }
+  return hn;
+}
