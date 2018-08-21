@@ -56,6 +56,7 @@ int StMyMatchTrackToEmcMaker::Make()
       }
     }
   }
+
   vector<const StMuTrack*> muTrackList;
   for(unsigned int iTrack = 0; iTrack < StMuDst::numberOfPrimaryTracks(); iTrack++)
     {
@@ -73,7 +74,7 @@ int StMyMatchTrackToEmcMaker::Make()
       if(eta < -2.5 || eta > 2.5) continue;
       StMyTrackDcaPtCut cut;
       if(cut(muTrack)) continue;
-      
+     
       muTrackList.push_back(muTrack);
     }
 
@@ -96,7 +97,6 @@ int StMyMatchTrackToEmcMaker::Make()
       int exitTowerId = 0;
       //Printf("tower Id %d, exit eta: %.2lf, phi: %.2lf", exitTowerId, exitEta, exitPhi);
       //StEmcGeom::instance("bemc")->getId(exitPhi, exitEta, exitTowerId);
-      
       mBemcGeom->getId(exitPhi, exitEta, exitTowerId);
       
       if(exitTowerId <=0 || exitTowerId > 4800){ 
@@ -162,8 +162,6 @@ int StMyMatchTrackToEmcMaker::Make()
 	if(nee > emax) emax = nee;
 	nsum += nee;
 	//Printf("ntowerId=%d, exitTowerId=%d, nee=%4.3lf, et=%4.3lf\n", ntowerId, exitTowerId, nee, ee);	
-	
-	
       }
     }
     myCluster.mE = nsum;
