@@ -6,6 +6,9 @@
 #include "TProfile.h"
 #include "TH2D.h"
 
+#include "StMyTowerHist.h"
+#include "StMyClusterHist.h"
+
 class StMyHist2D : public TObject
 {
  public:
@@ -81,6 +84,9 @@ public:
     mHistHitTowerFracCluster = new StMyHist2D(Form("%sHitTowerFracCluster", name), ";track p_{T} [GeV]; hit frac.", nbins, min, max, 150, -0.1, 1.4);
     mHistMaxTowerFracCluster = new StMyHist2D(Form("%sMaxTowerFracCluster", name), ";track p_{T} [GeV]; hit frac.", nbins, min, max, 150, -0.1, 1.4);  
     mHistEptVsDist = new TProfile(Form("%sEptVsDist", name), ";d;E/p_{T}", 9, -0.01, 0.08);
+
+    mTower = new StMyTowerHist(Form("%sTower", name));
+    mCluster = new StMyClusterHist(Form("%sCluster", name));
   }
   ~StMyMatchTrackToEmcHist(){
     delete mHistTrack;
@@ -98,6 +104,9 @@ public:
     delete mHistHitTowerFracCluster;
     delete mHistMaxTowerFracCluster;
     delete mHistEptVsDist;
+
+    delete mTower;
+    delete mCluster;
   }
   
   
@@ -117,6 +126,9 @@ public:
   StMyHist2D *mHistMaxTowerFracCluster;
 
   TProfile *mHistEptVsDist;
+
+  StMyTowerHist *mTower;
+  StMyClusterHist *mCluster;
   ClassDef(StMyMatchTrackToEmcHist, 1);
 };
 #endif
