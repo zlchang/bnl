@@ -129,6 +129,7 @@ public:
 
   StMyTowerHist *mTower;
   StMyClusterHist *mCluster;
+
   ClassDef(StMyMatchTrackToEmcHist, 1);
 };
 #endif

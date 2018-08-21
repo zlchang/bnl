@@ -1,4 +1,5 @@
 #include "StMyMatchTrackToEmcMaker.h"
+#include "StMyTrackDcaPtCut.h"
 #include "StRoot/StMyEmcPool/StMyMatchTrackToEmcHist/StMyMatchTrackToEmcHist.h"
 #include "StRoot/StMyEmcPool/StMyMatchTrackToEmcHist/StMyTrack.h"
 #include "StRoot/StMyEmcPool/StMyMatchTrackToEmcHist/StMyTower.h"
@@ -15,6 +16,7 @@
 #include "StMuDSTMaker/COMMON/StMuTypes.hh"
 #include "StEmcUtil/geometry/StEmcGeom.h"
 
+#include <vector>
 int StMyMatchTrackToEmcMaker::Init()
 {
   mFile = new TFile(mFileName, "recreate");
@@ -69,6 +71,9 @@ int StMyMatchTrackToEmcMaker::Make()
       //double mom = muTrack->p().mag();
       if(pt < 0.2) continue;
       if(eta < -2.5 || eta > 2.5) continue;
+      StMyTrackDcaPtCut cut;
+      if(cut(muTrack)) continue;
+      
       muTrackList.push_back(muTrack);
     }
 
@@ -78,7 +83,6 @@ int StMyMatchTrackToEmcMaker::Make()
     const StMuTrack *muTrack = *it;
     double pt = muTrack->pt();
     double eta = muTrack->eta();
-      
     //Printf("pt = %.2lf B = %.2lf", pt, mag);
     StThreeVectorD momentumAt, positionAt;
     //StMuEmcPosition EmcPosition;
@@ -92,6 +96,7 @@ int StMyMatchTrackToEmcMaker::Make()
       int exitTowerId = 0;
       //Printf("tower Id %d, exit eta: %.2lf, phi: %.2lf", exitTowerId, exitEta, exitPhi);
       //StEmcGeom::instance("bemc")->getId(exitPhi, exitEta, exitTowerId);
+      
       mBemcGeom->getId(exitPhi, exitEta, exitTowerId);
       
       if(exitTowerId <=0 || exitTowerId > 4800){ 
@@ -101,6 +106,7 @@ int StMyMatchTrackToEmcMaker::Make()
       (myTowerList[exitTowerId-1].mHits)++;
       //hprofmatch->Fill(pt, true);
       double ee = myTowerList[exitTowerId-1].mE;//energy[exitTowerId-1];
+
       Printf("tower Id %d, energy %lf, track pt %.2lf eta %.2lf", exitTowerId, ee, pt, eta);
       float beta, bphi;
       mBemcGeom->getEtaPhi(exitTowerId, beta, bphi);
@@ -156,6 +162,8 @@ int StMyMatchTrackToEmcMaker::Make()
 	if(nee > emax) emax = nee;
 	nsum += nee;
 	//Printf("ntowerId=%d, exitTowerId=%d, nee=%4.3lf, et=%4.3lf\n", ntowerId, exitTowerId, nee, ee);	
+	
+	
       }
     }
     myCluster.mE = nsum;
