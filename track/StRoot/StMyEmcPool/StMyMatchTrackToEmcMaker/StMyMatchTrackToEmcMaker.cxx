@@ -1,6 +1,8 @@
 #include "StMyMatchTrackToEmcMaker.h"
 #include "StMyTrackDcaPtCut.h"
 #include "StRoot/StMyEmcPool/StMyMatchTrackToEmcHist/StMyMatchTrackToEmcHist.h"
+#include "StRoot/StMyEmcPool/StMyMatchTrackToEmcHist/StMyTowerHist.h"
+#include "StRoot/StMyEmcPool/StMyMatchTrackToEmcHist/StMyClusterHist.h"
 #include "StRoot/StMyEmcPool/StMyMatchTrackToEmcHist/StMyTrack.h"
 #include "StRoot/StMyEmcPool/StMyMatchTrackToEmcHist/StMyTower.h"
 #include "StRoot/StMyEmcPool/StMyMatchTrackToEmcHist/StMyCluster.h"
@@ -17,6 +19,7 @@
 #include "StEmcUtil/geometry/StEmcGeom.h"
 
 #include <vector>
+#include <map>
 int StMyMatchTrackToEmcMaker::Init()
 {
   mFile = new TFile(mFileName, "recreate");
@@ -24,6 +27,9 @@ int StMyMatchTrackToEmcMaker::Init()
   mHist = new StMyMatchTrackToEmcHist("All");
   mHistPos = new StMyMatchTrackToEmcHist("Pos");
   mHistNeg = new StMyMatchTrackToEmcHist("Neg");
+
+  mHistTower = new StMyTowerHist("Tower");
+  mHistCluster = new StMyClusterHist("Cluster");
 
   mBemcGeom = StEmcGeom::instance("bemc");
   return StMaker::Init();
@@ -73,11 +79,10 @@ int StMyMatchTrackToEmcMaker::Make()
       if(pt < 0.2) continue;
       if(eta < -2.5 || eta > 2.5) continue;
       StMyTrackDcaPtCut cut;
-      if(cut(muTrack)) continue;
-     
+      if(cut(muTrack)) continue;     
       muTrackList.push_back(muTrack);
     }
-
+  Printf("MuDst track size: %d", muTrackList.size()0;
   //
   vector<StMyTrack> myTrackList;
   for(vector<const StMuTrack*>::const_iterator it = muTrackList.begin(); it != muTrackList.end(); it++){
@@ -142,7 +147,7 @@ int StMyMatchTrackToEmcMaker::Make()
       myTrackList.push_back(myTrack);
     }
   }
-
+  map<int, StMyCluster> myClusterList;
   for(vector<StMyTrack>::iterator it = myTrackList.begin(); it != myTrackList.end(); it++){
     StMyTrack &myTrack = *it;
     int exitTowerId = myTrack.mTower.mId;
@@ -167,27 +172,41 @@ int StMyMatchTrackToEmcMaker::Make()
     myCluster.mE = nsum;
     myCluster.mEMax = emax;
     myCluster.mHits = nhits;
+
+    if(myClusterList.find(exitTowerId) == myClusterList.end()){
+      myClusterList.insert(pair<int, StMyCluster>(exitTowerId, myCluster));
+    }
   }
   
+  //fill tower histograms
+  for(vector<StMyTower>::const_iterator it = myTowerList.begin(); it != myTowerList.end(); it++){
+    const StMyTower &myTower = *it;
+    fillHistTower(myTower, mHistTower);
+  }
   //fill histograms
-  for(vector<StMyTrack>::iterator it = myTrackList.begin(); it != myTrackList.end(); it++){
-    StMyTrack &myTrack = *it;
+  for(vector<StMyTrack>::const_iterator it = myTrackList.begin(); it != myTrackList.end(); it++){
+    const StMyTrack &myTrack = *it;
     
-    fillHists(myTrack, mHistNoCut);	
+    fillHist(myTrack, mHistNoCut);	
 
     int charge = myTrack.mCharge;
     double nsigE = myTrack.mNSigmaElectron;
     if(nsigE < -2. || nsigE > 2.){
       if(charge > 0){
-	fillHists(myTrack, mHistPos);
+	fillHist(myTrack, mHistPos);
       }
       if(charge < 0){
-	fillHists(myTrack, mHistNeg);
+	fillHist(myTrack, mHistNeg);
       }
-      fillHists(myTrack, mHist);
+      fillHist(myTrack, mHist);
     }    
   }
-  
+  //fill cluster histogram
+  for(map<int, StMyCluster>::const_iterator it = myClusterList.begin(); it != myClusterList.end(); it++){
+    //int Id = it->first;
+    const StMyCluster &myCluster = it->second;
+    fillHistCluster(myCluster, mHistCluster);
+  }
   return StMaker::Make();
 }
 int StMyMatchTrackToEmcMaker::Finish()
@@ -196,7 +215,7 @@ int StMyMatchTrackToEmcMaker::Finish()
   mFile->Close();
   return StMaker::Finish();
 }
-void StMyMatchTrackToEmcMaker::fillHists(const StMyTrack &track, StMyMatchTrackToEmcHist *hist)
+void StMyMatchTrackToEmcMaker::fillHist(const StMyTrack &track, StMyMatchTrackToEmcHist *hist)
 {
   double tpt = track.mPt;
   double tee = track.mTower.mE;
@@ -223,4 +242,20 @@ void StMyMatchTrackToEmcMaker::fillHists(const StMyTrack &track, StMyMatchTrackT
   hist->mHistHitTowerFracCluster->Fill(tpt, tfee);
   hist->mHistMaxTowerFracCluster->Fill(tpt, tfmax);
   hist->mHistEptVsDist->Fill(tdd, tee/tpt);
+}
+void StMyMatchTrackToEmcMaker::fillHistTower(const StMyTower &tower, StMyTowerHist *hist)
+{
+    hist->hE->Fill(tower.mE);
+    hist->hNHits->Fill(tower.mHits);
+    hist->hHits->Fill(tower.mId);
+}
+void StMyMatchTrackToEmcMaker::fillHistCluster(const StMyCluster &cluster, StMyClusterHist *hist)
+{
+    double ec = cluster.mE;
+    hist->hE->Fill(ec);
+    hist->hNHits->Fill(cluster.mHits);
+    double fmax = 0;
+    double emaxc = cluster.mEMax;
+    if(ec > 0) fmax = emaxc/ec;
+    hist->hMaxFrac->Fill(fmax);
 }

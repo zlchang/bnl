@@ -85,8 +85,8 @@ public:
     mHistMaxTowerFracCluster = new StMyHist2D(Form("%sMaxTowerFracCluster", name), ";track p_{T} [GeV]; hit frac.", nbins, min, max, 150, -0.1, 1.4);  
     mHistEptVsDist = new TProfile(Form("%sEptVsDist", name), ";d;E/p_{T}", 9, -0.01, 0.08);
 
-    mTower = new StMyTowerHist(Form("%sTower", name));
-    mCluster = new StMyClusterHist(Form("%sCluster", name));
+    //mTower = new StMyTowerHist(Form("%sTower", name));
+    //mCluster = new StMyClusterHist(Form("%sCluster", name));
   }
   ~StMyMatchTrackToEmcHist(){
     delete mHistTrack;
@@ -105,8 +105,8 @@ public:
     delete mHistMaxTowerFracCluster;
     delete mHistEptVsDist;
 
-    delete mTower;
-    delete mCluster;
+    //delete mTower;
+    //delete mCluster;
   }
   
   
@@ -127,8 +127,8 @@ public:
 
   TProfile *mHistEptVsDist;
 
-  StMyTowerHist *mTower;
-  StMyClusterHist *mCluster;
+  //StMyTowerHist *mTower;
+  //StMyClusterHist *mCluster;
 
   ClassDef(StMyMatchTrackToEmcHist, 1);
 };
