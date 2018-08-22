@@ -95,11 +95,24 @@ int StMyMatchTrackToEmcMaker::Make()
     }
   Printf("MuDst track size: %d", muTrackList.size());
   //
-  vector<StMyTrack> myTrackList;
+  vector<StMyTrackMatch> myTrackList;
   for(vector<const StMuTrack*>::const_iterator it = muTrackList.begin(); it != muTrackList.end(); it++){
     const StMuTrack *muTrack = *it;
     double pt = muTrack->pt();
     double eta = muTrack->eta();
+
+    StMyTrackMatch myTrack;
+    myTrack.mPt = pt;
+    //
+    double nsigE = muTrack->nSigmaElectron();
+    myTrack.mNSigmaElectron = nsigE;
+    
+    double nsigPi = muTrack->nSigmaPion();
+    myTrack.mNSigmaPion = nsigPi;
+    
+    int charge = muTrack->charge();
+    myTrack.mCharge = charge;
+    
     //Printf("pt = %.2lf B = %.2lf", pt, mag);
     StThreeVectorD momentumAt, positionAt;
     //StMuEmcPosition EmcPosition;
@@ -133,36 +146,19 @@ int StMyMatchTrackToEmcMaker::Make()
       //hprofevsd->Fill(dd, ee/pt);
       //h2devsd->Fill(dd, ee/pt);
       //
-      StMyTrack myTrack;
       myTrack.mTower = myTowerList[exitTowerId-1];
-      myTrack.mPt = pt;
       myTrack.mDist = dd;
-      //double res0 = ee-pt;
-      //double res1 = ee-pt*TMath::CosH(eta);
-      //hresidue->Fill(res0);
-      //hresTrans->Fill(res1);
-      //h2d->Fill(pt, ee);
-      //h2de->Fill(pt*TMath::CosH(eta), ee);
-      //if(ee > 0.2) hresTransCut->Fill(res1);
-      
-      //
-      double nsigE = muTrack->nSigmaElectron();
-      myTrack.mNSigmaElectron = nsigE;
-
-      double nsigPi = muTrack->nSigmaPion();
-      myTrack.mNSigmaPion = nsigPi;
-
-      int charge = muTrack->charge();
-      myTrack.mCharge = charge;
-      
-      myTrackList.push_back(myTrack);
+      myTrack.mMatch = true;
     }else{
+      myTrack.mMatch = false;
       Printf("no match for track pt %.2lf eta %.2lf", pt, eta);
     }
+    myTrackList.push_back(myTrack);
   }
   map<int, StMyCluster> myClusterList;
-  for(vector<StMyTrack>::iterator it = myTrackList.begin(); it != myTrackList.end(); it++){
-    StMyTrack &myTrack = *it;
+  for(vector<StMyTrackMatch>::iterator it = myTrackList.begin(); it != myTrackList.end(); it++){
+    StMyTrackMatch &myTrack = *it;
+    if(!myTrack.mMatch) continue;
     int exitTowerId = myTrack.mTower.mId;
     //looking for neighboring tower
     StMyCluster &myCluster = myTrack.mCluster;
@@ -197,8 +193,8 @@ int StMyMatchTrackToEmcMaker::Make()
     fillHistTower(myTower, mHistTower);
   }
   //fill histograms
-  for(vector<StMyTrack>::const_iterator it = myTrackList.begin(); it != myTrackList.end(); it++){
-    const StMyTrack &myTrack = *it;
+  for(vector<StMyTrackMatch>::const_iterator it = myTrackList.begin(); it != myTrackList.end(); it++){
+    const StMyTrackMatch &myTrack = *it;
     
     fillHist(myTrack, mHistNoCut);	
 
@@ -228,33 +224,38 @@ int StMyMatchTrackToEmcMaker::Finish()
   mFile->Close();
   return StMaker::Finish();
 }
-void StMyMatchTrackToEmcMaker::fillHist(const StMyTrack &track, StMyMatchTrackToEmcHist *hist)
+void StMyMatchTrackToEmcMaker::fillHist(const StMyTrackMatch &track, StMyMatchTrackToEmcHist *hist)
 {
   double tpt = track.mPt;
-  double tee = track.mTower.mE;
   double tnsigE = track.mNSigmaElectron;
   double tnsigPi = track.mNSigmaPion;
-  double tdd = track.mDist;
-  double tcluster = track.mCluster.mE;
-  double tclustermax = track.mCluster.mEMax;
-  double tfee = 0;
-  if(tcluster > 0) tfee = tee/tcluster;
-  double tfmax = 0;
-  if(tcluster > 0) tfmax = tclustermax/tcluster;
-
+  bool match = track.mMatch;
+  //Printf("match = %d\n", match);
+  hist->mHistTrack->Fill(tpt);
   hist->mHistNSigmaElectron->Fill(tnsigE);
   hist->mHistNSigmaPion->Fill(tnsigPi);
-  hist->mHistTrack->Fill(tpt);
-
-  if(tee > 0.2) hist->mHistTrackFrac->Fill(tpt, 1);
-  else hist->mHistTrackFrac->Fill(tpt, 0);
-
-  hist->mHistTower->Fill(tee);
-  hist->mHistEptVsPt->Fill(tpt, tee/tpt);
-  hist->mHistEptVsPtCluster->Fill(tpt, tcluster/tpt);
-  hist->mHistHitTowerFracCluster->Fill(tpt, tfee);
-  hist->mHistMaxTowerFracCluster->Fill(tpt, tfmax);
-  hist->mHistEptVsDist->Fill(tdd, tee/tpt);
+  hist->mHistTrackFrac->Fill(tpt, match);
+  if(match){
+    double tee = track.mTower.mE;
+    double tdd = track.mDist;
+    double tcluster = track.mCluster.mE;
+    double tclustermax = track.mCluster.mEMax;
+    double tfee = 0;
+    if(tcluster > 0) tfee = tee/tcluster;
+    double tfmax = 0;
+    if(tcluster > 0) tfmax = tclustermax/tcluster;    
+    hist->mHistTower->Fill(tee);
+    hist->mHistEptVsPt->Fill(tpt, tee/tpt);
+    int nhits = track.mCluster.mHits;
+    //Printf("nhits = %d\n", nhits);
+    //isolation cut
+    if(nhits == 1){
+      hist->mHistEptVsPtCluster->Fill(tpt, tcluster/tpt);
+      hist->mHistHitTowerFracCluster->Fill(tpt, tfee);
+      hist->mHistMaxTowerFracCluster->Fill(tpt, tfmax);
+    }
+    hist->mHistEptVsDist->Fill(tdd, tee/tpt);
+  }
 }
 void StMyMatchTrackToEmcMaker::fillHistTower(const StMyTower &tower, StMyTowerHist *hist)
 {
