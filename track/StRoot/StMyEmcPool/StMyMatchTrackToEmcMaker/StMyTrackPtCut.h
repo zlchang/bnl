@@ -4,7 +4,7 @@
 #include "StMuDSTMaker/COMMON/StMuTrack.h"
 #include "TMath.h"
 
-class StMyTrackPtMinCut : public TObject{
+class StMyTrackPtMinCut : public StMyTrackCut{
  public:
  StMyTrackPtMinCut(): _ptmin(0.2){}
   bool operator()(const StMuTrack *track){
@@ -17,7 +17,7 @@ class StMyTrackPtMinCut : public TObject{
   ClassDef(StMyTrackPtMinCut, 0);
 };
 
-class StMyTrackPtMaxCut : public TObject{
+class StMyTrackPtMaxCut : public StMyTrackCut{
  public:
  StMyTrackPtMaxCut(): _ptmax(30){}
   bool operator()(const StMuTrack *track){

@@ -8,7 +8,7 @@ class StMyTrack : public TObject{
   StMyTrack(){};
   double mPt;
   int mCharge;
-  double mE;
+  //double mE;
   double mDist;
   double mNSigmaPion;
   double mNSigmaElectron;

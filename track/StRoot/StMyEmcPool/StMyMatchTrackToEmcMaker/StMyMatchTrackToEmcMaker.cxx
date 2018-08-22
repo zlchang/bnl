@@ -43,6 +43,7 @@ int StMyMatchTrackToEmcMaker::Init()
   mTrackCuts.push_back(new StMyTrackHitFracCut());
   mTrackCuts.push_back(new StMyTrackDcaCut());
   mTrackCuts.push_back(new StMyTrackDcaPtCut());
+  mTrackCuts.push_back(new StMyTrackPtMinCut());
   mTrackCuts.push_back(new StMyTrackEtaMinCut());
   mTrackCuts.push_back(new StMyTrackEtaMaxCut());
   
@@ -54,6 +55,7 @@ int StMyMatchTrackToEmcMaker::Make()
   StMuPrimaryVertex *vertex = StMuDst::primaryVertex();
   if(!vertex) return kStSkip;
   if(vertex->ranking() < 0.1) return kStSkip;
+  if(TMath::Abs(vertex->position().z()) > 30.) return kStSkip;
   double mag = StMuDst::event()->magneticField()/10.0;
 
   vector<StMyTower> myTowerList(4800);
@@ -83,24 +85,13 @@ int StMyMatchTrackToEmcMaker::Make()
     {
       const StMuTrack* muTrack = StMuDst::primaryTracks(iTrack);
       if(!muTrack) continue;
-      //if(muTrack->flag() < 0) continue;
-      //if(muTrack->topologyMap().trackFtpcEast() || muTrack->topologyMap().trackFtpcWest()) continue;
-      //if(muTrack->nHits() <= 12) continue;
-      //if(muTrack->nHits() < muTrack->nHitsPoss()*0.51) continue;
-      //if(muTrack->dcaGlobal().mag() > 3) continue;
-      //double pt = muTrack->pt();
-      //double eta = muTrack->eta();
-      //double mom = muTrack->p().mag();
-      //if(pt < 0.2) continue;
-      //if(eta < -2.5 || eta > 2.5) continue;
-      //StMyTrackDcaPtCut cut;
-      //if(cut(muTrack)) continue;
+      bool flag = false;
       for(vector<StMyTrackCut*>::iterator icut = mTrackCuts.begin(); icut != mTrackCuts.end(); icut++){
 	StMyTrackCut* trackcut = *icut;
-	(*trackcut)(muTrack);
+	if((*trackcut)(muTrack)) {flag = true; break;}
 	///trackcut->operator(muTrack);
       }
-      muTrackList.push_back(muTrack);
+      if(!flag) muTrackList.push_back(muTrack);
     }
   Printf("MuDst track size: %d", muTrackList.size());
   //
@@ -125,14 +116,15 @@ int StMyMatchTrackToEmcMaker::Make()
       mBemcGeom->getId(exitPhi, exitEta, exitTowerId);
       
       if(exitTowerId <=0 || exitTowerId > 4800){ 
+	Printf("exitTowerId %d out of range\n", exitTowerId);
 	//hprofmatch->Fill(pt, false); 
 	continue;
       }
       (myTowerList[exitTowerId-1].mHits)++;
       //hprofmatch->Fill(pt, true);
-      double ee = myTowerList[exitTowerId-1].mE;//energy[exitTowerId-1];
+      //double ee = myTowerList[exitTowerId-1].mE;//energy[exitTowerId-1];
 
-      Printf("tower Id %d, energy %lf, track pt %.2lf eta %.2lf", exitTowerId, ee, pt, eta);
+      //Printf("tower Id %d, energy %lf, track pt %.2lf eta %.2lf", exitTowerId, ee, pt, eta);
       float beta, bphi;
       mBemcGeom->getEtaPhi(exitTowerId, beta, bphi);
       //Printf("tower Id %d, center eta: %.2lf, phi: %.2lf", exitTowerId, beta, bphi);
@@ -144,7 +136,6 @@ int StMyMatchTrackToEmcMaker::Make()
       StMyTrack myTrack;
       myTrack.mTower = myTowerList[exitTowerId-1];
       myTrack.mPt = pt;
-      myTrack.mE = ee;
       myTrack.mDist = dd;
       //double res0 = ee-pt;
       //double res1 = ee-pt*TMath::CosH(eta);
@@ -165,6 +156,8 @@ int StMyMatchTrackToEmcMaker::Make()
       myTrack.mCharge = charge;
       
       myTrackList.push_back(myTrack);
+    }else{
+      Printf("no match for track pt %.2lf eta %.2lf", pt, eta);
     }
   }
   map<int, StMyCluster> myClusterList;
