@@ -1,5 +1,11 @@
 #include "StMyMatchTrackToEmcMaker.h"
+#include "StMyTrackFlagCut.h"
+#include "StMyTrackFtpcCut.h"
+#include "StMyTrackHitsCut.h"
+#include "StMyTrackDcaCut.h"
 #include "StMyTrackDcaPtCut.h"
+#include "StMyTrackPtCut.h"
+#include "StMyTrackEtaCut.h"
 #include "StRoot/StMyEmcPool/StMyMatchTrackToEmcHist/StMyMatchTrackToEmcHist.h"
 #include "StRoot/StMyEmcPool/StMyMatchTrackToEmcHist/StMyTowerHist.h"
 #include "StRoot/StMyEmcPool/StMyMatchTrackToEmcHist/StMyClusterHist.h"
@@ -31,6 +37,15 @@ int StMyMatchTrackToEmcMaker::Init()
   mHistTower = new StMyTowerHist("Tower");
   mHistCluster = new StMyClusterHist("Cluster");
 
+  mTrackCuts.push_back(new StMyTrackFlagCut());
+  mTrackCuts.push_back(new StMyTrackFtpcCut());
+  mTrackCuts.push_back(new StMyTrackHitMinCut());
+  mTrackCuts.push_back(new StMyTrackHitFracCut());
+  mTrackCuts.push_back(new StMyTrackDcaCut());
+  mTrackCuts.push_back(new StMyTrackDcaPtCut());
+  mTrackCuts.push_back(new StMyTrackEtaMinCut());
+  mTrackCuts.push_back(new StMyTrackEtaMaxCut());
+  
   mBemcGeom = StEmcGeom::instance("bemc");
   return StMaker::Init();
 }
@@ -68,21 +83,26 @@ int StMyMatchTrackToEmcMaker::Make()
     {
       const StMuTrack* muTrack = StMuDst::primaryTracks(iTrack);
       if(!muTrack) continue;
-      if(muTrack->flag() < 0) continue;
-      if(muTrack->topologyMap().trackFtpcEast() || muTrack->topologyMap().trackFtpcWest()) continue;
-      if(muTrack->nHits() <= 12) continue;
-      if(muTrack->nHits() < muTrack->nHitsPoss()*0.51) continue;
-      if(muTrack->dcaGlobal().mag() > 3) continue;
-      double pt = muTrack->pt();
-      double eta = muTrack->eta();
+      //if(muTrack->flag() < 0) continue;
+      //if(muTrack->topologyMap().trackFtpcEast() || muTrack->topologyMap().trackFtpcWest()) continue;
+      //if(muTrack->nHits() <= 12) continue;
+      //if(muTrack->nHits() < muTrack->nHitsPoss()*0.51) continue;
+      //if(muTrack->dcaGlobal().mag() > 3) continue;
+      //double pt = muTrack->pt();
+      //double eta = muTrack->eta();
       //double mom = muTrack->p().mag();
-      if(pt < 0.2) continue;
-      if(eta < -2.5 || eta > 2.5) continue;
-      StMyTrackDcaPtCut cut;
-      if(cut(muTrack)) continue;     
+      //if(pt < 0.2) continue;
+      //if(eta < -2.5 || eta > 2.5) continue;
+      //StMyTrackDcaPtCut cut;
+      //if(cut(muTrack)) continue;
+      for(vector<StMyTrackCut*>::iterator icut = mTrackCuts.begin(); icut != mTrackCuts.end(); icut++){
+	StMyTrackCut* trackcut = *icut;
+	(*trackcut)(muTrack);
+	///trackcut->operator(muTrack);
+      }
       muTrackList.push_back(muTrack);
     }
-  Printf("MuDst track size: %d", muTrackList.size()0;
+  Printf("MuDst track size: %d", muTrackList.size());
   //
   vector<StMyTrack> myTrackList;
   for(vector<const StMuTrack*>::const_iterator it = muTrackList.begin(); it != muTrackList.end(); it++){

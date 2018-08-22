@@ -4,7 +4,7 @@
 #include "StMuDSTMaker/COMMON/StMuTrack.h"
 #include "TMath.h"
 
-class StMyTrackDcaPtCut : public TObject{
+class StMyTrackDcaPtCut : public StMyTrackCut{
  public:
  StMyTrackDcaPtCut(): _pt1(0.5), _dca1(2.0), _pt2(1.5), _dca2(1.0){}
   bool operator()(const StMuTrack *track){
@@ -16,7 +16,7 @@ class StMyTrackDcaPtCut : public TObject{
     else
       return TMath::Abs(dca) > TMath::Abs(_dca1 + (_dca1-_dca2)/(_pt1-_pt2)*(pt-_pt1)); 
   }
- private:
+  //private:
   double _pt1;
   double _dca1;
   double _pt2;

@@ -3,6 +3,8 @@
 
 #include "StMaker.h"
 
+#include <vector>
+
 class TFile;
 class StEmcGeom;
 class StMyTrack;
@@ -11,6 +13,7 @@ class StMyCluster;
 class StMyTowerHist;
 class StMyClusterHist;
 class StMyMatchTrackToEmcHist;
+class StMyTrackCut;
 
 class StMyMatchTrackToEmcMaker : public StMaker{
 
@@ -37,7 +40,7 @@ public:
 
   StMyTowerHist *mHistTower;
   StMyClusterHist *mHistCluster;
-
+  vector<StMyTrackCut*> mTrackCuts;
   ClassDef(StMyMatchTrackToEmcMaker, 0);
 };
 #endif
