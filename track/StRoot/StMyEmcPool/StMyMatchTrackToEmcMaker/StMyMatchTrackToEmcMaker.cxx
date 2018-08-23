@@ -67,7 +67,7 @@ int StMyMatchTrackToEmcMaker::Make()
      if((*vcut)(vertex)){ vflag = true; break;}
   }
   if(vflag) return kStSkip;
-  Printf("z-vertex: %lf ranking: %lf\n", vertex->position().z(), vertex->ranking());
+  //Printf("z-vertex: %lf ranking: %lf\n", vertex->position().z(), vertex->ranking());
   double mag = StMuDst::event()->magneticField()/10.0;
 
   vector<StMyTower> myTowerList(4800);
@@ -250,18 +250,21 @@ void StMyMatchTrackToEmcMaker::fillHist(const StMyTrackMatch &track, StMyMatchTr
   if(match){
     double tee = track.mTower.mE;
     double tdd = track.mDist;
+    double tnhits = track.mTower.mHits;
+    if(tnhits == 1){
+      hist->mHistTower->Fill(tee);
+      hist->mHistEptVsPt->Fill(tpt, tee/tpt);
+    }
     double tcluster = track.mCluster.mE;
     double tclustermax = track.mCluster.mEMax;
     double tfee = 0;
     if(tcluster > 0) tfee = tee/tcluster;
     double tfmax = 0;
     if(tcluster > 0) tfmax = tclustermax/tcluster;    
-    hist->mHistTower->Fill(tee);
-    hist->mHistEptVsPt->Fill(tpt, tee/tpt);
-    int nhits = track.mCluster.mHits;
+    int cnhits = track.mCluster.mHits;
     //Printf("nhits = %d\n", nhits);
     //isolation cut
-    if(nhits == 1){
+    if(cnhits == 1){
       hist->mHistEptVsPtCluster->Fill(tpt, tcluster/tpt);
       hist->mHistHitTowerFracCluster->Fill(tpt, tfee);
       hist->mHistMaxTowerFracCluster->Fill(tpt, tfmax);
