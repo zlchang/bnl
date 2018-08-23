@@ -6,6 +6,9 @@
 #include "StMyTrackDcaPtCut.h"
 #include "StMyTrackPtCut.h"
 #include "StMyTrackEtaCut.h"
+#include "StMyVertexCut.h"
+#include "StMyVertexZCut.h"
+#include "StMyVertexRankingCut.h"
 #include "StRoot/StMyEmcPool/StMyMatchTrackToEmcHist/StMyMatchTrackToEmcHist.h"
 #include "StRoot/StMyEmcPool/StMyMatchTrackToEmcHist/StMyTowerHist.h"
 #include "StRoot/StMyEmcPool/StMyMatchTrackToEmcHist/StMyClusterHist.h"
@@ -47,6 +50,8 @@ int StMyMatchTrackToEmcMaker::Init()
   mTrackCuts.push_back(new StMyTrackEtaMinCut());
   mTrackCuts.push_back(new StMyTrackEtaMaxCut());
   
+  mVertexCuts.push_back(new StMyVertexRankingCut());
+
   mBemcGeom = StEmcGeom::instance("bemc");
   return StMaker::Init();
 }
@@ -54,8 +59,15 @@ int StMyMatchTrackToEmcMaker::Make()
 {
   StMuPrimaryVertex *vertex = StMuDst::primaryVertex();
   if(!vertex) return kStSkip;
-  if(vertex->ranking() < 0.1) return kStSkip;
-  if(TMath::Abs(vertex->position().z()) > 30.) return kStSkip;
+  //if(vertex->ranking() < 0.1) return kStSkip;
+  //if(TMath::Abs(vertex->position().z()) > 30.) return kStSkip;
+  bool vflag = false;
+  for(vector<StMyVertexCut*>::const_iterator iv = mVertexCuts.begin(); iv != mVertexCuts.end(); iv++){
+     StMyVertexCut *vcut = *iv;
+     if((*vcut)(vertex)){ vflag = true; break;}
+  }
+  if(vflag) return kStSkip;
+  Printf("z-vertex: %lf ranking: %lf\n", vertex->position().z(), vertex->ranking());
   double mag = StMuDst::event()->magneticField()/10.0;
 
   vector<StMyTower> myTowerList(4800);

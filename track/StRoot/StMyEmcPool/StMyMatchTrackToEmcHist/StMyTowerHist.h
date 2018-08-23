@@ -14,6 +14,7 @@ class StMyTowerHist : public TObject
   }
  ~StMyTowerHist(){
     delete hE;
+    delete hHits;
     delete hNHits;
  }
 
