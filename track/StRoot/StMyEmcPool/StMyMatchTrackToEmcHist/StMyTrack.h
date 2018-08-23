@@ -5,18 +5,22 @@
 
 class StMyTrack : public TObject{
  public:
-  StMyTrack(){};
+  StMyTrack(){mMatch = false;};
   double mPt;
   int mCharge;
-  double mE;
-  double mDist;
   double mNSigmaPion;
   double mNSigmaElectron;
-  //double mECluster;
-  //double mHitFrac;
-  //double mHitMax;
-  StMyTower mTower;
-  StMyCluster mCluster;
+  bool mMatch;
   ClassDef(StMyTrack, 0);
 };
+class StMyTrackMatch : public StMyTrack{
+ public:
+  StMyTrackMatch(){StMyTrack();};
+
+  double mDist;
+  StMyTower mTower;
+  StMyCluster mCluster;
+  ClassDef(StMyTrackMatch, 0);
+};
+
 #endif

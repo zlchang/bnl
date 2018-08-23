@@ -24,6 +24,7 @@ const char* Outfile = "test.track.root"
   //  StMuDst* muDst = muDstMaker->muDst();
 
   StMyMatchTrackToEmcMaker *matchMaker = new StMyMatchTrackToEmcMaker;
+  matchMaker->addVertexCut(new StMyVertexZCut(30.));
   matchMaker->SetOutfile(Outfile);
   chain->Init();
   //for(int iEvent = 0; iEvent < 2; iEvent++)

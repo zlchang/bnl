@@ -1,5 +1,17 @@
 #include "StMyMatchTrackToEmcMaker.h"
+#include "StMyTrackFlagCut.h"
+#include "StMyTrackFtpcCut.h"
+#include "StMyTrackHitsCut.h"
+#include "StMyTrackDcaCut.h"
+#include "StMyTrackDcaPtCut.h"
+#include "StMyTrackPtCut.h"
+#include "StMyTrackEtaCut.h"
+#include "StMyVertexCut.h"
+#include "StMyVertexZCut.h"
+#include "StMyVertexRankingCut.h"
 #include "StRoot/StMyEmcPool/StMyMatchTrackToEmcHist/StMyMatchTrackToEmcHist.h"
+#include "StRoot/StMyEmcPool/StMyMatchTrackToEmcHist/StMyTowerHist.h"
+#include "StRoot/StMyEmcPool/StMyMatchTrackToEmcHist/StMyClusterHist.h"
 #include "StRoot/StMyEmcPool/StMyMatchTrackToEmcHist/StMyTrack.h"
 #include "StRoot/StMyEmcPool/StMyMatchTrackToEmcHist/StMyTower.h"
 #include "StRoot/StMyEmcPool/StMyMatchTrackToEmcHist/StMyCluster.h"
@@ -15,6 +27,8 @@
 #include "StMuDSTMaker/COMMON/StMuTypes.hh"
 #include "StEmcUtil/geometry/StEmcGeom.h"
 
+#include <vector>
+#include <map>
 int StMyMatchTrackToEmcMaker::Init()
 {
   mFile = new TFile(mFileName, "recreate");
@@ -23,6 +37,21 @@ int StMyMatchTrackToEmcMaker::Init()
   mHistPos = new StMyMatchTrackToEmcHist("Pos");
   mHistNeg = new StMyMatchTrackToEmcHist("Neg");
 
+  mHistTower = new StMyTowerHist("Tower");
+  mHistCluster = new StMyClusterHist("Cluster");
+
+  mTrackCuts.push_back(new StMyTrackFlagCut());
+  mTrackCuts.push_back(new StMyTrackFtpcCut());
+  mTrackCuts.push_back(new StMyTrackHitMinCut());
+  mTrackCuts.push_back(new StMyTrackHitFracCut());
+  mTrackCuts.push_back(new StMyTrackDcaCut());
+  mTrackCuts.push_back(new StMyTrackDcaPtCut());
+  mTrackCuts.push_back(new StMyTrackPtMinCut());
+  mTrackCuts.push_back(new StMyTrackEtaMinCut());
+  mTrackCuts.push_back(new StMyTrackEtaMaxCut());
+  
+  mVertexCuts.push_back(new StMyVertexRankingCut());
+
   mBemcGeom = StEmcGeom::instance("bemc");
   return StMaker::Init();
 }
@@ -30,7 +59,15 @@ int StMyMatchTrackToEmcMaker::Make()
 {
   StMuPrimaryVertex *vertex = StMuDst::primaryVertex();
   if(!vertex) return kStSkip;
-  if(vertex->ranking() < 0.1) return kStSkip;
+  //if(vertex->ranking() < 0.1) return kStSkip;
+  //if(TMath::Abs(vertex->position().z()) > 30.) return kStSkip;
+  bool vflag = false;
+  for(vector<StMyVertexCut*>::const_iterator iv = mVertexCuts.begin(); iv != mVertexCuts.end(); iv++){
+     StMyVertexCut *vcut = *iv;
+     if((*vcut)(vertex)){ vflag = true; break;}
+  }
+  if(vflag) return kStSkip;
+  //Printf("z-vertex: %lf ranking: %lf\n", vertex->position().z(), vertex->ranking());
   double mag = StMuDst::event()->magneticField()/10.0;
 
   vector<StMyTower> myTowerList(4800);
@@ -54,31 +91,40 @@ int StMyMatchTrackToEmcMaker::Make()
       }
     }
   }
+
   vector<const StMuTrack*> muTrackList;
   for(unsigned int iTrack = 0; iTrack < StMuDst::numberOfPrimaryTracks(); iTrack++)
     {
       const StMuTrack* muTrack = StMuDst::primaryTracks(iTrack);
       if(!muTrack) continue;
-      if(muTrack->flag() < 0) continue;
-      if(muTrack->topologyMap().trackFtpcEast() || muTrack->topologyMap().trackFtpcWest()) continue;
-      if(muTrack->nHits() <= 12) continue;
-      if(muTrack->nHits() < muTrack->nHitsPoss()*0.51) continue;
-      if(muTrack->dcaGlobal().mag() > 3) continue;
-      double pt = muTrack->pt();
-      double eta = muTrack->eta();
-      //double mom = muTrack->p().mag();
-      if(pt < 0.2) continue;
-      if(eta < -2.5 || eta > 2.5) continue;
-      muTrackList.push_back(muTrack);
+      bool flag = false;
+      for(vector<StMyTrackCut*>::iterator icut = mTrackCuts.begin(); icut != mTrackCuts.end(); icut++){
+	StMyTrackCut* trackcut = *icut;
+	if((*trackcut)(muTrack)) {flag = true; break;}
+	///trackcut->operator(muTrack);
+      }
+      if(!flag) muTrackList.push_back(muTrack);
     }
-
+  Printf("MuDst track size: %d", muTrackList.size());
   //
-  vector<StMyTrack> myTrackList;
+  vector<StMyTrackMatch> myTrackList;
   for(vector<const StMuTrack*>::const_iterator it = muTrackList.begin(); it != muTrackList.end(); it++){
     const StMuTrack *muTrack = *it;
     double pt = muTrack->pt();
     double eta = muTrack->eta();
-      
+
+    StMyTrackMatch myTrack;
+    myTrack.mPt = pt;
+    //
+    double nsigE = muTrack->nSigmaElectron();
+    myTrack.mNSigmaElectron = nsigE;
+    
+    double nsigPi = muTrack->nSigmaPion();
+    myTrack.mNSigmaPion = nsigPi;
+    
+    int charge = muTrack->charge();
+    myTrack.mCharge = charge;
+    
     //Printf("pt = %.2lf B = %.2lf", pt, mag);
     StThreeVectorD momentumAt, positionAt;
     //StMuEmcPosition EmcPosition;
@@ -95,13 +141,15 @@ int StMyMatchTrackToEmcMaker::Make()
       mBemcGeom->getId(exitPhi, exitEta, exitTowerId);
       
       if(exitTowerId <=0 || exitTowerId > 4800){ 
+	Printf("exitTowerId %d out of range\n", exitTowerId);
 	//hprofmatch->Fill(pt, false); 
 	continue;
       }
       (myTowerList[exitTowerId-1].mHits)++;
       //hprofmatch->Fill(pt, true);
-      double ee = myTowerList[exitTowerId-1].mE;//energy[exitTowerId-1];
-      Printf("tower Id %d, energy %lf, track pt %.2lf eta %.2lf", exitTowerId, ee, pt, eta);
+      //double ee = myTowerList[exitTowerId-1].mE;//energy[exitTowerId-1];
+
+      //Printf("tower Id %d, energy %lf, track pt %.2lf eta %.2lf", exitTowerId, ee, pt, eta);
       float beta, bphi;
       mBemcGeom->getEtaPhi(exitTowerId, beta, bphi);
       //Printf("tower Id %d, center eta: %.2lf, phi: %.2lf", exitTowerId, beta, bphi);
@@ -110,35 +158,19 @@ int StMyMatchTrackToEmcMaker::Make()
       //hprofevsd->Fill(dd, ee/pt);
       //h2devsd->Fill(dd, ee/pt);
       //
-      StMyTrack myTrack;
       myTrack.mTower = myTowerList[exitTowerId-1];
-      myTrack.mPt = pt;
-      myTrack.mE = ee;
       myTrack.mDist = dd;
-      //double res0 = ee-pt;
-      //double res1 = ee-pt*TMath::CosH(eta);
-      //hresidue->Fill(res0);
-      //hresTrans->Fill(res1);
-      //h2d->Fill(pt, ee);
-      //h2de->Fill(pt*TMath::CosH(eta), ee);
-      //if(ee > 0.2) hresTransCut->Fill(res1);
-      
-      //
-      double nsigE = muTrack->nSigmaElectron();
-      myTrack.mNSigmaElectron = nsigE;
-
-      double nsigPi = muTrack->nSigmaPion();
-      myTrack.mNSigmaPion = nsigPi;
-
-      int charge = muTrack->charge();
-      myTrack.mCharge = charge;
-      
-      myTrackList.push_back(myTrack);
+      myTrack.mMatch = true;
+    }else{
+      myTrack.mMatch = false;
+      Printf("no match for track pt %.2lf eta %.2lf", pt, eta);
     }
+    myTrackList.push_back(myTrack);
   }
-
-  for(vector<StMyTrack>::iterator it = myTrackList.begin(); it != myTrackList.end(); it++){
-    StMyTrack &myTrack = *it;
+  map<int, StMyCluster> myClusterList;
+  for(vector<StMyTrackMatch>::iterator it = myTrackList.begin(); it != myTrackList.end(); it++){
+    StMyTrackMatch &myTrack = *it;
+    if(!myTrack.mMatch) continue;
     int exitTowerId = myTrack.mTower.mId;
     //looking for neighboring tower
     StMyCluster &myCluster = myTrack.mCluster;
@@ -161,27 +193,41 @@ int StMyMatchTrackToEmcMaker::Make()
     myCluster.mE = nsum;
     myCluster.mEMax = emax;
     myCluster.mHits = nhits;
+
+    if(myClusterList.find(exitTowerId) == myClusterList.end()){
+      myClusterList.insert(pair<int, StMyCluster>(exitTowerId, myCluster));
+    }
   }
   
+  //fill tower histograms
+  for(vector<StMyTower>::const_iterator it = myTowerList.begin(); it != myTowerList.end(); it++){
+    const StMyTower &myTower = *it;
+    fillHistTower(myTower, mHistTower);
+  }
   //fill histograms
-  for(vector<StMyTrack>::iterator it = myTrackList.begin(); it != myTrackList.end(); it++){
-    StMyTrack &myTrack = *it;
+  for(vector<StMyTrackMatch>::const_iterator it = myTrackList.begin(); it != myTrackList.end(); it++){
+    const StMyTrackMatch &myTrack = *it;
     
-    fillHists(myTrack, mHistNoCut);	
+    fillHist(myTrack, mHistNoCut);	
 
     int charge = myTrack.mCharge;
     double nsigE = myTrack.mNSigmaElectron;
     if(nsigE < -2. || nsigE > 2.){
       if(charge > 0){
-	fillHists(myTrack, mHistPos);
+	fillHist(myTrack, mHistPos);
       }
       if(charge < 0){
-	fillHists(myTrack, mHistNeg);
+	fillHist(myTrack, mHistNeg);
       }
-      fillHists(myTrack, mHist);
+      fillHist(myTrack, mHist);
     }    
   }
-  
+  //fill cluster histogram
+  for(map<int, StMyCluster>::const_iterator it = myClusterList.begin(); it != myClusterList.end(); it++){
+    //int Id = it->first;
+    const StMyCluster &myCluster = it->second;
+    fillHistCluster(myCluster, mHistCluster);
+  }
   return StMaker::Make();
 }
 int StMyMatchTrackToEmcMaker::Finish()
@@ -190,31 +236,55 @@ int StMyMatchTrackToEmcMaker::Finish()
   mFile->Close();
   return StMaker::Finish();
 }
-void StMyMatchTrackToEmcMaker::fillHists(const StMyTrack &track, StMyMatchTrackToEmcHist *hist)
+void StMyMatchTrackToEmcMaker::fillHist(const StMyTrackMatch &track, StMyMatchTrackToEmcHist *hist)
 {
   double tpt = track.mPt;
-  double tee = track.mTower.mE;
   double tnsigE = track.mNSigmaElectron;
   double tnsigPi = track.mNSigmaPion;
-  double tdd = track.mDist;
-  double tcluster = track.mCluster.mE;
-  double tclustermax = track.mCluster.mEMax;
-  double tfee = 0;
-  if(tcluster > 0) tfee = tee/tcluster;
-  double tfmax = 0;
-  if(tcluster > 0) tfmax = tclustermax/tcluster;
-
+  bool match = track.mMatch;
+  //Printf("match = %d\n", match);
+  hist->mHistTrack->Fill(tpt);
   hist->mHistNSigmaElectron->Fill(tnsigE);
   hist->mHistNSigmaPion->Fill(tnsigPi);
-  hist->mHistTrack->Fill(tpt);
-
-  if(tee > 0.2) hist->mHistTrackFrac->Fill(tpt, 1);
-  else hist->mHistTrackFrac->Fill(tpt, 0);
-
-  hist->mHistTower->Fill(tee);
-  hist->mHistEptVsPt->Fill(tpt, tee/tpt);
-  hist->mHistEptVsPtCluster->Fill(tpt, tcluster/tpt);
-  hist->mHistHitTowerFracCluster->Fill(tpt, tfee);
-  hist->mHistMaxTowerFracCluster->Fill(tpt, tfmax);
-  hist->mHistEptVsDist->Fill(tdd, tee/tpt);
+  hist->mHistTrackFrac->Fill(tpt, match);
+  if(match){
+    double tee = track.mTower.mE;
+    double tdd = track.mDist;
+    double tnhits = track.mTower.mHits;
+    if(tnhits == 1){
+      hist->mHistTower->Fill(tee);
+      hist->mHistEptVsPt->Fill(tpt, tee/tpt);
+    }
+    double tcluster = track.mCluster.mE;
+    double tclustermax = track.mCluster.mEMax;
+    double tfee = 0;
+    if(tcluster > 0) tfee = tee/tcluster;
+    double tfmax = 0;
+    if(tcluster > 0) tfmax = tclustermax/tcluster;    
+    int cnhits = track.mCluster.mHits;
+    //Printf("nhits = %d\n", nhits);
+    //isolation cut
+    if(cnhits == 1){
+      hist->mHistEptVsPtCluster->Fill(tpt, tcluster/tpt);
+      hist->mHistHitTowerFracCluster->Fill(tpt, tfee);
+      hist->mHistMaxTowerFracCluster->Fill(tpt, tfmax);
+    }
+    hist->mHistEptVsDist->Fill(tdd, tee/tpt);
+  }
+}
+void StMyMatchTrackToEmcMaker::fillHistTower(const StMyTower &tower, StMyTowerHist *hist)
+{
+    hist->hE->Fill(tower.mE);
+    hist->hNHits->Fill(tower.mHits);
+    hist->hHits->Fill(tower.mId);
+}
+void StMyMatchTrackToEmcMaker::fillHistCluster(const StMyCluster &cluster, StMyClusterHist *hist)
+{
+    double ec = cluster.mE;
+    hist->hE->Fill(ec);
+    hist->hNHits->Fill(cluster.mHits);
+    double fmax = 0;
+    double emaxc = cluster.mEMax;
+    if(ec > 0) fmax = emaxc/ec;
+    hist->hMaxFrac->Fill(fmax);
 }
