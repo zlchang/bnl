@@ -7,6 +7,7 @@
 
 class TFile;
 class StEmcGeom;
+class StBemcTables;
 class StMyTrackMatch;
 class StMyTower;
 class StMyCluster;
@@ -30,6 +31,7 @@ public:
   void SetOutfile(const char* file){mFileName =  file; }  
  protected:
   StEmcGeom *mBemcGeom;
+  StBemcTables *mBemcTable;
   void fillHist(const StMyTrackMatch &track, StMyMatchTrackToEmcHist *hist);
   void fillHistCluster(const StMyCluster &cluster, StMyClusterHist *hist);
   void fillHistTower(const StMyTower &tower, StMyTowerHist *hist);

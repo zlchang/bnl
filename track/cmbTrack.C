@@ -108,8 +108,8 @@ int cmbTrack(char *file = "ptbin.list", char* runlist = "text.full",
 	AddHist(pp->mHistMaxTowerFracCluster->mProfileW2, Form("%sMaxTowerFracClusterProfW2", nn), ww*ww);
 	AddHist(pp->mHistMaxTowerFracCluster->mScatter, Form("%sMaxTowerFracClusterScatter", nn), ww);
 	
-	//AddHist(pp->mHistEptVsDist->mProfile, Form("%sEptVsDistProf", nn), ww);
-	//AddHist(pp->mHistEptVsDist->mProfileW2, Form("%sEptVsDistProfW2", nn), ww*ww);
+	AddHist(pp->mHistEptVsDist->mProfile, Form("%sEptVsDistProf", nn), ww);
+	AddHist(pp->mHistEptVsDist->mProfileW2, Form("%sEptVsDistProfW2", nn), ww*ww);
       }
       AddHist(histTower->hE, "TowerE", ww);
       AddHist(histTower->hHits, "TowerHits", ww);
