@@ -26,7 +26,7 @@ const char* file = "ptbin.list.run12.a.track.v0.w.track.root"
  
   gStyle->SetOptStat(0);
   gStyle->SetPadGridX(0);
-  ///*
+  /*
   drawObject d0;
   d0.setLogy(1);
   //d1.setYrange(-0.1, 1.7);
@@ -47,12 +47,11 @@ const char* file = "ptbin.list.run12.a.track.v0.w.track.root"
   drawObject d0e;
   d0e.setLegend(0.2, 0.7, 0.5, 0.85);
   drawHist("NSigmaPion", d0e);
-  //*/
+
   drawObject d1;
   d1.setYrange(-0.1, 1.2);
   d1.setLegend(0.2, 0.7, 0.5, 0.85);
   drawHistProfile("EptVsPtProf", d1);
-  ///*
   
   drawObject d2;
   d2.setYrange(-0.1, 1.2);
@@ -92,7 +91,18 @@ const char* file = "ptbin.list.run12.a.track.v0.w.track.root"
 
   drawObject d11;
   drawHist2D("MaxTowerFracClusterScatter", d11);
-  //*/  
+  */  
+  drawObject d12;
+  d12.setYrange(-0.001, 0.005);
+  drawHistProjY("EptVsPtScatter", 11, 15, d12);
+
+  drawObject d13;
+  d13.setYrange(-0.0005, 0.002);
+  drawHistProjY("EptVsPtScatter", 16, 55, d13);
+
+  drawObject d14;
+  d14.setYrange(-0.001, 0.005);
+  drawHistProjY("EptVsPtScatter", 6, 10, d14);
   return 1;
 }
 void drawHist(const char *name, const drawObject &obj)
@@ -185,7 +195,6 @@ TH1D *convertTProfile(TProfile *hw, TProfile *hw2)
   }
   return hres;
 }
-
 void drawHist2D(const char *name, const drawObject &obj)
 {
   TH2D *hp[Nn];
@@ -206,6 +215,39 @@ void drawHist2D(const char *name, const drawObject &obj)
   }
   
   c->Print(Form("%s.png", name));
+}
+void drawHistProjY(const char *name, int xlow, int xhigh, const drawObject &obj)
+{
+  TH2D *hh[Nn];
+  TH1D *hp[Nn];
+  for(int ih = 0; ih < Nn; ih++){
+    hh[ih] =(TH2D*)mFile->Get(Form("%s%s", type[ih], name));
+    if(!hh[ih]) Printf("Histogram not found\n");    
+    hp[ih] = (TH1D*) hh[ih]->ProjectionY(Form("%s%sProj%dto%d", type[ih], name, xlow, xhigh), xlow, xhigh);
+    hp[ih]->Print();
+  }
+
+  TCanvas *c = new TCanvas(Form("c%sproj%dto%d", name, xlow, xhigh), Form("c%sproj%dto%d", name, xlow, xhigh), 480, 360);
+  for(int ih = 0; ih < Nn; ih++){
+    if(ih == 0){
+      hp[ih]->Draw();
+      if(obj.ymax > obj.ymin) hp[ih]->GetYaxis()->SetRangeUser(obj.ymin, obj.ymax);
+    }else
+      hp[ih]->Draw("same");
+    hp[ih]->SetLineColor(ih+2);
+  }
+
+  double xmin = hh[0]->GetXaxis()->GetBinLowEdge(xlow);
+  double xmax = hh[0]->GetXaxis()->GetBinLowEdge(xhigh+1);
+  TLegend *lg = new TLegend(obj.lx1, obj.ly1, obj.lx2, obj.ly2);
+  lg->SetHeader(Form("%.1lf < p_{T} < %.1lf GeV", xmin, xmax));
+  for(int ih = 0; ih < Nn; ih++){
+    //lg->AddEntry(hh[ih], Form("%s #bf{%3.2lf#pm%3.2lf}", type[ih], hmean[ih], herror[ih]), "l");
+    lg->AddEntry(hp[ih], Form("%s", type[ih]), "l");
+  }
+  lg->Draw("same");  
+
+  c->Print(Form("%sproj%dto%d.png", name, xlow, xhigh));
 }
 //
 void getStatTProfile(TProfile *hw, TProfile *hw2, double &mean, double &error)
