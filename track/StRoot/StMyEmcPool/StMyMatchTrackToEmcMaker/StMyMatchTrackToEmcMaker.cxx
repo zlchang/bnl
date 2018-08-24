@@ -6,6 +6,7 @@
 #include "StMyTrackDcaPtCut.h"
 #include "StMyTrackPtCut.h"
 #include "StMyTrackEtaCut.h"
+#include "StMyTrackLastpointCut.h"
 #include "StMyVertexCut.h"
 #include "StMyVertexZCut.h"
 #include "StMyVertexRankingCut.h"
@@ -26,6 +27,8 @@
 #include "StEmcUtil/projection/StEmcPosition.h"
 #include "StMuDSTMaker/COMMON/StMuTypes.hh"
 #include "StEmcUtil/geometry/StEmcGeom.h"
+#include "StEmcUtil/database/StBemcTables.h"
+#include "StEmcADCtoEMaker/StEmcADCtoEMaker.h"
 
 #include <vector>
 #include <map>
@@ -45,6 +48,7 @@ int StMyMatchTrackToEmcMaker::Init()
   mTrackCuts.push_back(new StMyTrackHitMinCut());
   mTrackCuts.push_back(new StMyTrackHitFracCut());
   mTrackCuts.push_back(new StMyTrackDcaCut());
+  mTrackCuts.push_back(new StMyTrackLastpointCut());
   mTrackCuts.push_back(new StMyTrackDcaPtCut());
   mTrackCuts.push_back(new StMyTrackPtMinCut());
   mTrackCuts.push_back(new StMyTrackEtaMinCut());
@@ -53,6 +57,9 @@ int StMyMatchTrackToEmcMaker::Init()
   mVertexCuts.push_back(new StMyVertexRankingCut());
 
   mBemcGeom = StEmcGeom::instance("bemc");
+
+  StEmcADCtoEMaker* emc2e = static_cast<StEmcADCtoEMaker*> ( GetMakerInheritsFrom("StEmcADCtoEMaker") );
+  mBemcTable = emc2e->getBemcData()->getTables();
   return StMaker::Init();
 }
 int StMyMatchTrackToEmcMaker::Make()
@@ -83,6 +90,25 @@ int StMyMatchTrackToEmcMaker::Make()
 	mBemcGeom->getId(hit->module(), hit->eta(), abs(hit->sub()), towerId);
 	if(towerId >=1 && towerId <= 4800){
           double he = hit->energy();
+          unsigned int adc = hit->adc();
+	  int status = 0;
+          mBemcTable->getStatus(1, towerId, status);
+	  float pedestal, rms;
+          int CAP = 0;
+	  mBemcTable->getPedestal(1, towerId, CAP, pedestal, rms);
+          if(adc < pedestal+4){ 
+            //Printf("adc = %d pedestal = %f\n", adc, pedestal); 
+            he = 0;
+          }
+          if(adc < pedestal+3.0*rms){ 
+            //Printf("adc = %d pedestal = %f rms = %f\n", adc, pedestal, rms); 
+            he = 0;
+          }
+          //if(mBemcTable->status(1, towerId, "calib") != 1) status = 0;
+          if(status != 1) {
+            //Printf("id: %d status: %d\n", towerId, status); 
+            he = 0;
+          } 
  	  if(he < 0.2) he = 0;
 	  (myTowerList[towerId-1]).mId = towerId;
 	  (myTowerList[towerId-1]).mE = he;
@@ -142,8 +168,16 @@ int StMyMatchTrackToEmcMaker::Make()
       
       if(exitTowerId <=0 || exitTowerId > 4800){ 
 	Printf("exitTowerId %d out of range\n", exitTowerId);
+        myTrack.mMatch = false;
+        myTrackList.push_back(myTrack);
 	//hprofmatch->Fill(pt, false); 
 	continue;
+      }
+      if(!(myTowerList[exitTowerId-1].mE > 0)){
+        Printf("track with pt %lf matching to tower with energy 0\n", pt);
+        myTrack.mMatch = false;
+        myTrackList.push_back(myTrack);
+        continue;
       }
       (myTowerList[exitTowerId-1].mHits)++;
       //hprofmatch->Fill(pt, true);
