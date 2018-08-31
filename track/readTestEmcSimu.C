@@ -1,4 +1,12 @@
 const unsigned long nevents = 10000;
+const double MipPhotoElectrons = 63;
+const double MipEnergyDeposit = 0.0198;
+double mSF[3] = {14.356, -0.512, 0.668};
+double samplingFraction(double eta) {
+  double x = TMath::Abs(eta);
+  return mSF[0]+mSF[1]*x+mSF[2]*x*x;
+}
+
 void readTestEmcSimu(//const char* mudstfile = "/global/homes/z/zchang/data_embed/pp500_production_2012/pt11_15_100_20160201/P13ib.SL13b/2012/109/13109015/pt11_15_st_zerobias_adc_13109015_raw_1590002_12.MuDst.root",
 	     const char* geantfile = "/global/homes/z/zchang/data_embed/pp500_production_2012/pt11_15_100_20160201/P13ib.SL13b/2012/109/13109015/pt11_15_st_zerobias_adc_13109015_raw_1590002_12.geant.root")
 {
@@ -44,6 +52,12 @@ void readTestEmcSimu(//const char* mudstfile = "/global/homes/z/zchang/data_embe
   //adc->saveAllStEvent(true);
 
   //StEmcSimulatorMaker *emcSimu = new StEmcSimulatorMaker;
+
+
+  StBemcTables *emcTables = new StBemcTables;
+
+  TFile *fout = new TFile("simu.emc.root", "recreate");
+  TH2D *h = new TH2D("hsimu", ";geant;simu", 50, 0, 0.05, 250, -0.5, 2);
   
   chain->Init();
   
@@ -53,14 +67,17 @@ void readTestEmcSimu(//const char* mudstfile = "/global/homes/z/zchang/data_embe
     int status = chain->Make(iEvent);
     if (status % 10 == kStEOF || status % 10 == kStFatal) break;
 
+    emcTables->loadTables(chain);
+    
     //print flag
     bool flag_print = (iEvent%100 == 0);
+    //bool flag = chain->GetMaker("Eread") || chain->GetMaker("emcRaw");
+    //Printf("embedding flag = %d\n", flag);
+
     //emc simulator
     /*
     //bool flag_bfc = chain->InheritsFrom("StBFChain");
     //Printf("bfc flag = %d\n", flag_bfc);
-    //bool flag = chain->GetMaker("Eread") || chain->GetMaker("emcRaw");
-    //Printf("embedding flag = %d\n", flag);
     StEvent *event = (StEvent*) chain->GetDataSet("StEvent");
     if(!event) {Printf("event %d not found\n", iEvent); continue;}
     //StMuDst *dst = (StMuDst*)chain->GetDataSet("StMuDst");
@@ -175,14 +192,38 @@ void readTestEmcSimu(//const char* mudstfile = "/global/homes/z/zchang/data_embe
 	  int sub = hh->sub();
 	  //if(sub < 0) Print("sub = %d\n", sub);
 	  emcGeom->getId(im, hh->eta(), sub, towerId);
-	  if(flag_print) Printf("detector hits: id=%d e=%f\n", towerId, dE);
+	  //if(flag_print) Printf("detector hits: id=%d e=%f\n", towerId, dE);
 	  //mcDe[towerId-1] += dE;
 	  ////float ee = energy[towerId-1];
 	  ////if(dE > 0) Printf("towerId = %d, dE = %f, ee = %f\n", towerId, dE, ee);
 	  //if(dE > 0) Printf("towerId = %d, dE = %f\n", towerId, dE);
 
 	  //test
-	  StPmtSignal pmt;
+	  float ped = emcTables->pedestal(1, towerId);
+	  float rms = emcTables->pedestalRMS(1, towerId);
+	  float calib = emcTables->calib(1, towerId);
+	  //if(flag_print) 
+	  Printf("id=%d ped=%f, rms=%f, calib=%f\n", towerId, ped, rms, calib);
+	  //double f_photo = MipPhotoElectrons/MipEnergyDeposit;
+	  //double n_photo = dE * f_photo;
+	  float eta; emcGeom->getEta(im, hh->eta(), eta);
+	  Printf("sub eta=%d, eta=%f\n", hh->eta(), eta);
+	  double f_sample = samplingFraction(eta);
+	  Printf("f_sample = %f\n", f_sample);
+	  //StEmcPmtSimulator simu(kBarrelEmcTowerId, StEmcVirtualSimulator::kPrimarySecondaryFullMode);
+	  StEmcPmtSimulator simu(kBarrelEmcTowerId, StEmcVirtualSimulator::kPrimaryOnlyMode);
+	  simu.setEmbeddingMode(false);
+	  simu.setTables(emcTables);
+	  simu.setCalibScale(1.0);
+	  simu.setCalibSpread(0);
+	  simu.setMaximumAdc(4095);
+	  simu.setMaximumAdcSpread(0);
+	  
+	  StEmcRawHit *raw = simu.makeRawHit(hh);
+	  float ee = raw->energy();
+	  h->Fill(dE, ee);
+	  Printf("id=%d dE=%f ee=%f\n", towerId, dE, ee);
+	  //StPmtSignal pmt;
 	}
       }
       Printf("nhits=%d, sum=%d, nmodules=%d \n", nhits, nsum, nmodules);
@@ -193,4 +234,6 @@ void readTestEmcSimu(//const char* mudstfile = "/global/homes/z/zchang/data_embe
 	}
       */
   }
+  fout->Write();
+  fout->Close();
 }
