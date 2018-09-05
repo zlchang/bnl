@@ -174,7 +174,7 @@ int StMyMatchTrackToEmcMaker::Make()
 	continue;
       }
       if(!(myTowerList[exitTowerId-1].mE > 0)){
-        Printf("track with pt %lf matching to tower with energy 0\n", pt);
+        //Printf("track with pt %lf matching to tower with energy 0\n", pt);
         myTrack.mMatch = false;
         myTrackList.push_back(myTrack);
         continue;
@@ -216,7 +216,7 @@ int StMyMatchTrackToEmcMaker::Make()
       for(int iphi = -1; iphi <=1; iphi++){
 	int ntowerId = EmcPosition.getNextTowerId(exitTowerId, ieta, iphi);
 	
-	if(ntowerId <=0 || ntowerId > 4800) {Printf("neighboring towerId invalid Id: %d\n", ntowerId); continue;}
+	if(ntowerId <=0 || ntowerId > 4800) {Printf("tower %d neighboring towerId invalid Id: %d\n", exitTowerId, ntowerId); continue;}
 	nhits += myTowerList[ntowerId-1].mHits;
 	double nee = (myTowerList[ntowerId-1]).mE;
 	if(nee > emax) emax = nee;
