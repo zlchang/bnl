@@ -1,0 +1,17 @@
+#ifndef STMYGEANTID
+#define STMYGEANTID
+#include "TObject.h"
+#include<map>
+
+class StMyGeantId : public TObject{
+ public:
+  StGeantId(){};
+  const char* getName(long id) const{ return mMap[id];}
+  void insert(long id, const char* name){
+    mMap.insert(pair<long, const char*>(id, name));
+  }
+  //private:
+  map<long, const char*> mMap;
+};
+
+#endif
