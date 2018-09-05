@@ -1,5 +1,6 @@
 TFile *mFile;
 const char* type[] = {"CmbAll", "CmbPos", "CmbNeg"};
+//const char* type[] = {"All", "Pos", "Neg"};
 const int Nn = 3;
 
 class drawObject{
@@ -17,8 +18,8 @@ public:
   void setYrange(double min, double max){ymin = min; ymax = max;}
   void setLogy(bool flag){logy = flag;}
 };
-int plotMyTrack(//const char* file = "MyMatchTrackToEmc.root"
-const char* file = "ptbin.list.run12.a.track.v0.w.track.root"
+int plotMyTrack(//const char* file = "test.track.root"
+const char* file = "ptbin.list.run12.b.track.v0.w.track.root"
 )
 {
   
@@ -26,7 +27,7 @@ const char* file = "ptbin.list.run12.a.track.v0.w.track.root"
  
   gStyle->SetOptStat(0);
   gStyle->SetPadGridX(0);
-  /*
+  ///*
   drawObject d0;
   d0.setLogy(1);
   //d1.setYrange(-0.1, 1.7);
@@ -69,7 +70,7 @@ const char* file = "ptbin.list.run12.a.track.v0.w.track.root"
   drawHistProfile("MaxTowerFracClusterProf", d4);
 
   drawObject d5;
-  d5.setYrange(-0.1, 0.29);
+  //d5.setYrange(-0.1, 0.29);
   //d5.setLegend(0.46, 0.74, 0.76, 0.89);
   drawHistProfile("EptVsDistProf", d5);
 
@@ -91,17 +92,17 @@ const char* file = "ptbin.list.run12.a.track.v0.w.track.root"
 
   drawObject d11;
   drawHist2D("MaxTowerFracClusterScatter", d11);
-  */  
+  //*/  
   drawObject d12;
-  d12.setYrange(-0.001, 0.005);
+  //d12.setYrange(-0.001, 0.005);
   drawHistProjY("EptVsPtScatter", 11, 15, d12);
 
   drawObject d13;
-  d13.setYrange(-0.0005, 0.002);
+  //d13.setYrange(-0.0005, 0.002);
   drawHistProjY("EptVsPtScatter", 16, 55, d13);
 
   drawObject d14;
-  d14.setYrange(-0.001, 0.005);
+  //d14.setYrange(-0.001, 0.005);
   drawHistProjY("EptVsPtScatter", 6, 10, d14);
   return 1;
 }
