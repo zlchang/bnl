@@ -39,9 +39,10 @@ void trig( Int_t n=1 )
 
     // Clear the chain from the previous event
     chain->Clear();
+    // Set vertex
 
     // Generate 1 photon at high pT
-    kinematics->Kine( 1, "gamma", 10.0, 15.0, -0.1, 0.1 );
+    kinematics->Kine( 1, "gamma", 10.0, 15.0, -0.1, 0.1);
 
     // Generate 1 mu minus at high pT
     //kinematics->Kine( 1, "mu-", 10.0, 50.0, -2.0, 2.0 );
@@ -51,6 +52,7 @@ void trig( Int_t n=1 )
 
     // Generate 4 neutral pions according to a PT and ETA distribution
     //kinematics->Dist(4, "pi0", ptDist, etaDist );
+    //
 
     // Generate the event
     chain->Make();
@@ -79,8 +81,8 @@ void starsim( Int_t nevents=1, Int_t rngSeed=1234 )
 
   gROOT->ProcessLine(".L bfc.C");
   {
-    TString simple = "y2012a geant gstar usexgeom agml GeantOut";
-    bfc(0, simple );
+    TString simple = "y2012a geant gstar usexgeom agml";
+    bfc(0, simple);
   }
 
   gSystem->Load( "libVMC.so");
@@ -104,6 +106,8 @@ void starsim( Int_t nevents=1, Int_t rngSeed=1234 )
   _primary = new StarPrimaryMaker();
   {
     _primary -> SetFileName( "kinematics.starsim.root");
+    //_primary -> SetVertex(0, 0 , 0);
+    //_primary -> SetSigma(0, 0 , 0);
     chain -> AddBefore( "geant", _primary );
   }
 
