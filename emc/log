@@ -1,0 +1,282 @@
+  *******************************************
+  *                                         *
+  *        W E L C O M E  to  R O O T       *
+  *                                         *
+  *   Version   5.34/30     23 April 2015   *
+  *                                         *
+  *  You are welcome to visit our Web site  *
+  *          http://root.cern.ch            *
+  *                                         *
+  *******************************************
+
+ROOT 5.34/30 (v5-34-30@v5-34-30, Apr 23 2015, 18:31:46 on linux)
+
+CINT/ROOT C/C++ Interpreter version 5.18.00, July 2, 2010
+Type ? for help. Commands must be C++ statements.
+Enclose multiple statements between { }.
+*** Float Point Exception is OFF ***
+ *** Start at Date : Thu Sep 13 13:20:35 2018
+QAInfo:You are using STAR_LEVEL : pro, ROOT_LEVEL : 5.34.30 and node : rcas6009.rcf.bnl.gov 
+
+Processing starsim.C...
+Load system libraries	 + liblog4cxx.so + libStStarLogger.so
+Create chain bfc
+BFC:WARN  - StBFChain::Setup	File BFC.C has been found as /afs/rhic.bnl.gov/star/packages/SL18c/StRoot/StBFChain/BFC.C
+QA :INFO  - ==============================================
+QA :INFO  - ============= You are in SL18c ===============
+QA :INFO  - Requested chain bfc is :	y2012a geant gstar usexgeom agml GeantOut
+QA :INFO  -  Switch On               AgMLlib by AgML
+QA :INFO  -  Switch On                  AgML by Chain
+QA :INFO  -  Switch On                  Tree by GeantOut
+QA :INFO  -  Switch On              GeantOut by Chain
+QA :INFO  -  Switch On                  Simu by gstar
+QA :INFO  -  Switch On                 gen_T by geantL
+QA :INFO  -  Switch On                 geomT by geantL
+QA :INFO  -  Switch On                 sim_T by geantL
+QA :INFO  -  Switch On                 StDbT by magF
+QA :INFO  -  Switch On                    db by magF
+QA :INFO  -  Switch On                 detDb by magF
+QA :INFO  -  Switch On                  magF by StarMagField
+QA :INFO  -  Switch On          StarMagField by geantL
+QA :INFO  -  Switch On                geantL by gstar
+QA :INFO  -  Switch On                 gstar by Chain
+QA :INFO  -  Switch On             xgeometry by UseXgeom
+QA :INFO  -  Switch On              UseXgeom by Chain
+QA :INFO  -  Switch On                 geant by Chain
+QA :INFO  -  Switch On                y2012a by Chain
+QA :INFO  - ==================               AgMLlib	is ON 	: AgML support
+QA :INFO  - ==================                  AgML	is ON 	: Alias VmcGeometry to AgiLGeometry
+QA :INFO  - ==================              GeantOut	is ON 	: Write g2t tables to StTree
+QA :INFO  - ==================                  Simu	is ON 	: Simulated Data, force to use Db time stamp from used geometry
+QA :INFO  - ==================                 StDbT	is ON 	: Load StDb_Tables
+QA :INFO  - ==================                 gen_T	is ON 	: Load gen_Tables
+QA :INFO  - ==================                 geomT	is ON 	: Load geometry_Tables
+QA :INFO  - ==================                 sim_T	is ON 	: Load sim_Tables
+QA :INFO  - ==================          StarMagField	is ON 	: Load StarMagField
+QA :INFO  - ==================             xgeometry	is ON 	: AgML geometry-Mag.Field
+QA :INFO  - ==================                geantL	is ON 	: Load GeantLibs
+QA :INFO  - ==================                 gstar	is ON 	: gstar for 80 muon tracks with pT = 1GeV in |eta|<4
+QA :INFO  - ==================              UseXgeom	is ON 	: suppress mortran version of geometry
+QA :INFO  - ==================                    db	is ON 	: 
+QA :INFO  - ==================                  magF	is ON 	: Mag.field map with scale factor from Db
+QA :INFO  - ==================                 detDb	is ON 	: Load StDetectorDbMaker library
+QA :INFO  - ==================                 geant	is ON 	: passive GEANT
+QA :INFO  - ==================                  Tree	is ON 	: Write requested branches into files
+QA :INFO  - ==================                y2012a	is ON 	: 
+QA :INFO  - Process [First=     1/Last=     0/Total=     0] Events
+QA :INFO  - Library libStarAgmlUtil        [        AgMLlib] (/afs/rhic.bnl.gov/star/packages/SL18c/.sl73_gcc485/lib/libStarAgmlUtil.so)	is loaded
+QA :INFO  - Library libStarAgmlLib         [        AgMLlib] (/afs/rhic.bnl.gov/star/packages/SL18c/.sl73_gcc485/lib/libStarAgmlLib.so)	is loaded
+QA :INFO  - Library libGeometry            [           AgML] (/afs/rhic.bnl.gov/star/packages/SL18c/.sl73_gcc485/lib/libGeometry.so)	is loaded
+QA :INFO  - Library libStarGeometry        [           AgML] (/afs/rhic.bnl.gov/star/packages/SL18c/.sl73_gcc485/lib/libStarGeometry.so)	is loaded
+QA :INFO  - Library libStDb_Tables         [          StDbT] (/afs/rhic.bnl.gov/star/packages/SL18c/.sl73_gcc485/lib/libStDb_Tables.so)	is loaded
+QA :INFO  - Library libgen_Tables          [          gen_T] (/afs/rhic.bnl.gov/star/packages/SL18c/.sl73_gcc485/lib/libgen_Tables.so)	is loaded
+QA :INFO  - Library libgeometry_Tables     [          geomT] (/afs/rhic.bnl.gov/star/packages/SL18c/.sl73_gcc485/lib/libgeometry_Tables.so)	is loaded
+QA :INFO  - Library libsim_Tables          [          sim_T] (/afs/rhic.bnl.gov/star/packages/SL18c/.sl73_gcc485/lib/libsim_Tables.so)	is loaded
+QA :INFO  - Library libVMC                 [   StarMagField] (/afs/rhic.bnl.gov/star/ROOT/5.34.30/.sl73_gcc485/rootdeb/lib/libVMC.so)	is loaded
+QA :INFO  - Library libStarMagField        [   StarMagField] (/afs/rhic.bnl.gov/star/packages/SL18c/.sl73_gcc485/lib/libStarMagField.so)	is loaded
+QA :INFO  - Library libxgeometry           [      xgeometry] (/afs/rhic.bnl.gov/star/packages/SL18c/.sl73_gcc485/lib/libxgeometry.so)	is loaded
+QA :INFO  - Library libgeometry            [         geantL] (/afs/rhic.bnl.gov/star/packages/SL18c/.sl73_gcc485/lib/libgeometry.so)	is loaded
+QA :INFO  - Library libGeom                [         geantL] (/afs/rhic.bnl.gov/star/ROOT/5.34.30/.sl73_gcc485/rootdeb/lib/libGeom.so)	is loaded
+QA :INFO  - Library libSt_db_Maker         [         geantL] (/afs/rhic.bnl.gov/star/packages/SL18c/.sl73_gcc485/lib/libSt_db_Maker.so)	is loaded
+QA :INFO  - Library libSt_g2t              [         geantL] (/afs/rhic.bnl.gov/star/packages/SL18c/.sl73_gcc485/lib/libSt_g2t.so)	is loaded
+QA :INFO  - Library libSt_geant_Maker      [         geantL] (/afs/rhic.bnl.gov/star/packages/SL18c/.sl73_gcc485/lib/libSt_geant_Maker.so)	is loaded
+QA :INFO  - Library libStDbLib             [             db] (/afs/rhic.bnl.gov/star/packages/SL18c/.sl73_gcc485/lib/libStDbLib.so)	is loaded
+QA :INFO  - Library libStDbBroker          [             db] (/afs/rhic.bnl.gov/star/packages/SL18c/.sl73_gcc485/lib/libStDbBroker.so)	is loaded
+QA :INFO  - Library libStMagF              [           magF] (/afs/rhic.bnl.gov/star/packages/SL18c/.sl73_gcc485/lib/libStMagF.so)	is loaded
+QA :INFO  - Library libStDetectorDbMaker   [          detDb] (/afs/rhic.bnl.gov/star/packages/SL18c/.sl73_gcc485/lib/libStDetectorDbMaker.so)	is loaded
+QA :INFO  - Library libStTreeMaker         [           Tree] (/afs/rhic.bnl.gov/star/packages/SL18c/.sl73_gcc485/lib/libStTreeMaker.so)	is loaded
+QA :INFO  - Output root file name gtrack.root
+QA :INFO  - ProcessLine ((St_geant_Maker *) 0xb4e0260)->SetNwGEANT(10);
+QA :INFO  - ProcessLine ((St_geant_Maker *) 0xb4e0260)->LoadGeometry("detp geometry y2012a");
+BFC:INFO  - Using DB flavors: sim+ofl
+BFC:INFO  - St_db_Maker::SetDateTime : ("y2012a") == Startup Date=20111215 Time=1
+QA :INFO  - db Maker set time = 20111215.1
+QA :INFO  - bfc Chain set time from  db
+QA :INFO  - blacklist tpc
+QA :INFO  - blacklist svt
+QA :INFO  - blacklist ssd
+QA :INFO  - blacklist sst
+QA :INFO  - blacklist eemc
+QA :INFO  - blacklist fms
+BFC:INFO  - StBFChain::Instantiate ignore request for instantiation of St_geant_Maker("geant") because chain alreary has one.
+QA :INFO  - QAInfo:StBFChain            built Mar 15 2018 13:01:56 from Tag $Name: SL18c $ $Id: StBFChain.h,v 1.57 2016/05/17 12:05:33 jeromel Exp $ 
+QA :INFO  - QAInfo:St_geant_Maker       built Mar 15 2018 14:32:30 from Tag $Name: SL18c $ $Id: St_geant_Maker.h,v 1.56 2017/04/26 20:23:53 perev Exp $ 
+QA :INFO  - QAInfo:St_db_Maker          built Mar 15 2018 14:31:38 from Tag $Name: SL18c $ $Id: St_db_Maker.h,v 1.46 2015/05/05 21:05:52 dmitry Exp $ 
+QA :INFO  - QAInfo:StMagFMaker          built Mar 15 2018 13:33:56 from Tag $Name: SL18c $ $Id: StMagFMaker.h,v 1.8 2014/08/06 11:43:26 jeromel Exp $ 
+QA :INFO  - QAInfo:StDetectorDbMaker    built Mar 15 2018 13:05:56 from Tag $Name: SL18c $ $Id: StDetectorDbMaker.h,v 1.5 2015/12/23 23:34:09 fisyak Exp $ 
+QA :INFO  - QAInfo:StTreeMaker          built Mar 15 2018 13:49:57 from Tag $Name: SL18c $ $Id: StTreeMaker.h,v 1.19 2014/08/06 11:43:51 jeromel Exp $ 
+QA :INFO  - +++ Setting attribute .gopt. = 
+QA :INFO  -  StBFChain::bfc
+QA :INFO  -    St_geant_Maker::geant
+QA :INFO  -    St_db_Maker::db
+QA :INFO  -    StMagFMaker::MagField
+QA :INFO  -    StDetectorDbMaker::detDb
+QA :INFO  -    StTreeMaker::outputStream
+QA :INFO  - Run is started at Date/Time 20180913/132037
+QA :INFO  - Run on rcas6009.rcf.bnl.gov in /direct/star+u/zchang/jetAnalysis/emc
+QA :INFO  - with Tag $Name: SL18c $ $Id: StBFChain.h,v 1.57 2016/05/17 12:05:33 jeromel Exp $ built Mar 15 2018 13:01:56
+BFC:INFO  - StBFChain::Init : Time=Thu Sep 13 13:20:37 2018 Cwd=/direct/star+u/zchang/jetAnalysis/emc
+BFC:INFO  - TClass::TClass : no dictionary for class AgTransform is available
+BFC:INFO  - TClass::TClass : no dictionary for class AgParameterList<double> is available
+BFC:INFO  - Setting ideal geometry
+StChain:DEBUG - *** Call << St_geant_Maker:Init() ***
+QA :INFO  - QAInfo:St_geant_Maker       built Mar 15 2018 14:32:30 from Tag $Name: SL18c $ $Id: St_geant_Maker.h,v 1.56 2017/04/26 20:23:53 perev Exp $ 
+ calling aginit 
+ ******************************************************
+ * Starting  starsim NwGEANT=  10000000 NwPAW=       0 *
+ **********************pid= 20838**********************
+ ******************************************************
+ *                                                    *
+ *            W E L C O M E    to   starsim           *
+ *                                                    *
+ *        Version INITIAL     15 March 2018           *
+ *                                                    *
+ ******************************************************
+ Version 1.29/04 of HIGZ started
+1*****  GEANT Version  3.21/08 Released on 230697
+0*****  Correction Cradle Version  0.0800
+ *****  RZMAKE. OLD RZ format selected for RZDOC               
+  Events will not be splitted into subevents 
+St_db_Maker:DEBUG - *** Call << St_db_Maker:Init() ***
+St_db_Maker:INFO  - St_db_Maker::OpenMySQL : Block domain fms
+St_db_Maker:INFO  - St_db_Maker::OpenMySQL : Block domain eemc
+St_db_Maker:INFO  - St_db_Maker::OpenMySQL : Block domain sst
+St_db_Maker:INFO  - St_db_Maker::OpenMySQL : Block domain ssd
+St_db_Maker:INFO  - St_db_Maker::OpenMySQL : Block domain svt
+St_db_Maker:INFO  - St_db_Maker::OpenMySQL : Block domain tpc
+St_db_Maker:INFO  - StDbManagerImpl::lookUpServers(): config file name is /afs/rhic.bnl.gov/star/packages/conf/dbLoadBalancerLocalConfig_BNL.xml
+There is no 1  /star/u/zchang/dbServers.xml
+ looking at 2 /afs/rhic.bnl.gov/star/packages/SL18c/StDb/servers/dbServers.xml
+DB OVERRIDE default user with: zchang
+St_db_Maker:INFO  - StDbManagerImpl::lookUpServer() line=696 
+******** Order of Files searched for dbServers ********* 
+  3. /afs/rhic.bnl.gov/star/packages/SL18c/StDb/servers/dbServers.xml
+********************************************************
+
+StHyperCacheManager: reading cache config from /afs/rhic.bnl.gov/star/packages/conf/hyperconfig.json
+St_db_Maker:INFO  - StDbLib: db server found in 3 iterations
+St_db_Maker:INFO  - MysqlDb::Connect: Load balancer took 0 ms, will use db02.star.bnl.gov:3316
+St_db_Maker:INFO  - Ssl_cipher = AES128-SHA
+St_db_Maker:INFO  - MysqlDb::Connect(host,user,pw,database,port) line=527 Server Connecting: DB=StarDb  Host=db02.star.bnl.gov:3316
+ --> Connection Time=0.650751 sec    MysqlVersion=5.1.73
+St_db_Maker:INFO  - St_db_Maker::OpenMySQL : Unknown table onl/tpcTest..tpcTest
+St_db_Maker:DEBUG - <St_db_Maker(db::SetAlias> StarDb = db/.const/StarDb/StarDb
+St_db_Maker:DEBUG - <St_db_Maker(db::SetAlias> Geometry = db/.const/StarDb/Geometry
+St_db_Maker:DEBUG - <St_db_Maker(db::SetAlias> Calibrations = db/.const/StarDb/Calibrations
+St_db_Maker:DEBUG - <St_db_Maker(db::SetAlias> RunLog = db/.const/StarDb/RunLog
+St_db_Maker:DEBUG - <St_db_Maker(db::SetAlias> Conditions = db/.const/StarDb/Conditions
+St_db_Maker:DEBUG - <St_db_Maker(db::SetAlias> AgMLChecksum = db/.const/StarDb/AgMLChecksum
+St_db_Maker:DEBUG - <St_db_Maker(db::SetAlias> AgMLGeometry = db/.const/StarDb/AgMLGeometry
+St_db_Maker:DEBUG - <St_db_Maker(db::SetAlias> AgiGeometry = db/.const/StarDb/AgiGeometry
+St_db_Maker:DEBUG - <St_db_Maker(db::SetAlias> StMagF = db/.const/StarDb/StMagF
+St_db_Maker:DEBUG - <St_db_Maker(db::SetAlias> ctf = db/.const/StarDb/ctf
+St_db_Maker:DEBUG - <St_db_Maker(db::SetAlias> dEdxModel = db/.const/StarDb/dEdxModel
+St_db_Maker:DEBUG - <St_db_Maker(db::SetAlias> ebye = db/.const/StarDb/ebye
+St_db_Maker:DEBUG - <St_db_Maker(db::SetAlias> emc = db/.const/StarDb/emc
+St_db_Maker:DEBUG - <St_db_Maker(db::SetAlias> ftpc = db/.const/StarDb/ftpc
+St_db_Maker:DEBUG - <St_db_Maker(db::SetAlias> global = db/.const/StarDb/global
+St_db_Maker:DEBUG - <St_db_Maker(db::SetAlias> mwc = db/.const/StarDb/mwc
+St_db_Maker:DEBUG - <St_db_Maker(db::SetAlias> svt = db/.const/StarDb/svt
+St_db_Maker:DEBUG - <St_db_Maker(db::SetAlias> tpc = db/.const/StarDb/tpc
+StChain:DEBUG - *** Call << StMagFMaker:Init() ***
+StChain:DEBUG - *** Call << StDetectorDbMaker:Init() ***
+StChain:DEBUG - *** Call << StTreeMaker:Init() ***
+** <StBranch::Open> Branch=histBranch 	Mode=RECREATE 	File=gtrack.hist.root 	Opened **
+** <StBranch::Open> Branch=runcoBranch 	Mode=RECREATE 	File=gtrack.runco.root 	Opened **
+** <StBranch::Open> Branch=geantBranch 	Mode=RECREATE 	File=gtrack.geant.root 	Opened **
+BFC:INFO  - TClass::TClass : no dictionary for class StarParticleData is available
+BFC:INFO  - StarParticleData::AddParticle() : Overwriting entry 11
+BFC:INFO  - StarParticleData::AddParticle() : Overwriting entry -11
+BFC:INFO  - StarParticleData::AddParticle() : Overwriting entry 2212
+BFC:INFO  - StarParticleData::AddParticle() : Overwriting entry -2212
+BFC:INFO  - Initialize random number generator mt19937
+BFC:ERROR - TTime::operator long() : time truncated, use operator long long
+BFC:INFO  - Initialize random number seed 1945086475
+BFC:INFO  - StarRandom::StarRandom::capture() : Capturing gRandom
+StarPrimaryMaker:INFO  -  +++ New RunNumber found=1 (previous = -3)
+StarPrimaryMaker:INFO  - *********** Event Info **********************
+StarPrimaryMaker:INFO  - 	Run: 	    1  Event    -1  TimeStamp 20111215.     1  Bunch 0:0
+StarPrimaryMaker:INFO  - 	 EvtSize: 0 	InpTrig:    0 OutTrig:    0
+StarPrimaryMaker:INFO  - *********************************************
+StarPrimaryMaker:INFO  - *** StarPrimaryMaker::Make() == StOK(0) ***
+St_geant_Maker:INFO  - St_geant_Maker::InitRun -- Do geometry initialization
+St_geant_Maker:INFO  - St_geant_Maker::InitRun -- with DETP GEOM y2012a
+ Warning: DETP GEOM overwritten
+ Y2012A: Y2012A : Y2012A PRODUCTION GEOMETRY              TAG
+  CAVE04 [ CaveGeo] : The STAR Wide Angle Hall
+ ===> Datacard assign I.CONFIG    ( 1) =         4 in CVCF bank selected with      1.000
+ ===> Datacard assign I.TPCREFSYS ( 1) =         0 in CVCF bank selected with      1.000
+CaveGeo Module is called CONFIG=  4
+  IDSM01 [ IdsmGeo1] : Inner detector support module
+ ===> Datacard assign R.VERSION   ( 1) =    1.0000 in IDSC bank selected with      1.000
+Inner Detector Support Module with IDSC_version =  1.00
+  PIPE12 [ PipeGeo] : Default pipe
+ ===> Datacard assign R.PIPECONFIG( 1) =    2.0000 in PIPV bank selected with      1.000
+ ===> Datacard assign I.PIPEFLAG  ( 1) =         1 in PIPV bank selected with      1.000
+  UPSTon [ UpstGeo] : Upstream
+  TPCE04r [ TpceGeo3a] : New version of the TPC backplane;gas  ,                                               density correction;radius correction
+ ===> Datacard assign R.RMAX      ( 1) =  207.7700 in TPCG bank selected with      3.000
+ ===> Datacard assign R.RMAX      ( 1) =  207.7700 in TPCG bank selected with      3.000
+ TPCE: config=    3.000
+  BTOF67 [ BtofGeo7] : 
+ ===> Datacard assign R.CHOICE    ( 1) =    6.0000 in BTOG bank selected with      1.000
+ ===> Datacard assign R.X0        ( 1) =    0.0000 in BTOG bank selected with      1.000
+ ===> Datacard assign R.Z0        ( 1) =    0.0000 in BTOG bank selected with      1.000
+BTOF: btog_choice =  6.0 itof =  7
+ : this is the run  0 geometry ...
+  VPDD07 [ VpddGeo2] : Default configuration for the Beam Beam  ,                                              counter
+ ===> Datacard assign R.VPDCONFIG ( 1) =    7.0000 in VPDV bank selected with      1.000
+  CALB02 [ CalbGeo2] : Full BEMC 2007
+ ===> Datacard assign R.NMODULE   ( 1) =   60.0000 in CALG bank selected with      1.000
+ ===> Datacard assign R.NMODULE   ( 2) =   60.0000 in CALG bank selected with      1.000
+ ===> Datacard assign R.SHIFT     ( 1) =   75.0000 in CALG bank selected with      1.000
+ ===> Datacard assign R.SHIFT     ( 2) =  105.0000 in CALG bank selected with      1.000
+ ===> Datacard assign R.ABSORBER  ( 1) =    1.0000 in CCUT bank selected with      1.000
+ ===> Datacard assign R.SENSITIVE ( 1) =    1.0000 in CCUT bank selected with      1.000
+  ECALv6 [ EcalGeo6] : Version 6 endcap
+ ===> Datacard assign I.ONOFF     ( 1) =         1 in EMCG bank selected with      1.000
+ ===> Datacard assign I.FILLMODE  ( 1) =         3 in EMCG bank selected with      1.000
+ ===> Datacard assign R.ABSORBER  ( 1) =    1.0000 in ECUT bank selected with      1.000
+ ===> Datacard assign R.SENSITIVE ( 1) =    1.0000 in ECUT bank selected with      1.000
+ecalgeo version: 6.10
+ absorber cuts=1.00
+ sensitive cuts=1.00
+  BBCMon [ BbcmGeo] : Default configuration for the Beam Beam  ,                                               counter
+ ===> Datacard assign R.VERSION   ( 1) =    1.0000 in BBCG bank selected with      1.000
+  FPDM03 [ FpdmGeo3] : FPD/FMS
+  ZCALon [ ZcalGeo] : Zcalream
+  MAGPon [ MagpGeo] : STAR Magnet
+  FGTD31 [ FgtdGeo3] : Default configuration for the Forward GEM  ,                                            tracker
+ ===> Datacard assign R.FGSTCONFIG( 1) =    1.0000 in FGGG bank selected with      1.000
+ ---> CONSTRUCT: MFLDGEO
+StarMagField  instantiate starsim field=5
+StarMagField::ReadField  Reading  Magnetic Field  Measured Full Field,  Scale factor = 1.000000 
+StarMagField::ReadField  Filename is bfield_full_positive_2D.dat, Adjusted Scale factor = 1.000000 
+StarMagField::ReadField  Reading  2D Magnetic Field file: bfield_full_positive_2D.dat 
+StarMagField::ReadField  Reading 3D Magnetic Field file: bfield_full_positive_3D.dat 
+StarMagField::ReadField  Reading  3D Magnetic Field file: bfield_full_positive_2D.dat 
+StarMagField::SetLock lock StarMagField parameters
+StarMagField parameters are locked
+StarMagField:: Map	2
+StarMagField:: Factor	1.000000
+StarMagField:: Rescale	1.000000
+StarMagField:: BDipole	-42.669998
+StarMagField:: RmaxDip	15.340000
+StarMagField:: ZminDip	980.000000
+StarMagField:: ZmaxDip	1350.000000
+StarMagField:mfldgeo(5) Bz=4.9798
+ MFLD magField,Bz =    5.00000000       4.97979927    
+St_geant_Maker:INFO  - St_geant_Maker::InitRun -- Do mag.field initialization
+               : TOF version =   6.00000000      choice  =           6
+               : CALB patch  =          60          60
+               : ECAL version=   6.09999990      onoff   =           1           3
+St_geant_Maker:INFO  - *** St_geant_Maker::Make() == StOK(0) ***
+St_db_Maker:INFO  - *** St_db_Maker::Make() == StOK(0) ***
+StMagFMaker:INFO  - StMagFMaker::InitRun passive mode. Don't update Mag.Field from DB
+StMagFMaker:INFO  - *** StMagFMaker::Make() == StOK(0) ***
+StHyperCacheManager: reading cache config from /afs/rhic.bnl.gov/star/packages/conf/hyperconfig.json
+StChain:INFO  - StDbLib: db server found in 3 iterations
+StChain:INFO  - MysqlDb::Connect: Load balancer took 0 ms, will use db13.star.bnl.gov:3316
+StChain:INFO  - Ssl_cipher = AES128-SHA
+StChain:INFO  - MysqlDb::Connect(host,user,pw,database,port) line=527 Server Connecting: DB=Conditions_trg  Host=db13.star.bnl.gov:3316
+ --> Connection Time=0.050778 sec    MysqlVersion=5.1.73
