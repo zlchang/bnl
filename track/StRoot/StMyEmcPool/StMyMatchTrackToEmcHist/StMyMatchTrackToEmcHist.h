@@ -3,8 +3,8 @@
 
 #include "StMyTowerHist.h"
 #include "StMyClusterHist.h"
-#include "StMyHist.h"
 #include "StMyTrackHist.h"
+#include "StMyEmcPool/StMyObjs/StMyHist.h"
 
 class StMyMatchTrackToEmcHist : public StMyTrackHist
 {
