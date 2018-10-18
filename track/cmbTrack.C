@@ -2,7 +2,7 @@ TFile *mFile;
 const char* type[] = {"All", "Pos", "Neg", "NoCut"};
 const int Ntype = 4;
 int cmbTrack(char *file = "ptbin.list", char* runlist = "text.full",
-	     char* dir_base = "output/track", char* mcfilepre = "run12.a.track",
+	     char* dir_base = "output/MyMatchTrack", char* mcfilepre = "run12.c.track",
 	     int ver = 0, int first = 0)
 {
   TH1::SetDefaultSumw2(kTRUE);
@@ -52,7 +52,8 @@ int cmbTrack(char *file = "ptbin.list", char* runlist = "text.full",
     //ww = 1;
     for(int ii = 0; ii < 10; ii++){
       //if(ii%2 == 0) continue;
-      mFile = TFile::Open(Form("%s/%s/%s.track.%d.root", dir_base, ptbin, ptbin, ii));
+      mFile = TFile::Open(Form("%s/%s/%s.%d.MyMatchTrack.root", dir_base, ptbin, ptbin, ii));
+      //mFile = TFile::Open(Form("%s/%s/%s.track.%d.root", dir_base, ptbin, ptbin, ii));
       cout<<Form("%s/%s/%s.track.%d.root", dir_base, ptbin, ptbin, ii)<<endl;
       for(int it = 0; it < Ntype; it++){
 	const char* nn = type[it];

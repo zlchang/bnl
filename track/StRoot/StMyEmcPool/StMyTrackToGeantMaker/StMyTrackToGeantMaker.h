@@ -4,6 +4,8 @@
 #include "StMaker.h"
 
 #include <vector>
+#include <map>
+
 
 class TFile;
 class StMyTrackGeant;
@@ -26,11 +28,17 @@ public:
   void SetOutfile(const char* file){mFileName =  file; }  
  protected:
   void fillHist(const StMyTrackGeant &track, const StMyMcTrack &mcTrack, StMyTrackToGeantHist *hist);
+  void fillHist(const StMyMcTrack &mc, map<long, vector<StMyTrackGeant>> recoMap, StMyTrackToGeantHist *hist);
  private:
   const char *mFileName;
   TFile *mFile;
 
   StMyTrackToGeantHist *mHist;
+  StMyTrackToGeantHist *mHistMc;
+  StMyTrackToGeantHist *mHistMcPiP;
+  StMyTrackToGeantHist *mHistMcPiM;
+  StMyTrackToGeantHist *mHistMcKP;
+  StMyTrackToGeantHist *mHistMcKM;
 
   vector<StMyTrackCut*> mTrackCuts;
   vector<StMyVertexCut*> mVertexCuts;

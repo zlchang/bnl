@@ -31,7 +31,12 @@
 int StMyTrackToGeantMaker::Init()
 {
   mFile = new TFile(mFileName, "recreate");
-  mHist = new StMyTrackToGeantHist("All");
+  mHist = new StMyTrackToGeantHist("Reco");
+  mHistMc = new StMyTrackToGeantHist("Mc");
+  mHistMcPiP = new StMyTrackToGeantHist("McPiP");
+  mHistMcPiM = new StMyTrackToGeantHist("McPiM");
+  mHistMcKP = new StMyTrackToGeantHist("McKP");
+  mHistMcKM = new StMyTrackToGeantHist("McKM");
 
   mTrackCuts.push_back(new StMyTrackFlagCut());
   mTrackCuts.push_back(new StMyTrackFtpcCut());
@@ -78,6 +83,7 @@ int StMyTrackToGeantMaker::Make()
 
   vector<StMyTrackGeant> myTrackList;
   map<long, StMyMcTrack> myMcTrackList;
+  map<long, vector<StMyTrackGeant>> myMcTrackGeantMap;
   for(vector<const StMuTrack*>::const_iterator it = muTrackList.begin(); it != muTrackList.end(); it++){
     const StMuTrack *muTrack = *it;
     double pt = muTrack->pt();
@@ -91,6 +97,7 @@ int StMyTrackToGeantMaker::Make()
     int nhits = muTrack->nHits();
     if(id != 0 && myMcTrackList.find(id) == myMcTrackList.end()){
       myMcTrackList.insert(pair<long, StMyMcTrack>(id, StMyMcTrack()));
+      myMcTrackGeantMap.insert(pair<long, vector<StMyTrackGeant>>(id, vector<StMyTrackGeant>(0)));
     }
     
     //Printf("pt=%f, eta=%f, id=%d qa=%d nhits=%d\n", pt, eta, id, qa, nhits);
@@ -108,6 +115,7 @@ int StMyTrackToGeantMaker::Make()
     myTrack.mNhits = nhits;
 
     myTrackList.push_back(myTrack);
+    myMcTrackGeantMap[id].push_back(myTrack);
   }
 
   int muEventId = StMuDst::event()->eventNumber();
@@ -131,31 +139,31 @@ int StMyTrackToGeantMaker::Make()
   StSPtrVecMcTrack gTracks = mcEvent->tracks();
   for(unsigned int igt = 0; igt < gTracks.size(); igt++){
     StMcTrack *trk = gTracks[igt];
-    float gpt = trk->pt();
     StLorentzVectorF gmom = trk->fourMomentum();
     //if(pt < 5.0) continue;
     //float gr = 0;
-    float geta = trk->pseudoRapidity();
     //StMcTrack *prnt = trk->parent();
     //if(prnt->geantId() != 0) continue;
     //StMcVertex *startv = trk->startVertex();
     //float zt = startv->position().z();
-    int gishw = trk->isShower();
-    long gpdg = trk->pdgId();
     long gid = trk->geantId();
     if(gid == 0) continue;
     long gkey = trk->key();
-
     if(myMcTrackList.find(gkey) == myMcTrackList.end()) continue;
     
     StPtrVecMcTpcHit ghits = trk->tpcHits();
-    unsigned int nghits = ghits.size();
-    //Printf("pt=%f eta=%f ishw=%d pdg=%ld geantId=%ld key=%ld tpcHits=%d\n", gpt, geta, gishw, gpdg, gid, gkey, nghits);
+    unsigned int gntpc = ghits.size();
+    //float gpt = trk->pt();
+    //float geta = trk->pseudoRapidity();
+    //int gishw = trk->isShower();
+    //long gpdg = trk->pdgId();
+    //Printf("pt=%f eta=%f ishw=%d pdg=%ld geantId=%ld key=%ld tpcHits=%d\n", gpt, geta, gishw, gpdg, gid, gkey, gntpc);
 
     StMyMcTrack &mcTrack = myMcTrackList[gkey];
     mcTrack.mom = TLorentzVector(gmom.x(), gmom.y(), gmom.z(), gmom.t());
     mcTrack.id = gkey;
     mcTrack.geantid = gid;
+    mcTrack.ntpchits = gntpc;
     //example
     /*
     for(unsigned int ih = 0; ih < nghits; ih++){
@@ -172,6 +180,34 @@ int StMyTrackToGeantMaker::Make()
     }
     */
   }
+  //primary tracks, only loop over daughter tracks from the primary vertex
+  StMcVertex* mcVx = mcEvent->primaryVertex();
+  StPtrVecMcTrack& daughters = mcVx->daughters();
+  vector<StMyMcTrack> myMcPrimaryTracks;
+  //  int counter = 0;
+  for(unsigned int idt = 0; idt < daughters.size(); idt++){
+    StMcTrack *dtrk = daughters[idt];
+    long dgid = dtrk->geantId();
+    StLorentzVectorF dmom = dtrk->fourMomentum();
+    long dkey = dtrk->key();
+    unsigned int dntpc = dtrk->tpcHits().size();
+    //if(dgid != 8 && dgid != 9) continue;
+    float deta = dtrk->momentum().pseudoRapidity();
+    if(TMath::Abs(deta) > 2.5) continue;
+    //float dpt = dtrk->pt();
+    //Printf("did=%d dpt=%f deta=%f dgid=%d dntpc=%d\n", idt, dpt, deta, dgid, dntpc);
+    //if(dntpc < 12) continue;
+    StMyMcTrack ptrack;
+    ptrack.mom = TLorentzVector(dmom.x(), dmom.y(), dmom.z(), dmom.t());
+    ptrack.id = dkey;
+    ptrack.geantid = dgid;
+    ptrack.ntpchits = dntpc;
+    myMcPrimaryTracks.push_back(ptrack);
+    //*/
+    //htrkeff->Fill(dpt, match);
+    //counter++;
+    //Printf("did=%d dpt=%f deta=%f dgid=%d dntpc=%d\n", idt, dpt, deta, dgid, dntpc);
+  }
   //fill histogram
   for(vector<StMyTrackGeant>::const_iterator it = myTrackList.begin(); it != myTrackList.end(); it++){
     const StMyTrackGeant &myTrack = *it;
@@ -181,6 +217,26 @@ int StMyTrackToGeantMaker::Make()
       myMcTrack = myMcTrackList[tkey];
     }
     fillHist(myTrack, myMcTrack, mHist);	
+  }
+  //fill histogram
+  for(vector<StMyMcTrack>::const_iterator ipt = myMcPrimaryTracks.begin(); ipt != myMcPrimaryTracks.end(); ipt++){
+    const StMyMcTrack &myPrim = *ipt;
+    long nhits = myPrim.ntpchits;
+    if(nhits < 12) continue;
+    //fillHist(myPrim, myReco);
+    fillHist(myPrim, myMcTrackGeantMap, mHistMc);
+    if(myPrim.geantid == 8){
+      fillHist(myPrim, myMcTrackGeantMap, mHistMcPiP);
+    }
+    if(myPrim.geantid == 9){
+      fillHist(myPrim, myMcTrackGeantMap, mHistMcPiM);
+    }
+    if(myPrim.geantid == 11){
+      fillHist(myPrim, myMcTrackGeantMap, mHistMcKP);
+    }
+    if(myPrim.geantid == 12){
+      fillHist(myPrim, myMcTrackGeantMap, mHistMcKM);
+    }
   }
   return StMaker::Make();
 }
@@ -217,4 +273,46 @@ void StMyTrackToGeantMaker::fillHist(const StMyTrackGeant &track, const StMyMcTr
      Printf("M/C track %d not found\n", tkey);
    }
  }
+}
+void StMyTrackToGeantMaker::fillHist(const StMyMcTrack &mc, map<long, vector<StMyTrackGeant>> recoMap, StMyTrackToGeantHist *hist)
+{
+  bool match = false;
+  long mkey = mc.id;
+  if(recoMap.find(mkey) != recoMap.end())
+    match = true;
+
+  double mpt = mc.mom.Pt();
+  double meta = mc.mom.Eta();
+  
+  hist->mMatchVsPt->Fill(mpt, match);
+  hist->mMatchVsEta->Fill(meta, match);
+  
+  if(match){
+    vector<StMyTrackGeant> &reco = recoMap[mkey];
+    if(reco.size() == 0){
+      Printf("warning track %d match to %d recontructed tracks", mkey, reco.size()); 
+      return;
+    }
+    unsigned int index = 0;
+    if(reco.size() > 1){
+      int nmc = reco[index].mQa*reco[index].mNhits;
+      for(unsigned int ip = 1; ip < reco.size(); ip++){
+	int nmc_t = reco[ip].mQa*reco[ip].mNhits;
+	if(nmc_t > nmc) index = ip;
+      }
+      Printf("%d recontructed tracks found select %d track\n", reco.size(), index);
+    }
+    StMyTrackGeant &rtrack = reco[index];
+    double rpt = rtrack.mPt;
+    double reta = rtrack.mEta;
+    double rqa = rtrack.mQa;
+    
+    hist->mQaVsPt->Fill(mpt, rqa);
+    hist->mQaVsEta->Fill(meta, rqa);
+
+    hist->mPtMcVsMu->Fill(rpt, mpt);
+    hist->mEtaMcVsMu->Fill(reta, meta);
+
+  }
+
 }

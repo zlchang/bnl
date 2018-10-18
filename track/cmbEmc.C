@@ -7,7 +7,7 @@ long ids[] = {1, 2, 3,
 const int Nids = 13;
 
 int cmbEmc(char *file = "ptbin.list", char* runlist = "text.full",
-	     char* dir_base = "output/geant", char* mcfilepre = "run12.a.emc",
+	     char* dir_base = "output/MyReadEmcGeant", char* mcfilepre = "run12.b.emc",
 	     int ver = 0, int first = 0)
 {
   TH1::SetDefaultSumw2(kTRUE);
@@ -19,7 +19,7 @@ int cmbEmc(char *file = "ptbin.list", char* runlist = "text.full",
   StMyMcTrackHist *hist[Nids];
   StMyGeantId geant;
   for(int it = 0; it < Nids; it++){
-    hist[it] = new StMyMcTrackHist(Form("Cmb%s", geant.getName(ids[it])));
+    hist[it] = new StMyMcTrackHist(Form("%s", geant.getName(ids[it])));
   }
 
   TFile *finfo = TFile::Open(Form("analyze_logs/ptbin.info.%s.root", runlist));
@@ -57,8 +57,10 @@ int cmbEmc(char *file = "ptbin.list", char* runlist = "text.full",
     //ww = 1;
     for(int ii = 0; ii < 10; ii++){
       //if(ii%2 == 0) continue;
-      mFile = TFile::Open(Form("%s/%s/%s.emcGeant.%d.root", dir_base, ptbin, ptbin, ii));
-      cout<<Form("%s/%s/%s.track.%d.root", dir_base, ptbin, ptbin, ii)<<endl;
+      mFile = TFile::Open(Form("%s/%s/%s.%d.MyReadEmcGeant.root", dir_base, ptbin, ptbin, ii));
+      //mFile = TFile::Open(Form("%s/%s/%s.mudst.subset.%d.list.emcGeant.root", dir_base, ptbin, ptbin, ii));
+      //mFile = TFile::Open(Form("%s/%s/%s.emcGeant.%d.root", dir_base, ptbin, ptbin, ii));
+      cout<<Form("%s/%s/%s.MyReadEmcGeant.%d.root", dir_base, ptbin, ptbin, ii)<<endl;
 
       for(int it = 0; it < Nids; it++){
 	const char* nn = geant.getName(ids[it]);
@@ -99,6 +101,7 @@ void AddHist(TH2D *hist, const char* name, double w)
 void AddHist(TProfile *hist, const char* name, double w)
 {
   TProfile* hh = (TProfile*) mFile->Get(name);
+  //Printf("%s 6th bin: %lf\n", hh->GetName(), hh->GetBinContent(6));
   //double sumw = hist->GetBinEntries();
   //double sumxw = hist->GetBinContent()*sumw;
   //double 
