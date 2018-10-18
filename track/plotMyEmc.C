@@ -24,8 +24,9 @@ public:
   void setYrange(double min, double max){ymin = min; ymax = max;}
   void setLogy(bool flag){logy = flag;}
 };
+const char *ver="v0";
 int plotMyEmc(//const char* file = "test.track.root"
-const char* file = "ptbin.list.run12.a.emc.v0.w.root"
+const char* file = "ptbin.list.run12.b.emc.v0.w.root" 
 )
 {
   gSystem->Load("StMyMatchTrackToEmcHist.so");
@@ -54,7 +55,7 @@ const char* file = "ptbin.list.run12.a.emc.v0.w.root"
   d12.setYrange(2e-8, 0.01);
   d12.setLogy(true);
   drawHistProjY("EptVsptScatter", 11, 15, d12);
-
+/*
   drawObject d2;
   //d2.setYrange(-0.1, 1.46);
   d2.setLegend(0.7, 0.85, 0.99, 0.99);
@@ -67,6 +68,7 @@ const char* file = "ptbin.list.run12.a.emc.v0.w.root"
   //drawObject d14;
   //d14.setYrange(-0.001, 0.005);
   //drawHistProjY("EptVsPtScatter", 6, 10, d14);
+*/
   return 1;
 }
 void drawHist(const char *name, const drawObject &obj)
@@ -93,7 +95,7 @@ void drawHist(const char *name, const drawObject &obj)
   }
   lg->Draw("same");
   gPad->SetLogy(obj.logy);
-  c->Print(Form("%s.png", name));
+  c->Print(Form("%s%s.png", name, ver));
 }
 void drawHistProfile(const char *name, const drawObject &obj)
 {
@@ -129,7 +131,7 @@ void drawHistProfile(const char *name, const drawObject &obj)
     lg->AddEntry(hh[ih], Form("%s #bf{%3.2lf#pm%3.2lf}", type[ih], hmean[ih], herror[ih]), "l");
     if(ih%3==2 || ih == Nids-1){
       lg->Draw("same");
-      c->Print(Form("%s%d.png", name, ih/3));
+      c->Print(Form("%s%d%s.png", name, ih/3, ver));
     }
   }
 }
@@ -144,6 +146,7 @@ TH1D *convertTProfile(TProfile *hw, TProfile *hw2)
   TH1D *hres = new TH1D(Form("%sHist", hw->GetName()), Form(";%s;%s", xaxis->GetTitle(), yaxis->GetTitle()), N, xaxis->GetXmin(), xaxis->GetXmax());
   
   for(int i = 1; i <= N; i++){
+  //for(int i = 11; i <= 15; i++){
     double content = hw->GetBinContent(i);
     hres->SetBinContent(i, content);
     double entries = hw->GetBinEntries(i);
@@ -184,7 +187,7 @@ void drawHist2D(const char *name, const drawObject &obj)
     hp[ih]->GetZaxis()->SetRangeUser(9e-13, 2.0);
   }
   
-  c->Print(Form("%s.png", name));
+  c->Print(Form("%s%s.png", name, ver));
 }
 void drawHistProjY(const char *name, int xlow, int xhigh, const drawObject &obj)
 {
@@ -219,7 +222,7 @@ void drawHistProjY(const char *name, int xlow, int xhigh, const drawObject &obj)
     if(ih%3==2 || ih == Nids-1){
       lg->SetHeader(Form("%.1lf < p_{T} < %.1lf GeV", xmin, xmax));
       lg->Draw("same");
-      c->Print(Form("%sproj%dto%d%d.png", name, xlow, xhigh,ih/3));
+      c->Print(Form("%sproj%dto%d%d%s.png", name, xlow, xhigh, ih/3, ver));
     }
     
   }
@@ -233,6 +236,7 @@ void getStatTProfile(TProfile *hw, TProfile *hw2, double &mean, double &error)
   double sum_entries = 0, sum_entries2 = 0;
   double sum_var = 0, sum_var2 = 0;
   for(int i = 1; i <= N; i++){
+  //for(int i = 15; i <= 15; i++){
     double entries = hw->GetBinEntries(i);
     sum_entries += entries;
     double content = hw->GetBinContent(i);

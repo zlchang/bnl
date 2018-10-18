@@ -9,7 +9,7 @@ class StMyGeantId : public TObject{
     mMap.insert(pair<long, const char*>(1, "Photon"));
     //
     mMap.insert(pair<long, const char*>(2, "Electron"));
-    mMap.insert(pair<long, const char*>(3, "Position"));
+    mMap.insert(pair<long, const char*>(3, "Positron"));
     //
     mMap.insert(pair<long, const char*>(7, "Pi0"));
     mMap.insert(pair<long, const char*>(8, "Pi+"));

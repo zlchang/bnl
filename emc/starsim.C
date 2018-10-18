@@ -33,16 +33,17 @@ void command( TString cmd )
   geant_maker -> Do( cmd );
 }
 // ----------------------------------------------------------------------------
-void trig( Int_t n=1 )
+void trig( int n=1 )
 {
-  for ( Int_t i=0; i<n; i++ ) {
+  for ( int i=0; i<n; i++ ) {
 
     // Clear the chain from the previous event
     chain->Clear();
     // Set vertex
 
     // Generate 1 photon at high pT
-    kinematics->Kine( 1, "gamma", 10.0, 15.0, -0.1, 0.1);
+    kinematics->Kine( 1, "e-", 0.99, 1.01, -0.7, 0.9);
+    //kinematics->Kine( 1, "e+", 9.9, 10.1, -0.7, 0.9);
 
     // Generate 1 mu minus at high pT
     //kinematics->Kine( 1, "mu-", 10.0, 50.0, -2.0, 2.0 );
@@ -76,7 +77,7 @@ void Kinematics()
 // ----------------------------------------------------------------------------
 // ----------------------------------------------------------------------------
 // ----------------------------------------------------------------------------
-void starsim( Int_t nevents=1, Int_t rngSeed=1234 )
+void starsim( int nevents=1000, int rngSeed=1234, const char* filename = "kinematics.starsim.em")
 { 
 
   gROOT->ProcessLine(".L bfc.C");
@@ -105,9 +106,9 @@ void starsim( Int_t nevents=1, Int_t rngSeed=1234 )
   //  StarPrimaryMaker *
   _primary = new StarPrimaryMaker();
   {
-    _primary -> SetFileName( "kinematics.starsim.root");
-    //_primary -> SetVertex(0, 0 , 0);
-    //_primary -> SetSigma(0, 0 , 0);
+    _primary -> SetFileName( Form("%s.root", filename) );
+    _primary -> SetVertex(0, 0 , 0);
+    _primary -> SetSigma(0, 0 , 0);
     chain -> AddBefore( "geant", _primary );
   }
 
@@ -121,9 +122,9 @@ void starsim( Int_t nevents=1, Int_t rngSeed=1234 )
   //
   // Setup geometry and set starsim to use agusread for input
   //
-  geometry("y2012a");
+  geometry("y2012a field=-5.0");
   command("gkine -4 0");
-  command("gfile o kinematics.starsim.fzd");
+  command(Form("gfile o %s.fzd", filename));
   
 
   //

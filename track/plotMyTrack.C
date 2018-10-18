@@ -18,6 +18,7 @@ public:
   void setYrange(double min, double max){ymin = min; ymax = max;}
   void setLogy(bool flag){logy = flag;}
 };
+const char* ver = "v1";
 int plotMyTrack(//const char* file = "test.track.root"
 const char* file = "ptbin.list.run12.b.track.v0.w.track.root"
 )
@@ -130,7 +131,7 @@ void drawHist(const char *name, const drawObject &obj)
   }
   lg->Draw("same");
   gPad->SetLogy(obj.logy);
-  c->Print(Form("%s.png", name));
+  c->Print(Form("%s%s.png", name, ver));
 }
 void drawHistProfile(const char *name, const drawObject &obj)
 {
@@ -162,7 +163,7 @@ void drawHistProfile(const char *name, const drawObject &obj)
     lg->AddEntry(hh[ih], Form("%s #bf{%3.2lf#pm%3.2lf}", type[ih], hmean[ih], herror[ih]), "l");
   }
   lg->Draw("same");
-  c->Print(Form("%s.png", name));
+  c->Print(Form("%s%s.png", name, ver));
 }
 TH1D *convertTProfile(TProfile *hw, TProfile *hw2)
 {
@@ -215,7 +216,7 @@ void drawHist2D(const char *name, const drawObject &obj)
     hp[ih]->GetZaxis()->SetRangeUser(9e-13, 2.0);
   }
   
-  c->Print(Form("%s.png", name));
+  c->Print(Form("%s%s.png", name, ver));
 }
 void drawHistProjY(const char *name, int xlow, int xhigh, const drawObject &obj)
 {
@@ -248,7 +249,7 @@ void drawHistProjY(const char *name, int xlow, int xhigh, const drawObject &obj)
   }
   lg->Draw("same");  
 
-  c->Print(Form("%sproj%dto%d.png", name, xlow, xhigh));
+  c->Print(Form("%sproj%dto%d%s.png", name, xlow, xhigh, ver));
 }
 //
 void getStatTProfile(TProfile *hw, TProfile *hw2, double &mean, double &error)
