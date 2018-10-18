@@ -44,7 +44,7 @@ void readFzd(const char* fzdfile = "kinematics.starsim.fzd")
     float vZ = mcEvent->primaryVertex()->position().z();
     
     Printf("vZ=%f\n", vZ);
-    /*    
+    ///*    
     const StSPtrVecMcTrack &tracks = mcEvent->tracks();
     for(unsigned int it = 0; it < tracks.size(); it++){
       StMcTrack *trk = tracks[it];
@@ -69,8 +69,8 @@ void readFzd(const char* fzdfile = "kinematics.starsim.fzd")
 	  Printf("dE_sum=%f\n", sum);
 	  
     }
-    */
-    ///*
+    //*/
+    /*
     StMcEmcHitCollection *emcHits = mcEvent->bemcHitCollection();
     unsigned long nhits = emcHits->numberOfHits();
     unsigned int nmodules = emcHits->numberOfModules();
@@ -101,11 +101,11 @@ void readFzd(const char* fzdfile = "kinematics.starsim.fzd")
           long pdg = trk->pdgId();
           long id = trk->geantId();
           long key = trk->key();
-	  Printf("r=%f, pt=%f ishw = %d, pdg = %ld geantId = %ld key = %ld\n, ", r, pt, ishw, pdg, id, key);
+	  Printf("r=%f, pt=%f ishw = %d, pdg = %ld geantId = %ld key = %ld\n", r, pt, ishw, pdg, id, key);
 	}
       }
     }
     Printf("nhits=%d, sum=%d, nmodules=%d \n", nhits, nsum, nmodules);
-    //*/
+    */
   }
 }

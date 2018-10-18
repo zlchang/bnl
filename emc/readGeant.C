@@ -68,7 +68,7 @@ void readGeant(const char* geantfile = "gtrack.geant.root")
           long pdg = trk->pdgId();
           long id = trk->geantId();
           long key = trk->key();
-	  Printf("r=%f, pt=%f ishw = %d, pdg = %ld geantId = %ld key = %ld\n, ", r, pt, ishw, pdg, id, key);
+	  Printf("r=%f, pt=%f ishw = %d, pdg = %ld geantId = %ld key = %ld\n", r, pt, ishw, pdg, id, key);
 	}
       }
     }

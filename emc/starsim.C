@@ -42,7 +42,8 @@ void trig( Int_t n=1 )
     // Set vertex
 
     // Generate 1 photon at high pT
-    kinematics->Kine( 1, "gamma", 10.0, 15.0, -0.1, 0.1);
+    //kinematics->Kine( 1, "gamma", 9.9, 10.1, -0.7, 0.9);
+    kinematics->Kine( 1, "e+", 9.9, 10.1, -0.7, 0.9);
 
     // Generate 1 mu minus at high pT
     //kinematics->Kine( 1, "mu-", 10.0, 50.0, -2.0, 2.0 );
@@ -76,7 +77,7 @@ void Kinematics()
 // ----------------------------------------------------------------------------
 // ----------------------------------------------------------------------------
 // ----------------------------------------------------------------------------
-void starsim( Int_t nevents=1, Int_t rngSeed=1234 )
+void starsim( Int_t nevents=10, Int_t rngSeed=1234 )
 { 
 
   gROOT->ProcessLine(".L bfc.C");
@@ -106,8 +107,8 @@ void starsim( Int_t nevents=1, Int_t rngSeed=1234 )
   _primary = new StarPrimaryMaker();
   {
     _primary -> SetFileName( "kinematics.starsim.root");
-    //_primary -> SetVertex(0, 0 , 0);
-    //_primary -> SetSigma(0, 0 , 0);
+    _primary -> SetVertex(0, 0 , 0);
+    _primary -> SetSigma(0, 0 , 0);
     chain -> AddBefore( "geant", _primary );
   }
 
