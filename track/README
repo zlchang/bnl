@@ -1,0 +1,18 @@
+cons CC=/usr/bin/gcc CXX=/usr/bin/g++ LD=/usr/bin/g++ FC=/usr/bin/gfortran FEXTEND='-Mextend -m32'
+//generating history
+
+05/06 12:36 -- submit_dir_embedding.sh 15 (10 - 15)
+05/07 12:36 -- submit_dir_embedding.sh 20 (15 - 20)
+05/08 12:36 -- submit_dir_embedding.sh 25 (20 - 25)
+#!/bin/bash
+
+iDir=20
+dir=working
+#!/bin/bash
+
+iDir=25
+dir=working
+#!/bin/bash
+
+iDir=30
+dir=working

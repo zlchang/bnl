@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<job name="emcGeant.&pt;.job" maxFilesPerProcess="1" fileListSyntax="paths" filesPerHour="1">
+    <command>
+	starver SL13b_embed
+	root4star -b -q MyReadEmcGeant.C\(\"$INPUTFILE0\",\"&pt;.emcGeant.$JOBINDEX.root\"\)
+        echo $INPUTFILE0
+    </command>
+    <input URL="file:&listdir;/&pt;.mudst.subset.*.list" />
+    <stdout URL="file:&outdir;/&pt;/log/&pt;.$JOBINDEX.log" />
+    <stderr URL="file:&outdir;/&pt;/err/&pt;.$JOBINDEX.err" />
+    <output fromScratch="&pt;.emcGeant.$JOBINDEX.root" toURL="file:&outdir;/&pt;" />
+    <SandBox>
+        <Package>
+            <File>file:./MyReadEmcGeant.C</File>
+            <File>file:./.sl64_gcc482</File>
+            <!--
+            <File>file:./readJetMC</File>
+            <File>file:./libMyJetMC.so</File>
+            <File>file:./libtrgUtilities.so</File>
+            -->
+        </Package>
+    </SandBox>
+    <Generator>
+        <Location>./scripts</Location>
+    </Generator>
+</job>

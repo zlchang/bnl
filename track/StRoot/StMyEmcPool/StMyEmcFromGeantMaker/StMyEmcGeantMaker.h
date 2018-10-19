@@ -10,6 +10,7 @@ class TFile;
 class StEmcGeom;
 class StBemcTables;
 class StMyMcTrackHist;
+class StMyMcVertexCut;
 
 class StMyEmcFromGeantMaker : public StMaker{
   
@@ -20,7 +21,8 @@ class StMyEmcFromGeantMaker : public StMaker{
   int Init();
   int Make();
   int Finish();
-  void SetOutfile(const char* file){mFileName =  file; }  
+  void SetOutfile(const char* file){mFileName =  file; } 
+  void addVertexCut(StMyMcVertexCut* vcut){ mVertexCuts.push_back(vcut); } 
  protected:
   StEmcGeom *mBemcGeom;
   StBemcTables *mBemcTable;
@@ -30,6 +32,7 @@ class StMyEmcFromGeantMaker : public StMaker{
 
   vector<long> mIds;
   map<long, StMyMcTrackHist*> mMapHists;
+  vector<StMyMcVertexCut*> mVertexCuts;
   ClassDef(StMyEmcFromGeantMaker, 0);
 };
 #endif

@@ -1,0 +1,89 @@
+#!/bin/tcsh
+
+# Pick one of the following lines to toggle: chos or shifter or Cori
+# (toggle  '#-SBATCH' vs. '#SBATCH'  )
+
+#SBATCH -J star-shift -p long --ntasks=1 --image=custom:pdsf-sl64-star:v8
+
+echo "start-A "`hostname`" in PWD="`pwd`
+#set startSkew = 30 # (seconds), random delay for task
+#@ nsleep = ($RANDOM % $startSkew)
+#echo "nsleep=$nsleep"
+#sleep $nsleep
+
+#tasks script to be executed
+# pick STAR library you want to use
+# INPUT macros
+setenv EXEC_NAME root4star
+setenv MACRO_NAME MyTrackGeant.C
+#setenv MACRO_NAME MyMatchTrack.C
+set job_sh = run_track.csh
+
+setenv PATH_DAQ $HOME/jetAnalysis/track/lists_mudst
+set pt = $argv[1]
+set dataList = $pt.B.txt
+setenv STAR_VER SL13b_embed
+
+
+setenv LOG_PATH $HOME/output/tmp/logs
+mkdir -p $LOG_PATH
+echo "write logs to  $LOG_PATH"
+
+#kD=${SLURM_ARRAY_TASK_ID-1}
+#INPUT LIST
+@ kD = ($SLURM_ARRAY_TASK_ID + 1)
+echo "pick data $kD from list $dataList"
+set dataName = ${PATH_DAQ}/`head -n $kD  $dataList | tail -n1`
+
+set ptbase = `basename $dataList .B.txt`
+set macro = `basename $MACRO_NAME .C`
+set outFile = $ptbase.${SLURM_ARRAY_TASK_ID}.$macro.root
+# define permanent output dir, here it is jobID dependent
+#export OUT_DIR=$HOME/output/tmp/${SLURM_JOB_NAME}/${SLURM_JOB_ID}
+setenv OUT_DIR $HOME/output/$macro/$ptbase
+mkdir -p ${OUT_DIR}
+
+# prepare sandbox - it is done for you by SLURM on PDSF and must be done manualy on Cori/Edison
+setenv WRK_DIR $SLURM_TMP
+echo "slurm cluster name $SLURM_CLUSTER_NAME"
+echo $WRK_DIR
+#if ( $SLURM_CLUSTER_NAME != 'pdsf'* ) then
+#    setenv WRK_DIR $CSCRATCH/tmp-star/${SLURM_JOB_ID}
+#    echo "make sandbox $WRK_DIR which will be NOT erased by Slurm"
+#    mkdir -p  $WRK_DIR    
+#endif
+
+# used code must be copied to the sandbox
+# optional:
+# it is safer to copy all code to the sandbox, so job still runs fine even if you recompile your local code 
+set codeDir = $HOME/jetAnalysis/track
+
+echo "Prepare a local copy of binaries"
+#time( cp -rpL r4sTask_bfc.csh  $WRK_DIR ; cp -rpL $codeDir/StRoot $codeDir/.sl64_gcc482/   $WRK_DIR )
+time cp -rpL ${job_sh}  $WRK_DIR; cp -rpL $MACRO_NAME $WRK_DIR; cp -rpL LoadJetMaker.C $WRK_DIR;ln -s $codeDir/StRoot $WRK_DIR/StRoot; ln -s $codeDir/.sl64_gcc482 $WRK_DIR/.sl64_gcc482;
+echo "work directory $WRK_DIR"
+ 
+echo "run job in STAR_VER=$STAR_VER  WRK_DIR=$WRK_DIR"
+echo "see vCores=$SLURM_CPUS_ON_NODE"
+
+ls -l  ${job_sh}
+#if ( $SLURM_JOB_PARTITION == *"-chos" ) then
+#    echo  "run-in-chos"
+    #set CHOS = sl64 chos  $WRK_DIR/${job_sh}  $dataName
+#else
+    echo  run-in-shifter
+    # minor operation allowing to jump into tcsh inside shifter image
+    unset MODULE_VERSION_STACK
+    unset MODULE_VERSION
+    unset MODULEPATH MODULESHOME
+    unset LOADEDMODULES PRGENVMODULES
+    shifter   --volume=/global/project:/project   /bin/tcsh $WRK_DIR/${job_sh} $dataName $outFile
+#endif
+echo "end-A-slurm-job"
+
+# mv slurm log to final destination 
+#if ( -z ${SLURM_ARRAY_JOB_ID+x} ) then 
+#  mv slurm-${SLURM_JOB_ID}.out $LOG_PATH
+#else 
+  mv slurm-${SLURM_ARRAY_JOB_ID}_${SLURM_ARRAY_TASK_ID}.out $LOG_PATH
+#endif

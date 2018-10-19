@@ -1,4 +1,5 @@
 #include "StMyEmcGeantMaker.h"
+#include "StMyEmcPool/StMyUtils/StMyMcVertexCut.h"
 #include "TFile.h"
 
 #include "StEmcUtil/geometry/StEmcGeom.h"
@@ -6,12 +7,12 @@
 
 #include "StMcEvent/StMcEventTypes.hh"
 
-#include "StMyEmcPool/StMyEmcFromGeantHist/StMyGeantId.h"
 #include "StMyEmcPool/StMyEmcFromGeantHist/StMyMcTrackHist.h"
-#include "StMyEmcPool/StMyEmcFromGeantHist/StMyMcTrack.h"
-#include "StMyEmcPool/StMyEmcFromGeantHist/StMyMcTower.h"
+#include "StMyEmcPool/StMyObjs/StMyGeantId.h"
+#include "StMyEmcPool/StMyObjs/StMyMcTrack.h"
+#include "StMyEmcPool/StMyObjs/StMyMcTower.h"
 
-#include "func.h"
+#include "StMyEmcPool/StMyUtils/func.h"
 int StMyEmcFromGeantMaker::Init()
 {
   mBemcTable = new StBemcTables;
@@ -50,9 +51,16 @@ int StMyEmcFromGeantMaker::Make()
   StMcEvent* mcEvent = (StMcEvent*) GetDataSet("StMcEvent");
   if (!mcEvent) return kStSkip;
 
-  float vZ = mcEvent->primaryVertex()->position().z();
+  StMcVertex *primary = mcEvent->primaryVertex();
+  float vZ = primary->position().z();
   
   Printf("vZ=%f\n", vZ);
+  bool vflag = false;
+  for(vector<StMyMcVertexCut*>::const_iterator iv = mVertexCuts.begin(); iv != mVertexCuts.end(); iv++){
+     StMyMcVertexCut *vcut = *iv;
+     if((*vcut)(primary)){ vflag = true; break;}
+   }	
+   if(vflag) return kStSkip;
   
   StMcEmcHitCollection *emcHits = mcEvent->bemcHitCollection();
   //unsigned long nhits = emcHits->numberOfHits();
@@ -85,14 +93,14 @@ int StMyEmcFromGeantMaker::Make()
       //if(sub < 0) Print("sub = %d\n", sub);
       mBemcGeom->getId(im, hh->eta(), sub, towerId);
       float eta; mBemcGeom->getEta(im, hh->eta(), eta);
-      double f_sample = samplingFraction(eta);
-      double ee = dE/f_sample;
+      //double f_sample = samplingFraction(eta);
+      //double ee = dE/f_sample;
       //Printf("id=%d e=%f\n", towerId, ee);
       
       StMyMcTower tower;
       tower.dE = dE;
       tower.eta = eta;
-      tower.e = ee;
+      //tower.e = ee;
       tower.id = towerId;
       
       //mcDe[towerId-1] += dE;
@@ -104,17 +112,25 @@ int StMyEmcFromGeantMaker::Make()
 	Printf("track not found for dE = %f\n", dE); 
       }
       else{
-	float pt = trk->pt();
-	float r = 0;
-	if(pt > 0) r = ee/pt;
+	//float pt = trk->pt();
+	StLorentzVectorF vec = trk->fourMomentum();
+	TLorentzVector mom(vec.px(), vec.py(), vec.pz(), vec.e());
+	//float r = 0;
+	//if(pt > 0) r = ee/pt;
 	//int ishw = trk->isShower();
 	//long pdg = trk->pdgId();
 	long id = trk->geantId();
 	long key = trk->key();
-	
+	//float eta_trk = trk->pseudoRapidity();
+        StMcVertex *startv = trk->startVertex();
+        float dca = dcaT(primary, startv);
+        if(dca > 3.) continue;
+        //float z_trk = startv->position().z();
+        //if(TMath::Abs(z_trk) > 30) continue;
 	if(tracks.find(key) == tracks.end()){
 	  StMyMcTrack track;
-	  track.pt = pt;
+	  track.mom = mom;
+          //track.eta = eta_trk;
 	  track.id = key;
 	  track.geantid = id;
 	  track.towers.push_back(tower);
@@ -145,14 +161,14 @@ int StMyEmcFromGeantMaker::Make()
   for(map<long, StMyMcTrack>::const_iterator im = tracks.begin(); im != tracks.end(); im++){
     const StMyMcTrack &track = im->second;
     long id = track.geantid;
-    float pt = track.pt;
+    float p = track.mom.P();
     float e = track.sumE();
     unsigned int n = track.size();
 
     if(mMapHists.find(id) == mMapHists.end()) continue;
-    if(!(pt > 0)) continue;
-    mMapHists[id]->mEptVsPt->Fill(pt, e/pt);
-    mMapHists[id]->mNVsPt->Fill(pt, n);
+    if(!(p > 0)) continue;
+    mMapHists[id]->mEpVsP->Fill(p, e/p);
+    mMapHists[id]->mNVsP->Fill(p, n);
   }
   
   return StMaker::Make();

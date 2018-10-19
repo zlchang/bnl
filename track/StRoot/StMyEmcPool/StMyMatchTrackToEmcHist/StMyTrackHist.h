@@ -2,7 +2,7 @@
 #define STMYTRACKHIST
 
 #include "TObject.h"
-#include "StMyHist.h"
+#include "StMyEmcPool/StMyObjs/StMyHist.h"
 
 
 class StMyTrackHist : public TObject{

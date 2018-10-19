@@ -44,6 +44,7 @@ void trig( int n=1 )
     // Generate 1 photon at high pT
     kinematics->Kine( 1, "e-", 0.99, 1.01, -0.7, 0.9);
     //kinematics->Kine( 1, "e+", 9.9, 10.1, -0.7, 0.9);
+    //kinematics->Kine( 1, "gamma", 9.9, 10.1, -0.7, 0.9);
 
     // Generate 1 mu minus at high pT
     //kinematics->Kine( 1, "mu-", 10.0, 50.0, -2.0, 2.0 );

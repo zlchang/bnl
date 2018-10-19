@@ -109,6 +109,35 @@ int readEmc()
     
   }
   Printf("sumdE=%f, nEmcHits=%d, sum=%d, nmodules=%d \n", sumdE, nEmcHits, nsum, nmodules);
+    ///*    
+    const StSPtrVecMcTrack &tracks = mcEvent->tracks();
+    for(unsigned int it = 0; it < tracks.size(); it++){
+      StMcTrack *trk = tracks[it];
+	  float pt = trk->pt();
+	  float eta = trk->pseudoRapidity();
+          int ishw = trk->isShower();
+          long pdg = trk->pdgId();
+          long id = trk->geantId();
+          long key = trk->key();
+	  Printf("pt=%f eta=%f ishw = %d, pdg = %ld geantId = %ld key = %ld\n", pt, eta, ishw, pdg, id, key);
+	  
+	  StSPtrVecMcCalorimeterHit &hits = trk->bemcHits();
+	  float sum = 0;
+	  Printf("bemc hit size: %d\n", hits.size());
+	  for(unsigned long ih = 0; ih < hits.size(); ih++){
+	    StMcCalorimeterHit *hh = hits[ih];
+	    if(!hh) continue;
+	    float dE = hh->dE();
+	    sum += dE;
+	    Printf("hit=%d dE = %f\n", ih, dE);
+	  }
+	  Printf("dE_sum=%f\n", sum);
+	  
+    }
+    //*/
+    /*StMcEmcHitCollection *emcHits = mcEvent->bemcHitCollection();
+    unsigned long nhits = emcHits->numberOfHits();
+    unsigned int nmodules = emcHits->numberOfModules();
 
   float pt_track = 0;
   float mom_track = 0;
@@ -138,7 +167,7 @@ int readEmc()
       eta_track = eta;
   }
   mHsf->Fill(sumdE/mom_track);
-  //*/
+  */
   //hsf_sum->Fill(sumdE/pt_track);
   //hsfeta_sum->Fill(eta_track, sumdE/pt_track);
   return 1;
@@ -171,8 +200,19 @@ int readTrack()
 	StMcCalorimeterHit *hh = hits[ih];
 	if(!hh) continue;
 	float dE = hh->dE();
-	sum += dE;
-	Printf("hit=%d dE = %f\n", ih, dE);
+	if(dE > 0) Printf("dE = %f\n", dE);
+	StMcTrack *trk = hh->parentTrack();
+	if(!trk){ Printf("track not found for dE = %f\n", dE); }
+	else{
+	  float pt = trk->pt();
+	  float r = 0;
+	  if(pt > 0) r = dE/pt;
+          int ishw = trk->isShower();
+          long pdg = trk->pdgId();
+          long id = trk->geantId();
+          long key = trk->key();
+	  Printf("r=%f, pt=%f ishw = %d, pdg = %ld geantId = %ld key = %ld\n", r, pt, ishw, pdg, id, key);
+	}
       }
       Printf("dE_sum=%f\n", sum);
       //if(nhits){
@@ -186,4 +226,6 @@ int readTrack()
       eta_track = eta;
     }
     return 1;
+    //Printf("nhits=%d, sum=%d, nmodules=%d \n", nhits, nsum, nmodules);
+  }
 }

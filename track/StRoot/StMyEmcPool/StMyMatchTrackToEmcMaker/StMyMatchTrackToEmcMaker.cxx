@@ -1,21 +1,22 @@
 #include "StMyMatchTrackToEmcMaker.h"
-#include "StMyTrackFlagCut.h"
-#include "StMyTrackFtpcCut.h"
-#include "StMyTrackHitsCut.h"
-#include "StMyTrackDcaCut.h"
-#include "StMyTrackDcaPtCut.h"
-#include "StMyTrackPtCut.h"
-#include "StMyTrackEtaCut.h"
-#include "StMyTrackLastpointCut.h"
-#include "StMyVertexCut.h"
-#include "StMyVertexZCut.h"
-#include "StMyVertexRankingCut.h"
-#include "StRoot/StMyEmcPool/StMyMatchTrackToEmcHist/StMyMatchTrackToEmcHist.h"
-#include "StRoot/StMyEmcPool/StMyMatchTrackToEmcHist/StMyTowerHist.h"
-#include "StRoot/StMyEmcPool/StMyMatchTrackToEmcHist/StMyClusterHist.h"
-#include "StRoot/StMyEmcPool/StMyMatchTrackToEmcHist/StMyTrack.h"
-#include "StRoot/StMyEmcPool/StMyMatchTrackToEmcHist/StMyTower.h"
-#include "StRoot/StMyEmcPool/StMyMatchTrackToEmcHist/StMyCluster.h"
+#include "StMyEmcPool/StMyUtils/StMyTrackFlagCut.h"
+#include "StMyEmcPool/StMyUtils/StMyTrackFtpcCut.h"
+#include "StMyEmcPool/StMyUtils/StMyTrackHitsCut.h"
+#include "StMyEmcPool/StMyUtils/StMyTrackDcaCut.h"
+#include "StMyEmcPool/StMyUtils/StMyTrackDcaPtCut.h"
+#include "StMyEmcPool/StMyUtils/StMyTrackPtCut.h"
+#include "StMyEmcPool/StMyUtils/StMyTrackEtaCut.h"
+#include "StMyEmcPool/StMyUtils/StMyTrackLastpointCut.h"
+#include "StMyEmcPool/StMyUtils/StMyVertexCut.h"
+#include "StMyEmcPool/StMyUtils/StMyVertexZCut.h"
+#include "StMyEmcPool/StMyUtils/StMyVertexRankingCut.h"
+
+#include "StMyEmcPool/StMyMatchTrackToEmcHist/StMyMatchTrackToEmcHist.h"
+#include "StMyEmcPool/StMyMatchTrackToEmcHist/StMyTowerHist.h"
+#include "StMyEmcPool/StMyMatchTrackToEmcHist/StMyClusterHist.h"
+#include "StMyEmcPool/StMyObjs/StMyTrackMatch.h"
+#include "StMyEmcPool/StMyObjs/StMyTower.h"
+#include "StMyEmcPool/StMyObjs/StMyCluster.h"
 
 #include "TFile.h"
 #include "TProfile.h"
@@ -299,7 +300,8 @@ void StMyMatchTrackToEmcMaker::fillHist(const StMyTrackMatch &track, StMyMatchTr
     //Printf("nhits = %d\n", nhits);
     //isolation cut
     if(cnhits == 1){
-      hist->mHistEptVsPtCluster->Fill(tpt, tcluster/tpt);
+      //maximum cut
+      if(!(tfee < tfmax)) hist->mHistEptVsPtCluster->Fill(tpt, tcluster/tpt);
       hist->mHistHitTowerFracCluster->Fill(tpt, tfee);
       hist->mHistMaxTowerFracCluster->Fill(tpt, tfmax);
     }
