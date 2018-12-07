@@ -1,0 +1,29 @@
+#ifndef READERVIRTUAL
+#define READERVIRTUAL
+#include<vector>
+#include<string>
+using namespace std;
+#include "TObject.h"
+#include "TString.h"
+#include "StMyJetPool/StMyDef/MyDef.h"
+
+class ReaderVirtual : public TObject{
+ public:
+  virtual int Init(){ return yOk;}
+  virtual int Make(int i){ return yOk; }
+  virtual int Finish(){ return yOk; }
+  ReaderVirtual(){
+    mTriggers.push_back("JP0");
+    mTriggers.push_back("JP1");
+    mTriggers.push_back("JP2");
+    mOptions = TString("JP0,JP1,JP2");
+  }
+  bool isTrigger(string a){
+    return mOptions.Contains(a.c_str());
+  }
+ private:
+  vector<string> mTriggers;
+  TString mOptions;
+  ClassDef(ReaderVirtual, 0);
+};
+#endif

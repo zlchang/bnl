@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE note [
+<!ENTITY outdir "/star/u/zchang/data05/Run12JetsCrsUe/13109025">
+<!ENTITY tempdir "/star/u/zchang/jetAnalysis/jets">
+<!ENTITY runnumber "13109025">
+<!ENTITY macro "readMyJetCrs.C">
+<!ENTITY listdir "lists_jets">
+]>
+<!-- Created on Tue Dec  4 10:55:31 2018 -->
+<job name="&runnumber;.job" maxFilesPerProcess="1" fileListSyntax="paths" filesPerHour="0.25">
+    <command>
+<!--    setenv LD_LIBRARY_PATH $LD_LIBRARY_PATH\:/star/u/zchang/2013-05-jets/dev
+	starver SL13b
+	source /star/u/zchang/2013-05-jets/dev/env.sh
+-->	
+        setenv LHAPDF_DATA_PATH $HOME/public/pdfs/
+        echo &runnumber; &macro;
+       /usr/bin/time root -b -q &macro;\(\"$INPUTFILE0\",\"&runnumber;\.$JOBINDEX\.crs\.root\"\)
+    </command>
+    <input URL="file:&tempdir;/&listdir;/&runnumber;.*.list" /> 
+<!--    <input URL="file:/star/u/zchang/2013-05-jets/dev/bad_bunches/&runnumber;.dat" /> -->
+    <stdout URL="file:&outdir;/&runnumber;.$JOBINDEX.log" />
+    <stderr URL="file:&outdir;/&runnumber;.$JOBINDEX.err" />
+    <output fromScratch="&runnumber;.$JOBINDEX.crs.root" toURL="file:&outdir;/" />
+    <SandBox>
+        <Package>
+<!--            <File>file:/star/u/zchang/2013-05-jets/dev/readJetSpinFinal</File>
+            <File>file:/star/u/zchang/2013-05-jets/dev/libMyJetSpin.so</File> 
+     	    <File>file:/star/u/zchang/2013-05-jets/dev/libMyTrigQA.so</File>
+-->
+	    <File>file:&tempdir;/&macro;</File>
+            <File>file:&tempdir;/.sl73_gcc485</File> 
+        </Package>
+    </SandBox>
+    <Generator>
+        <Location>./scripts</Location>
+    </Generator>
+</job>

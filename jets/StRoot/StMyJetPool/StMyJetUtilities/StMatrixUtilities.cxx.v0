@@ -1,0 +1,473 @@
+#include<iostream>
+
+#include "StMatrixUtilities.h"
+
+//#include "TMatrixD.h"
+//#include "TArrayD.h"
+#include "TH1D.h"
+#include "TH2D.h"
+#include "TDecompSVD.h"
+#include "TMath.h"
+
+using namespace std;
+
+TVectorD SVD(const TMatrixD &A, const TVectorD &b, TMatrixD &e)
+{
+  TDecompSVD svd(A);
+  TVectorD s = svd.GetSig();
+  TMatrixD u = svd.GetU();
+  //u.Print("all");
+  TMatrixD v = svd.GetV();
+
+  TMatrixD uT(u);
+  uT.Transpose(u);
+
+  TVectorD d = uT*b;
+
+  cout<<"d: "<<endl;
+  d.Print();
+  TVectorD z(A.GetNcols());
+  TMatrixD zm(A.GetNcols(), A.GetNcols());
+
+  for(int iz = 0; iz < A.GetNcols(); iz++){
+    z(iz) = d(iz)/s(iz);
+    zm(iz, iz) = 1/TMath::Power(s(iz), 2);
+  }
+
+  //TMatrixD wm = v*zm*Transpose(v);
+  //wm.Print();
+  e.ResizeTo(A.GetNcols(), A.GetNcols());
+  e = v*zm*Transpose(v);
+  return v*z;
+}
+
+TMatrixD NormalEquation(const TMatrixD &res, const TMatrixD &b, const TMatrixD &c, double tau)
+{
+  TMatrixD resT = Transpose(res);
+  TMatrixD res2 = resT*res;
+  //Info("NormalEquation", "C matrix"); 
+  //Cc.Print("all");
+
+  TMatrixD cT= Transpose(c);
+  TMatrixD c2 = cT*c;
+
+  TMatrixD reg = tau*c2+res2;
+
+  //Info("NormalEquation", "Reg matrix");
+  //reg.Print("all");
+  //TMatrixD regI(reg);
+  //regI.Invert();
+  //SVD inverse
+  TMatrixD regI = Inverse(reg);
+  //regI.Print("all");
+  TMatrixD reco = regI*resT*b;
+
+  //Info("NormalEquation", "reconstructed vector");
+  //reco.Print("all");
+
+  return reco;
+}
+
+TMatrixD DiagMatrix(const TVectorD &vec)
+{
+  int nr = vec.GetNrows();
+  TMatrixD diag(nr, nr);
+  for(int ir = 0; ir < nr; ir++){
+    diag(ir,ir) = vec(ir);
+  }
+  return diag;
+}
+TMatrixD ElemDiv(const TMatrixD &ma, const TMatrixD &mb)
+{
+  int N = ma.GetNrows();
+  int M = ma.GetNcols();
+  TMatrixD md(N, M);
+  for(int ix = 0; ix < N; ix++){
+    for(int iy = 0; iy < M; iy++){
+      md(ix,iy) = ma(ix, iy)/mb(ix, 0)/mb(iy, 0);
+      //cout<<md(ix,iy)<<" "<<ma(ix, iy)<<endl;
+    }
+  }
+  return md;
+}
+TMatrixD histToMatrixTrunc2d(const TH2D *h2, int nn, int mm, int tt)
+{
+  TAxis *xaxis = h2->GetXaxis();
+  TAxis *yaxis = h2->GetYaxis();
+
+  int nx = xaxis->GetNbins();
+  int tx = nx/tt;
+  int ny = yaxis->GetNbins();
+  int ty = ny/tt;
+
+  //cout<<nn<<" "<<mm<<endl;
+  TMatrixD h2m ((mm-nn+1)*tt, (mm-nn+1)*tt);
+
+  for(int ix = 1; ix <= nx; ix++){
+    for(int iy = 1; iy <= ny; iy++){
+      double content = h2->GetBinContent(ix, iy);
+      //if(ix <= nn) h2m(0, iy-) += content;
+      //if(iy <= nn) h2m(ix-1, 0) += content;
+      int jx, jy;
+      if((ix-1)%tx < nn-1) jx = 0;
+      else if((ix-1)%tx < mm-1) jx = (ix-1)%tx-nn+1;
+      else jx = mm-nn;
+      jx += (ix-1)/tx*(mm-nn+1);
+
+      if((iy-1)%ty < nn) jy = 0;
+      else if((iy-1)%ty < mm) jy = (iy-1)%ty-nn+1;
+      else jy = mm-nn;
+      jy += (iy-1)/ty*(mm-nn+1);
+      //cout<<ix<<" "<<iy<<" new: "<<jx<<" "<<jy<<endl;
+      h2m(jx, jy) += content;
+    }
+  }
+  return h2m;
+}
+//asymmetric cuts on x- and y- axises
+TMatrixD histToMatrixTrunc2d(const TH2D *h2, int nnx, int mmx, int nny, int mmy, int tt)
+{
+  TAxis *xaxis = h2->GetXaxis();
+  TAxis *yaxis = h2->GetYaxis();
+
+  int nx = xaxis->GetNbins();
+  int tx = nx/tt;
+  int ny = yaxis->GetNbins();
+  int ty = ny/tt;
+
+  //cout<<nn<<" "<<mm<<endl;
+  TMatrixD h2m ((mmx-nnx+1)*tt, (mmy-nny+1)*tt);
+
+  for(int ix = 1; ix <= nx; ix++){
+    for(int iy = 1; iy <= ny; iy++){
+      double content = h2->GetBinContent(ix, iy);
+      //if(ix <= nn) h2m(0, iy-) += content;
+      //if(iy <= nn) h2m(ix-1, 0) += content;
+      int jx, jy;
+
+      if((ix-1)%tx < nnx-1) jx = 0;
+      else if((ix-1)%tx < mmx-1) jx = (ix-1)%tx-nnx+1;
+      else jx = mmx-nnx;
+      jx += (ix-1)/tx*(mmx-nnx+1);
+
+      if((iy-1)%ty < nny) jy = 0;
+      else if((iy-1)%ty < mmy) jy = (iy-1)%ty-nny+1;
+      else jy = mmy-nny;
+      jy += (iy-1)/ty*(mmy-nny+1);
+      //cout<<ix<<" "<<iy<<" new: "<<jx<<" "<<jy<<endl;
+      h2m(jx, jy) += content;
+    }
+  }
+  return h2m;
+}
+//asymmetric cuts on x- and y- axises
+TMatrixD histToMatrixTruncError2d(const TH2D *h2, int nnx, int mmx, int nny, int mmy, int tt)
+{
+  TAxis *xaxis = h2->GetXaxis();
+  TAxis *yaxis = h2->GetYaxis();
+
+  int nx = xaxis->GetNbins();
+  int tx = nx/tt;
+  int ny = yaxis->GetNbins();
+  int ty = ny/tt;
+
+  //cout<<nn<<" "<<mm<<endl;
+  TMatrixD h2m ((mmx-nnx+1)*tt, (mmy-nny+1)*tt);
+
+  for(int ix = 1; ix <= nx; ix++){
+    for(int iy = 1; iy <= ny; iy++){
+      double error = h2->GetBinError(ix, iy);
+      error *= error;
+      //if(ix <= nn) h2m(0, iy-) += content;
+      //if(iy <= nn) h2m(ix-1, 0) += content;
+      int jx, jy;
+
+      if((ix-1)%tx < nnx-1) jx = 0;
+      else if((ix-1)%tx < mmx-1) jx = (ix-1)%tx-nnx+1;
+      else jx = mmx-nnx;
+      jx += (ix-1)/tx*(mmx-nnx+1);
+
+      if((iy-1)%ty < nny) jy = 0;
+      else if((iy-1)%ty < mmy) jy = (iy-1)%ty-nny+1;
+      else jy = mmy-nny;
+      jy += (iy-1)/ty*(mmy-nny+1);
+      //cout<<ix<<" "<<iy<<" new: "<<jx<<" "<<jy<<endl;
+      h2m(jx, jy) += error;
+    }
+  }
+  return h2m;
+}
+TVectorD histToVector2d(const TH1D *h1, int nn, int mm, int tt)
+{
+  TAxis *xaxis = h1->GetXaxis();
+
+  int nx = xaxis->GetNbins();
+  int tx = nx/tt;
+
+
+  //cout<<nn<<" "<<mm<<endl;
+  TVectorD h1v ((mm-nn+1)*tt);
+
+  for(int ix = 1; ix <= nx; ix++){
+    double content = h1->GetBinContent(ix);
+    int jx;
+    if((ix-1)%tx < nn-1) jx = 0;
+    else if((ix-1)%tx < mm-1) jx = (ix-1)%tx-nn+1;
+    else jx = mm-nn;
+    jx += (ix-1)/tx*(mm-nn+1);
+    //cout<<ix<<" "<<iy<<" new: "<<jx<<" "<<jy<<endl;
+    h1v(jx) += content;
+  }
+  return h1v;
+}
+TVectorD hist2dToVector(const TH2D *h2, int nn, int mm)
+{
+  TAxis *xaxis = h2->GetXaxis();
+  TAxis *yaxis = h2->GetYaxis();
+
+  int nx = xaxis->GetNbins();
+  int ny = yaxis->GetNbins();
+  
+  //int tx = nx/tt;
+
+  //cout<<nn<<" "<<mm<<endl;
+  TVectorD h1v ((mm-nn+1)*ny);
+
+  for(int iy = 1; iy <= ny; iy++){
+    for(int ix = 1; ix <= nx; ix++){
+      double content = h2->GetBinContent(ix, iy);
+      int jx;
+      if(ix <= nn) jx = 0;
+      else if(ix <= mm) jx = ix-nn;
+      else jx = mm-nn;
+      jx += (iy-1)*(mm-nn+1);
+      //cout<<ix<<" "<<iy<<" new: "<<jx<<" "<<jy<<endl;
+      h1v(jx) += content;
+    }
+  }
+  return h1v;
+}
+TVectorD hist2dToVectorError(const TH2D *h2, int nn, int mm)
+{
+  TAxis *xaxis = h2->GetXaxis();
+  TAxis *yaxis = h2->GetYaxis();
+
+  int nx = xaxis->GetNbins();
+  int ny = yaxis->GetNbins();
+  
+  TVectorD h1e ((mm-nn+1)*ny);
+
+  for(int iy = 1; iy <= ny; iy++){
+    for(int ix = 1; ix <= nx; ix++){
+      double error = h2->GetBinError(ix, iy);
+      int jx;
+      if(ix <= nn) jx = 0;
+      else if(ix <= mm) jx = ix-nn;
+      else jx = mm-nn;
+      jx += (iy-1)*(mm-nn+1);
+      h1e(jx) += error*error;
+    }
+  }
+  return h1e;
+}
+TMatrixD histToMatrixTrunc(const TH2D *h2, int nn, int mm)
+{
+  TAxis *xaxis = h2->GetXaxis();
+  TAxis *yaxis = h2->GetYaxis();
+
+  int nx = xaxis->GetNbins();
+  int ny = yaxis->GetNbins();
+
+  //cout<<nn<<" "<<mm<<endl;
+  TMatrixD h2m (mm-nn+1, mm-nn+1);
+
+  for(int ix = 1; ix <= nx; ix++){
+    for(int iy = 1; iy <= ny; iy++){
+      double content = h2->GetBinContent(ix, iy);
+      //if(ix <= nn) h2m(0, iy-) += content;
+      //if(iy <= nn) h2m(ix-1, 0) += content;
+      int jx, jy;
+      if(ix < nn) jx = 0;
+      else if(ix < mm) jx = ix-nn;
+      else jx = mm-nn;
+
+      if(iy < nn) jy = 0;
+      else if(iy < mm) jy = iy-nn;
+      else jy = mm-nn;
+      //cout<<ix<<" "<<iy<<" new: "<<jx<<" "<<jy<<endl;
+      h2m(jx, jy) += content;
+    }
+  }
+  return h2m;
+}
+//asymmetrix cut on both x and y axises
+TMatrixD histToMatrixTrunc(const TH2D *h2, int nnx, int mmx, int nny, int mmy)
+{
+  TAxis *xaxis = h2->GetXaxis();
+  TAxis *yaxis = h2->GetYaxis();
+
+  int nx = xaxis->GetNbins();
+  int ny = yaxis->GetNbins();
+
+  //cout<<nn<<" "<<mm<<endl;
+  TMatrixD h2m (mmx-nnx+1, mmy-nny+1);
+
+  for(int ix = 1; ix <= nx; ix++){
+    for(int iy = 1; iy <= ny; iy++){
+      double content = h2->GetBinContent(ix, iy);
+      //if(ix <= nn) h2m(0, iy-) += content;
+      //if(iy <= nn) h2m(ix-1, 0) += content;
+      int jx, jy;
+      if(ix < nnx) jx = 0;
+      else if(ix < mmx) jx = ix-nnx;
+      else jx = mmx-nnx;
+
+      if(iy < nny) jy = 0;
+      else if(iy < mmy) jy = iy-nny;
+      else jy = mmy-nny;
+      //cout<<ix<<" "<<iy<<" new: "<<jx<<" "<<jy<<endl;
+      h2m(jx, jy) += content;
+    }
+  }
+  return h2m;
+}
+TVectorD histToVector(const TH1D *h1d, int nn, int mm)
+{
+  TAxis *xaxis = h1d->GetXaxis();
+  int nx = xaxis->GetNbins();
+  int Nx = mm-nn+1;//h1d->GetNbinsX();
+  //int Ny = h2d->GetNbinsY();
+  TVectorD vec(Nx);
+
+  for(int ix = 0; ix <= nx; ix++){
+    //for(int iy = 4; iy <= Ny; iy++){
+    int jx;
+    if(ix < nn) jx = 0;
+    else if(ix < mm) jx = ix-nn;
+    else jx = mm-nn;
+    vec[jx] += h1d->GetBinContent(ix);
+    //}
+  }
+  return vec;
+}
+TMatrixD histToMatrix(const TH2D *h2d, bool transpose)
+{
+  int Nx = h2d->GetNbinsX();
+  int Ny = h2d->GetNbinsY();
+
+  TMatrixD matrix(Nx, Ny);
+
+  matrix.Zero();
+  for(int ix = 1; ix <= Nx; ix++){
+    for(int iy = 1; iy <= Ny; iy++){
+      if(!transpose) matrix[ix-1][iy-1] = h2d->GetBinContent(ix, iy);
+      else matrix[iy-1][ix-1] = h2d->GetBinContent(ix, iy);
+    }
+  }
+  return matrix;
+}
+TH1D *vectorToHist(const TVectorD &vec, const char *name, bool abs)
+{
+  TH1D *h = new TH1D(Form("%s", name), "", vec.GetNrows(), 0, vec.GetNrows());
+  for(int ib = 1; ib <= vec.GetNrows(); ib++){
+    if(abs) h->SetBinContent(ib, TMath::Abs(vec[ib-1]));
+    else
+      h->SetBinContent(ib, vec[ib-1]);
+  }
+  return h;
+}
+TH1D *vectorToHist(const TVectorD &vec, const TMatrixD &mm, const char *name, bool abs)
+{
+  TH1D *h = new TH1D(Form("%s", name), "", vec.GetNrows(), 0, vec.GetNrows());
+  for(int ib = 1; ib <= vec.GetNrows(); ib++){
+    if(abs) h->SetBinContent(ib, TMath::Abs(vec[ib-1]));
+    else
+      h->SetBinContent(ib, vec[ib-1]);
+    h->SetBinError(ib, TMath::Sqrt(mm(ib-1, ib-1)));
+  }
+  return h;
+}
+TH1D *vectorToHist(const TVectorD &vec, const TVectorD &verr, const TArrayD *bins, const char *name, bool abs)
+{
+  //TH1D *h = new TH1D(Form("%s", name), "", vec.GetNrows(), 0, vec.GetNrows());
+  TH1D *h = new TH1D(Form("%s", name), "", vec.GetNrows(), bins->GetArray());
+  for(int ib = 1; ib <= vec.GetNrows(); ib++){
+    if(abs) h->SetBinContent(ib, TMath::Abs(vec[ib-1]));
+    else
+      h->SetBinContent(ib, vec[ib-1]);
+    double err = verr(ib-1);
+    h->SetBinError(ib, err);
+  }
+  return h;
+}
+TH1D *vectorToHist(const TVectorD &vec, const TArrayD *bins,  const char *name, bool abs)
+{
+  //TH1D *h = new TH1D(Form("%s", name), "", vec.GetNrows(), 0, vec.GetNrows());
+  TH1D *h = new TH1D(Form("%s", name), "", vec.GetNrows(), bins->GetArray());
+  for(int ib = 1; ib <= vec.GetNrows(); ib++){
+    if(abs) h->SetBinContent(ib, TMath::Abs(vec[ib-1]));
+    else
+      h->SetBinContent(ib, vec[ib-1]);
+  }
+  return h;
+}
+TMatrixD Inverse(const TMatrixD &m)
+{
+  TDecompSVD svdm(m);
+  TMatrixD um = svdm.GetU();
+  TMatrixD vm = svdm.GetV();
+  TVectorD sm = svdm.GetSig();
+
+  TMatrixD sIm(m.GetNrows(), m.GetNcols());
+  for(int ic = 0; ic < m.GetNrows(); ic++){
+    sIm(ic, ic) = 1./sm(ic);
+    //tmpCc(ic, ic) = sCc(ic);
+    //cout<<"singular value "<<ic<<": "<<sm(ic)<<endl;
+  }
+  TMatrixD uTm(um.GetNcols(), um.GetNrows());
+  uTm.Transpose(um);
+  //TMatrixD vTm(vm.GetNcols(), vm.GetNrows());
+  //vTm.Transpose(vm);
+
+  TMatrixD mI = (vm*sIm)*uTm;
+  //cout<<"Inverse SVD"<<endl;
+  //mI.Print("all");
+  return mI;
+}
+TMatrixD Transpose(const TMatrixD &m)
+{
+  TMatrixD mT(m.GetNcols(), m.GetNrows());
+  mT.Transpose(m);
+  return mT;
+}
+TH2D *matrixToHist(const TMatrixD &m, const TArrayD *xbns, const TArrayD *ybns, const char *name)
+{
+  int nx = m.GetNrows();
+  int ny = m.GetNcols();
+
+  TH2D *h2 = new TH2D(Form("%s2D", name), "", nx, xbns->GetArray(), ny, ybns->GetArray());
+
+  for(int ix = 0; ix < nx; ix++){
+     for(int iy = 0; iy < ny; iy++){
+        double content = m(ix, iy);
+        h2->SetBinContent(ix+1, iy+1, content);
+     }
+  }
+  return h2;
+}
+
+TH2D *matrixToHist(const TMatrixD &m, const char *name)
+{
+  int nx = m.GetNrows();
+  int ny = m.GetNcols();
+
+  TH2D *h2 = new TH2D(Form("%s2D", name), "", nx, 0, nx, ny, 0, ny);
+
+  for(int ix = 0; ix < nx; ix++){
+     for(int iy = 0; iy < ny; iy++){
+        double content = m(ix, iy);
+        h2->SetBinContent(ix+1, iy+1, content);
+     }
+  }
+  return h2;
+}

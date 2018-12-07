@@ -1,0 +1,24 @@
+#ifndef STUEVERTEX
+#define STUEVERTEX
+
+#include "TObject.h"
+#include "TRefArray.h"
+#include "TVector3.h"
+
+class StUeVertex : public TObject{
+ public:
+  StUeVertex(){
+  }
+
+  ~StUeVertex(){
+  }
+ private:
+
+  TVector3 mPosition;
+  float mRanking;
+
+  TRefArray mUeJets;
+};
+#endif
+
+  

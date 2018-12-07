@@ -1,0 +1,60 @@
+#ifndef STMATRIXUTILITIES
+#define StMATRIXUTILITIES
+#include "TMatrixD.h"
+#include "TVectorD.h"
+#include "TArrayD.h"
+//class TH1;
+class TH1D;
+class TH2D;
+
+TMatrixD regMatrix(int nx, int ny);
+TMatrixD covFactor(const TMatrixD &cov);
+TVectorD svdReg(const TMatrixD &resp, const TVectorD &xi, const TVectorD &b, const TMatrixD &cc, double reg, TMatrixD &ex);
+TVectorD SVD(const TMatrixD &A, const TVectorD &b, TMatrixD &e);
+TMatrixD NormalEquation(const TMatrixD &res, const TMatrixD &b, const TMatrixD &c, double tau);
+//matrix
+TVectorD projRows(const TMatrixD &mm);
+TVectorD projCols(const TMatrixD &mm);
+TMatrixD addRows(const TMatrixD &a, const TMatrixD &b);
+TVectorD addRows(const TVectorD &a, const TVectorD &b);
+//
+TMatrixD DiagMatrix(const TVectorD &vec);
+TMatrixD ElemDiv(const TMatrixD &ma, const TMatrixD &mb);
+TVectorD ElemDiv(const TVectorD &va, const TVectorD &vb);
+int convertIndex(int xx, int nn, int mm, bool flag);
+int convertIndex2d(int xx, int nn, int mm, int tt, bool flag);
+int convertIndex2dn(int xx, int nn, int mm, int tt, bool flag);
+bool checkflow(int xx, int nn, int tt);
+int convert2dIndex(int xx, int nn, int mm, int yy, bool flag);
+//2d
+TMatrixD histToMatrixTrunc2d(const TH2D *h2, int nnx, int mmx, int nny, int mmy, int tt, bool flag);
+TMatrixD histToMatrixTruncError2d(const TH2D *h2, int nnx, int mmx, int nny, int mmy, int tt, bool flag);
+//new format for response matrix
+TMatrixD histToMatrixTrunc2dn(const TH2D *h2, int nnx, int mmx, int nny, int mmy, int tt, bool flag);
+TMatrixD histToMatrixTruncError2dn(const TH2D *h2, int nnx, int mmx, int nny, int mmy, int tt, bool flag);
+TMatrixD histToMatrixTrunc2d(const TH2D *h2, int nnx, int mmx, int tt, bool flag);
+//
+TVectorD histToVector2d(const TH1D *h1, int nn, int mm, int tt, bool flag);
+//
+TVectorD hist2dToVector(const TH2D *h2, int nn, int mm, bool flag);
+TVectorD hist2dToVectorError(const TH2D *h2, int nn, int mm, bool flag);
+//1d
+//
+TMatrixD histToMatrixTrunc(const TH2D *h2, int nn, int mm, bool flag);
+TMatrixD histToMatrixTrunc(const TH2D *h2, int nnx, int mmx, int nny, int mmy, bool flag);
+TVectorD histToVector(const TH1D *h1d, int nn, int mm);
+//
+TVectorD histToVector(const TH1D *h1d);
+TVectorD histToVectorError(const TH1D *h1d);
+TMatrixD histToMatrix(const TH2D *h2d, bool transpose = false);
+//histogram
+TH1D *vectorToHist(const TVectorD &vec, const char *name = "hist", bool abs = false);
+TH1D *vectorToHist(const TVectorD &vec, const TMatrixD &mm, const char *name = "hist", bool abs = false);
+TH1D *vectorToHist(const TVectorD &vec, const TVectorD &verr, const char *name = "hist", bool abs = false);
+TH1D *vectorToHist(const TVectorD &vec, const TVectorD &verr, const TArrayD *bins, const char *name = "hist", bool abs = false);
+TH1D *vectorToHist(const TVectorD &vec, const TArrayD *bins,  const char *name = "hist", bool abs = false);
+TMatrixD Inverse(const TMatrixD &m);
+TMatrixD Transpose(const TMatrixD &m);
+TH2D *matrixToHist(const TMatrixD &m, const TArrayD *xbns, const TArrayD *ybns, const char *name = "2DHist");
+TH2D *matrixToHist(const TMatrixD &m, const char *name = "2DHist");
+#endif

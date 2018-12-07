@@ -1,0 +1,31 @@
+#ifndef ST_UE_OFFAXISCONES_EVENT
+#define ST_UE_OFFAXISCONES_EVENT
+
+#include "StUeEvent.h"
+
+class StUeOffAxisConesEvent : public StUeEvent{
+
+ public:
+
+  StUeOffAxisConesEvent(){
+    _radius = 0.;
+    _pt[0] = 0.;
+    _pt[1] = 1.;
+    _number[0] = 0.;
+    _number[1] = 0.;
+  }
+  ~StUeOffAxisConesEvent(){}
+  void setPt(float pt1, float pt2){ _pt[0] = pt1; _pt[1] = pt2;}
+  void setNumber(float num1, float num2){ _number[0] = num1; _number[1] = num2;}
+  void setRadius(float radius) { _radius = radius;}
+  float radius() const{ return _radius;}
+  void getUE_pt(float &pt1, float &pt2) const { pt1 = _pt[0]; pt2 = _pt[1];}
+  void getUE_num(unsigned int &num1, unsigned int &num2) const { num1 = _number[0]; num2 = _number[1];}
+  static const int Ncone = 2;
+ private:
+  float _radius;
+  float _pt[2];
+  float _number[2];
+  ClassDef(StUeOffAxisConesEvent, 1);
+};
+#endif

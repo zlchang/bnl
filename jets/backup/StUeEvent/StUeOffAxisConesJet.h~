@@ -1,0 +1,20 @@
+#ifndef STUEOFFAXISCONESJET
+#define STUEOFFAXISCONESJET
+
+#include "StUeJet.h"
+
+class StUeOffAxisConesJet : public StUeJet{
+ public:
+  StUeOffAxisConesJet(){
+  }
+  ~StUeOffAxisConesJet(){
+  }
+  int jetId() const { return mJetId;}
+  void setJetId(int id) { mJetId = id; }
+ private:
+  int mJetId;
+  TRefArray mCones;
+  ClassDef(StUeOffAxisConesJet, 1);
+};
+
+#endif

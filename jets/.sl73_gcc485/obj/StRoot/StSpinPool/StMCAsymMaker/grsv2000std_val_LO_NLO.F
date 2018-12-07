@@ -1,0 +1,1 @@
+../../../../../StRoot/StSpinPool/StMCAsymMaker/grsv2000std_val_LO_NLO.F

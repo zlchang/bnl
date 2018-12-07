@@ -1,0 +1,1 @@
+../../../../../StRoot/StSpinPool/StMCAsymMaker/LSS2010_PDFs.F

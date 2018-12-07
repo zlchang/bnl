@@ -1,0 +1,160 @@
+#include "ReaderRun.h"
+#include "StMyJetPool/StMyDef/MyDef.h"
+#include "StMyJetPool/StMyJetSpin/MyJetSum.h"
+#include "StMyJetPool/StMyJetSpin/MyTrigQA.h"
+
+int ReaderRun::Init()
+{
+  for(vector<string>::const_iterator it = mTriggers.begin(); it < mTriggers.end(); it++){
+      mMapJetSum.insert(std::make_pair(*it, new MyJetSum((*it).c_str())));
+      mMapJetSumCrr.insert(std::make_pair(*it, new MyJetSum(((*it)+string("Crr")).c_str())));
+  }
+  mJetSum = new MyJetSum("Cmb");
+  mJetSumCrr = new MyJetSum("CmbCrr");
+  return ReaderVirtual::Init();
+}
+int ReaderRun::Make(int run)
+{
+  //load relative luminosity
+  float rel[6] = { 1.0, 1.0, 1.0, 1.0, 1.0, 1.0 };
+  char *reflfile = Form("%s/run%d.rel.dat", mDirRel, run);
+  ifstream inrel(relfile);
+  if(!inrel) cout<<"loading relative luminosity failure!!! "<<relfile<<endl;
+  std::cout<<"relative luminosity:";
+  for(int irel = 0; irel < 6; irel++)
+    {
+      inrel >> rel[irel];
+      std::cout<<" "<<rel[irel];
+    }
+  std::cout<<endl;
+  inrel.close();
+
+  //Load polarization
+  float pb = 0.55,py = 0.55;
+  char* polfile = Form("%s/run%d.pol.dat", mDirPol, run);
+  ifstream inpol(polfile);
+  if(!inpol) cout<<"loading polarization failure!!! "<<polfile<<endl;
+  cout<<"polarization";
+  inpol>>pb>>py;
+  cout<<" blue: "<<pb<<" yellow: "<<py<<endl;
+  inpol.close();
+
+  //pt
+  map<string, MyJetPtSpin*> mapJetPtSpin;
+  //dpt
+  map<string, MyJetPtSpin*> mapJetDPtSpin;
+  //correction
+  //pt
+  map<string, MyJetPtSpin*> mapJetPtSpinCrr;
+  //dpt
+  map<string, MyJetPtSpin*> mapJetDPtSpinCrr;
+
+  for(unsigned int i = 0; i< mTriggers.size(); i++){
+    //pt
+    mapJetPtSpin.insert(std::make_pair(mTriggers[i], new MyJetPtSpin((mTriggers[i]+"Pt").c_str())));
+    //dpt
+    mapJetDPtSpin.insert(std::make_pair(mTriggers[i], new MyJetPtSpin((mTriggers[i]+"DPt").c_str())));
+    //correction
+    //pt
+    mapJetPtSpinCrr.insert(std::make_pair(mTriggers[i], new MyJetPtSpin((mTriggers[i]+"PtCrr").c_str())));
+    //dpt
+    mapJetDPtSpinCrr.insert(std::make_pair(mTriggers[i], new MyJetPtSpin((mTriggers[i]+"DPtCrr").c_str())));
+  }
+  //pt
+  MyJetPtSpin *cmbJetPtSpin = new MyJetPtSpin("CmbPt");
+  //dpt
+  MyJetPtSpin *cmbJetDPtSpin = new MyJetPtSpin("CmbDPt");
+  //correction
+  //pt
+  MyJetPtSpin *cmbJetPtSpinCrr = new MyJetPtSpin("CmbPtCrr");
+  //dpt
+  MyJetPtSpin *cmbJetDPtSpinCrr = new MyJetPtSpin("CmbDPtCrr");
+
+  for(int ii = 0; ii < 3; ii++){
+    char* file = Form("%s/%d/run%d.%d.spin.root", mDir, run, run, ii);
+    cout<<file<<endl;
+    TFile *f = TFile::Open(file);
+    f->cd();
+    MyTrigQA *trigQA = (MyTrigQA *)f->Get("TrigQA");
+    mTrigQA->Add(trigQA);
+    for(vector<string>::iterator p = mTriggers.begin(); p != mTriggers.end(); p++){
+	cout<<*p<<" = "<<trigQA->GetTrigNevnt(*p)<<" / ";
+	cout<<mTrigQA->GetTrigNevnt(*p)<<" ";
+    }
+    cout<<endl;
+    for(vector<string>::iterator p = mTriggers.begin(); p != mTriggers.end(); p++){
+      MyJetSpin *jetspin = (MyJetSpin *)f->Get((*p+"jetSpin").c_str());
+      mMapJetSum[*p]->FillJetSpin(jetspin, rel, pb, py);
+      mapJetPtSpin[*p]->AddMeanPt(jetspin);
+      mapJetDPtSpin[*p]->AddDPt(jetspin);
+      //correction
+      MyJetSpin *jetspincrr = (MyJetSpin *)f->Get((*p+"jetSpinCrr").c_str());
+      mMapJetSumCrr[*p]->FillJetSpin(jetspincrr, rel, pb, py);
+      mapJetPtSpinCrr[*p]->AddMeanPt(jetspincrr);
+      mapJetDPtSpinCrr[*p]->AddDPt(jetspincrr);
+    }
+    //combine
+    MyJetSpin *jetspincmb = (MyJetSpin *)f->Get("CmbjetSpin");
+    mJetSum[*p]->FillJetSpin(jetspincmb, rel, pb, py);
+    cmbJetPtSpin[*p]->AddMeanPt(jetspincmb);
+    cmbJetDPtSpin[*p]->AddDPt(jetspincmb);
+    //correction
+    MyJetSpin *jetspincmbcrr = (MyJetSpin *)f->Get("CmbjetSpinCrr");
+    mJetSumCrr[*p]->FillJetSpin(jetspincmbcrr, rel, pb, py);
+    cmbJetPtSpinCrr[*p]->AddMeanPt(jetspincmbcrr);
+    cmbJetDPtSpinCrr[*p]->AddDPt(jetspincmbcrr);
+
+    f->Close();
+  }
+
+  for(vector<string>::iterator p = mTriggers.begin(); p != mTriggers.end(); p++){
+    //pt
+    mMapJetSum[*p]->FillJetPtSpin(mapJetPtSpin[*p], pb, py);
+    mapJetPtSpin[*p]->Delete();
+    //dpt
+    mapJetDPtAsym[*p]->FillJetDPtSpin(mapJetDPtSpin[*p], pb, py);
+    mapJetDPtSpin[*p]->Delete();
+    //correction
+    //pt
+    mapJetPtAsymCrr[*p]->FillJetPtSpin(mapJetPtSpinCrr[*p], pb, py);
+    mapJetPtSpinCrr[*p]->Delete();
+    //dpt
+    mapJetDPtAsymCrr[*p]->FillJetDPtSpin(mapJetDPtSpinCrr[*p], pb, py);
+    mapJetDPtSpinCrr[*p]->Delete();
+  }
+  //pt
+  mJetSum->FillJetPtSpin(cmbJetPtSpin, pb, py);
+  cmbJetPtSpin->Delete();
+  //dpt
+  mJetSum->FillJetDPtSpin(cmbJetDPtSpin, pb, py);
+  cmbJetDPtSpin->Delete();
+  //correction
+  mJetSumCrr->FillJetPtSpin(cmbJetPtSpinCrr, pb, py);
+  cmbJetPtSpinCrr->Delete();
+  //dpt
+  mJetSumCrr->FillJetDPtSpin(cmbJetDPtSpinCrr, pb, py);
+  cmbJetDPtSpinCrr->Delete();
+  cout<<run<<endl;
+  return ReaderVirtual::Make(run);
+}
+int ReaderRun::Finish()
+{
+  for(vector<string>::iterator p =mTriggers.begin(); p != mTriggers.end(); p++)
+    {
+      mMapJetSum[*p]->FillAsym();
+      mMapJetSum[*p]->Write((*p + "JetSum").c_str());
+      // correction
+      mMapJetSumCrr[*p]->FillAsym();
+      mMapJetSumCrr[*p]->Write((*p + "JetSumCrr").c_str());
+    }
+  // combine
+  mJetSum->FillAsym();
+  mJetSum->Write("CmbJetSum");
+  // correction
+  mJetSumCrr->FillAsym();
+  mJetSumCrr->Write("CmbJetSumCrr");
+
+  mTrigQA->Write("SumTrigQA");
+  
+  return ReaderVirtual::Finish();
+}

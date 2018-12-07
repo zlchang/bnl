@@ -1,0 +1,37 @@
+#include"MyJetQA.h"
+
+ClassImp(MyJetQA);
+void MyJetQA::Add(MyJetQA *jetqa, float w)
+{
+  //jet pt no vertex
+  hjetptnovtx->Add(jetqa->GetJetPtNoVtx(), w);
+  hjetnposvtx->Add(jetqa->GetJetNPosVtx(), w);
+  hjetvertexz->Add(jetqa->GetJetVertexZ(), w);
+  //
+  hjetpt->Add(jetqa->GetJetPt(), w);
+  hjeteta->Add(jetqa->GetJetEta(), w);
+  hjetphi->Add(jetqa->GetJetPhi(), w);
+  hjetrt->Add(jetqa->GetJetRt(), w);
+  hjetparjt->Add(jetqa->GetJetParJt(), w);
+  hjetmult->Add(jetqa->GetJetMult(), w);
+  hjettrkmult->Add(jetqa->GetJetTrkMult(), w);
+  hjettrkpt->Add(jetqa->GetJetTrkPt(), w);
+  hjettwrmult->Add(jetqa->GetJetTwrMult(), w);
+  hjettwrpt->Add(jetqa->GetJetTwrPt(), w);
+  hjetrtprof->Add(jetqa->GetJetRtProf(), w);
+  hjetptprof->Add(jetqa->GetJetPtProf(), w);
+  //ue
+  hjetdptue->Add(jetqa->GetJetUeDpt(), w);
+  hjettrkmultue->Add(jetqa->GetJetUeTrkMult(), w);
+  hjettwrmultue->Add(jetqa->GetJetUeTwrMult(), w);  
+  //
+  hjetptarea->Add(jetqa->GetJetAreaVsPt(), w);
+  hdptue->Add(jetqa->GetUeDpt(), w);
+  hmultue->Add(jetqa->GetUeMult(), w);
+  htrkmultue->Add(jetqa->GetUeTrkMult(), w);
+  htwrmultue->Add(jetqa->GetUeTwrMult(), w);
+  htrkptue->Add(jetqa->GetUeTrkPt(), w);
+  htwrptue->Add(jetqa->GetUeTwrPt(), w);
+  hdpt2due->Add(jetqa->GetUeDpt2D(), w);
+  hmult2due->Add(jetqa->GetUeMult2D(), w);
+}

@@ -1,0 +1,56 @@
+#include<iostream>
+
+#include "StJetUtilities.h"
+
+#include "TH1D.h"
+#include "TH2D.h"
+#include "TMath.h"
+#include "TAxis.h"
+#include "TArrayD.h"
+
+using namespace std;
+
+TH1D* updateErrors(const TH1D *h, const TH2D *h2d)
+{
+  TAxis* xaxis = h->GetXaxis();
+  //TAxis* yaxis = h->GetYaxis();                                                             
+  int N = xaxis->GetNbins();
+  //cout<<N<<endl;
+  TH1D *hn = new TH1D(Form("%sUpdate", h->GetName()), Form(";%s", xaxis->GetTitle()), N, xaxis->GetXbins()->GetArray());
+  for(int ib = 1; ib <= N; ib++){
+    double content = h->GetBinContent(ib);
+    double err1 = h->GetBinError(ib);
+    double err2 = h2d->GetBinError(ib, ib);
+    double error = TMath::Sqrt(TMath::Power(err1,2)+TMath::Power(err2, 2));
+    hn->SetBinContent(ib, content);
+    hn->SetBinError(ib, error);
+    cout<<"content: "<<content<<" error:"<<error<<" err1:"<<err1<<" err2:"<<err2<<endl;
+  }
+  return hn;
+}
+TH2D *getVariance(const TH1D *h, const TH2D *h2d, bool norm)
+{
+  TAxis *xaxis = h2d->GetXaxis();
+  TAxis *yaxis = h2d->GetYaxis();
+
+  TH2D *hh = new TH2D(Form("%sVar%d", h2d->GetName(), norm), Form(";%s;%s", xaxis->GetTitle(),yaxis->GetTitle()), xaxis->GetNbins(), xaxis->GetXbins()->GetArray(), yaxis->GetNbins(), yaxis->GetXbins()->GetArray());
+  TArrayD arr(xaxis->GetNbins());
+  for(int ix = 1; ix <= xaxis->GetNbins(); ix++){
+    double eh = h->GetBinError(ix);
+    double eh2 = h2d->GetBinError(ix, ix);
+    arr[ix-1] = eh*eh + eh2*eh2;
+  }
+  for(int ix = 1; ix <= xaxis->GetNbins(); ix++){
+    for(int iy = 1; iy <= yaxis->GetNbins(); iy++){
+      double eh2 = h2d->GetBinError(ix, iy);
+      double content = TMath::Power(eh2, 2);
+      double var = content;
+      if(iy == ix) { double err = h->GetBinError(ix); var += err*err;}
+
+      if(norm && arr[ix-1] > 0 && arr[iy-1] > 0) var = var/TMath::Sqrt(arr[ix-1]*arr[iy-1]);
+      hh->SetBinContent(ix, iy, var);
+      hh->SetBinError(ix, iy, 0);
+    }
+  }
+  return hh;
+}

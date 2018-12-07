@@ -1,0 +1,64 @@
+#include "StHistUtilities.h"
+
+#include "TH1.h"
+#include "TH1D.h"
+#include "TGraphErrors.h"
+
+TH1D *ratioHist(const char *name, const TH1 *ha, const TH1 *hb)
+{
+  int N = ha->GetNbinsX();
+  TH1D *hr = 0x0;
+  if(ha->GetXaxis()->GetXbins()->GetSize() > 0)
+    hr = new TH1D(name, Form(";%s;ratio", ha->GetXaxis()->GetTitle()), N, ha->GetXaxis()->GetXbins()->GetArray());
+  else
+    hr = new TH1D(name, Form(";%s;ratio", ha->GetXaxis()->GetTitle()), N, ha->GetXaxis()->GetXmin(), ha->GetXaxis()->GetXmax());
+  for(int ib = 1; ib <= N; ib++){
+    double aa = ha->GetBinContent(ib);
+    //double ea = ha->GetBinError(ib);
+    double bb = hb->GetBinContent(ib);
+    //double eb = hb->GetBinError(ib);
+    double rr = 0;
+    double er = 0;
+    if(aa > 0 || aa < 0){
+      rr = (bb - aa)/aa;
+      //er = bb/aa*TMath::Sqrt(TMath::Power(ea/aa, 2) + TMath::Power(eb/bb, 2));
+    }
+    hr->SetBinContent(ib, rr);
+    hr->SetBinError(ib, er);
+  }
+  return hr;
+}
+TGraphErrors *histToGraph(const TH1D *h, const char *name)
+{
+  int N = h->GetNbinsX();
+  TGraphErrors *gr = new TGraphErrors(N);
+  gr->SetName(Form("%s%s", h->GetName(), name));
+
+  for(int ib = 1; ib <= N; ib++){
+    double x = h->GetBinCenter(ib);
+    double y = h->GetBinContent(ib);
+    double xe = h->GetBinWidth(ib)/2.;
+    double ye = h->GetBinError(ib);
+    gr->SetPoint(ib-1, x, y);
+    gr->SetPointError(ib-1, xe, ye);
+  }
+  return gr;
+}
+TH2D *histSquare(const TH1 *he)
+{
+  TAxis* xaxis = he->GetXaxis();
+  int nx = xaxis->GetNbins();
+  //    cout<<N<<endl;                                                                         
+  TH2D *he2 = new TH2D(Form("%sSquare", he->GetName()), Form(";%s;%s", xaxis->GetTitle(), xaxis->GetTitle()), nx, xaxis->GetXbins()->GetArray(), nx, xaxis->GetXbins()->GetArray());
+  //                                                                                           
+  for(int ib = 1; ib <= nx; ib++){
+    for(int jb = 1; jb <= nx; jb++){
+      double ei = he->GetBinContent(ib);
+      double ej = he->GetBinContent(jb);
+      double eff = TMath::Power(ei*ej,2);
+      he2->SetBinContent(ib, jb, eff);
+    }
+  }
+  return he2;
+}
+

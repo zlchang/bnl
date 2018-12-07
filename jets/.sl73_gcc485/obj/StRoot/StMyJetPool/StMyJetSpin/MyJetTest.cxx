@@ -1,0 +1,1 @@
+../../../../../StRoot/StMyJetPool/StMyJetSpin/MyJetTest.cxx

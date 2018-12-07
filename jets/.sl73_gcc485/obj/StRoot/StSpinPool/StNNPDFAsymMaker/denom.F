@@ -1,0 +1,1 @@
+../../../../../StRoot/StSpinPool/StNNPDFAsymMaker/denom.F

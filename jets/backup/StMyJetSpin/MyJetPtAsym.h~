@@ -1,0 +1,152 @@
+#ifndef MY_JET_PT_ASYM
+#define MY_JET_PT_ASYM
+#include<iostream>
+using namespace std;
+
+#include "TObject.h"
+#include "TProfile.h"
+#include "TMath.h"
+#include "StMyJetPool/StMyDef/MyDef.h"
+#include "StMyJetPool/StMyDef/MyFun.h"
+
+class MyJetSpin;
+
+class MyJetPtSpin : public TObject
+{
+ public:
+  MyJetPtSpin(){}
+  MyJetPtSpin(const char *name){
+    char title[128];
+    for(int i = 0; i < 4; i++){
+      int spinbit = SpinBit(i);
+      sprintf(title, "%s_spin_%d", name, spinbit);
+      hptprof[i] = new TProfile(title, "; p_{T} [GeV]; p_{T} [GeV]", yNPtBins, yPtBins);
+    }
+  }
+  ~MyJetPtSpin()
+  {
+    //cout<<"deleting MyJetPtSpin"<<endl;
+    for(int i = 0; i < 4; i++){
+      if(hptprof[i]) hptprof[i]->Delete();
+    }
+  }
+  void AddProfiles(TProfile *hh[]){
+    for(int ispin = 0; ispin < 4; ispin++){
+      hptprof[ispin]->Add(hh[ispin]);
+    }
+  }
+  void AddMeanPt(MyJetSpin *jetspin);
+  void AddDPt(MyJetSpin *jetspin);
+  TProfile* const * GetJetPtProfile() const{ return hptprof;}
+  TProfile *GetJetPtProfileSpin(int spin) const { int index = SpinBitIndex(spin); return hptprof[index];}
+ private:
+  
+  TProfile *hptprof[4];
+  ClassDef(MyJetPtSpin, 1);
+};
+
+class MyJetPtAsym : public TObject{
+ public:
+	MyJetPtAsym(){}
+	MyJetPtAsym(const char *name){
+	  char title[128];
+	  sprintf(title, "%s_asym", name);
+	  hptasym = new TProfile(title, ";p_{T} [GeV]", yNPtBins, yPtBins, "g");
+	  //blue
+	  sprintf(title, "%s_blue_asym", name);
+	  hptblueasym = new TProfile(title, ";p_{T} [GeV]", yNPtBins, yPtBins, "g");
+	  //yell
+	  sprintf(title, "%s_yell_asym", name);
+	  hptyellasym = new TProfile(title, ";p_{T} [GeV]", yNPtBins, yPtBins, "g");
+	  //like sign
+	  sprintf(title, "%s_like_sign_asym", name);
+	  hptlikesignasym = new TProfile(title, ";p_{T} [GeV]", yNPtBins, yPtBins, "g");
+	  //unlike sign
+	  sprintf(title, "%s_unlike_sign_asym", name);
+	  hptunlikesignasym = new TProfile(title, ";p_{T} [GeV]", yNPtBins, yPtBins, "g");
+	}
+	~MyJetPtAsym()
+	{
+	  if(hptasym){ hptasym->Delete();}
+	  if(hptblueasym){ hptblueasym->Delete();}
+	  if(hptyellasym){ hptyellasym->Delete();}
+	  if(hptlikesignasym){ hptlikesignasym->Delete();}
+	  if(hptunlikesignasym){ hptunlikesignasym->Delete();}
+	}
+	void FillJetPtAsym(TProfile * const *h, float pb = 0.55, float py = 0.55){
+	  const int Nbins = 15;
+	  for(int ibin = 1; ibin <= Nbins; ibin++){
+	    float counts[4];
+	    float error[4];
+	    for(int ispin = 0; ispin < 4; ispin++){
+	      counts[ispin] = h[ispin]->GetBinContent(ibin);
+	      error[ispin] = h[ispin]->GetBinError(ibin);
+	      //  if(ibin == 2) cout<<ispin<<" "<<counts[ispin]<<" "<<error[ispin]<<endl;
+	    }
+	    float num = 0.;
+	    float den = 0.;
+	    float num_err = 0.;
+	    //asymmetry
+	    num = counts[0]+counts[3]-counts[1]-counts[2];
+	    num_err = error[0]*error[0]+error[1]*error[1]+error[2]*error[2]+error[3]*error[3];
+	    den = counts[0]+counts[1]+counts[2]+counts[3];
+	    FillBinAsymmetry(hptasym, ibin, num, num_err, den, pb, py);
+	    //blue asymmetry
+	    num = counts[0]+counts[1]-counts[2]-counts[3];
+	    num_err = error[0]*error[0]+error[1]*error[1]+error[2]*error[2]+error[3]*error[3];
+	    den = counts[0]+counts[1]+counts[2]+counts[3];
+	    FillBinAsymmetry(hptblueasym, ibin, num, num_err, den, pb, py);
+	    //yell asymmetry
+	    num = counts[0]+counts[2]-counts[1]-counts[3];
+	    num_err = error[0]*error[0]+error[1]*error[1]+error[2]*error[2]+error[3]*error[3];
+	    den = counts[0]+counts[1]+counts[2]+counts[3];
+	    FillBinAsymmetry(hptyellasym, ibin, num, num_err, den, pb, py);
+	    //like sign asymmetry
+	    num = counts[0] - counts[3];
+	    num_err = error[0]*error[0] + error[3]*error[3];
+	    den = counts[0] + counts[3];
+	    FillBinAsymmetry(hptlikesignasym, ibin, num, num_err, den, pb, py);
+	    //unlike sign asymmetry
+	    num = counts[1] - counts[2];
+	    num_err = error[1]*error[1] + error[2]*error[2];
+	    den = counts[1] + counts[2];
+	    FillBinAsymmetry(hptunlikesignasym, ibin, num, num_err, den, pb, py);
+	  }	  
+	}
+        void FillJetPtAsym(MyJetPtSpin *jetptspin, float pb = 0.55, float py = 0.55)
+	void AddAsymmetry(MyJetPtAsym *asym){
+	  hptasym->Add(asym->GetPtAsymmetry());
+	  hptblueasym->Add(asym->GetPtBlueAsymmetry());
+	  hptyellasym->Add(asym->GetPtYellowAsymmetry());
+	  hptlikesignasym->Add(asym->GetPtLikeSignAsymmetry());
+	  hptunlikesignasym->Add(asym->GetPtUnlikeSignAsymmetry());
+	}
+	TProfile* GetPtAsymmetry() const{ return hptasym; }
+	TProfile* GetPtBlueAsymmetry() const{ return hptblueasym; }
+	TProfile* GetPtYellowAsymmetry() const{ return hptyellasym; }
+	TProfile* GetPtLikeSignAsymmetry() const{ return hptlikesignasym; }
+	TProfile* GetPtUnlikeSignAsymmetry() const{ return hptunlikesignasym; }
+ private:
+	void FillBinAsymmetry(TProfile *hprof, int bin, float num, float num_err, float den, float pb = 0.55, float py = 0.55){
+	  float asym = 0.;
+	  float err = 0.;
+	  //asymmetry
+	  if( den > 0. && num_err > 0.){
+	    asym = num/den;
+	    err = num_err/ (den*den);
+	    double pt = hprof->GetBinLowEdge(bin) + hprof->GetBinWidth(bin)/2;
+	    //cout<<asym/pb/py<<" "<<err/pb/py<<endl;
+	    hprof->Fill(pt, asym/pb/py, (1./err)*pb*pb*py*py);
+            //if(bin == 2) cout<<"w: "<<(1./err)*pb*pb*py*py<<endl;
+	    //cout<<"bin error: "<<hprof->GetBinError(bin)<<" bin entries: "<<hprof->GetBinEntries(bin)<<endl;
+	  }
+	}
+	TProfile *hptasym;
+	TProfile *hptblueasym;
+	TProfile *hptyellasym;
+	TProfile *hptlikesignasym;
+	TProfile *hptunlikesignasym;
+
+	ClassDef(MyJetPtAsym, 1);
+};
+#endif

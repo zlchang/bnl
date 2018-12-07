@@ -1,0 +1,2 @@
+cons EXTRA_CXXFLAGS="-I/opt/star/sl73_gcc485/include"
+setenv LHAPDF_DATA_PATH $HOME/public/pdfs/

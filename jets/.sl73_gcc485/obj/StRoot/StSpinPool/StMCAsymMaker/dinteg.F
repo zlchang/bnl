@@ -1,0 +1,1 @@
+../../../../../StRoot/StSpinPool/StMCAsymMaker/dinteg.F

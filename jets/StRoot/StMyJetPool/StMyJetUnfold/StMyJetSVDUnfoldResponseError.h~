@@ -1,0 +1,26 @@
+#ifndef MYJETSVDUNFOLDRESPONSEERROR
+#define MYJETSVDUNFOLDRESPONSEERROR
+#include "TObject.h"
+#include "TMatrixD.h"
+#include "TVectorD.h"
+#include "TProfile.h"
+
+class StMyJetSVDUnfold;
+class StMyJetSVDUnfoldResponseError : public TObject
+{
+ public:
+ StMyJetSVDUnfoldResponseError()
+   :mUnfold(0x0), Nrep(1){}
+ StMyJetSVDUnfoldResponseError(StMyJetSVDUnfold *unfold): mUnfold(unfold), Nrep(100){}
+  void getError(const TMatrixD &res, const TVectorD &xx, const TMatrixD &covf, const TVectorD &bcov, const TMatrixD &cc);
+  TMatrixD replica(const TMatrixD &res, const TMatrixD &resErr, int seed);
+  TProfile *getProfile() const{ return hprof;}
+  void setNrep(int nrep) { Nrep = nrep;}
+ protected:
+  TProfile *hprof;
+ private:
+  TH2D *hdetVspar
+  int Nrep;
+  ClassDef(StMyJetSVDUnfoldResponseError, 0);
+};
+#endif

@@ -1,0 +1,1 @@
+../../../../../StRoot/StSpinPool/StMCAsymMaker/readgrid_dns.F

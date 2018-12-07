@@ -1,0 +1,21 @@
+#include "MyJetSum.h"
+#include "MyJetSpin.h"
+#include "MyJetPtAsym.h"
+#include "MyJetAsym.h"
+#include "MyJetCrs.h"
+
+ClassImp(MyJetSum);
+void MyJetSum::FillJetSpin(MyJetSpin *jetspin, float rel[], float pb, float py, float scale)
+{
+  mPol->FillPolXection(jetspin, rel, pb, py, scale);
+  mUnp->FillUnpXection(jetspin, rel, pb, py, scale);
+}
+void MyJetSum::FillJetPtSpin(MyJetPtSpin *jetptspin, float pb, float py)
+{
+  mPtAsym->FillJetPtAsym(jetptspin, pb, py);
+  mDptAsym->FillJetPtAsym(jetptspin, pb, py);
+}
+void MyJetSum::FillAsym()
+{
+  mAsym->FillAsymmetry(mPol,mUnp);
+}

@@ -1,0 +1,1128 @@
+runnumber=13077081
+STAR Template Scheduler 0.1 (/afs/rhic.bnl.gov/star/packages/scripts/star-submit)
+
+STAR Unified Meta Scheduler 1.10.28
+Your Log file can be found at: /afs/rhic.bnl.gov/star/doc/www/html/tmp/pub/scheduler/zchang.log
+Reading request description file : schedTemplateExp.xml
+Analyzing XML...XML OK
+Resolving File system wildcards
+[2018.12.04 10:50:54 EST] Dataset size is 3 files
+Removing files not on site BNL
+[2018.12.04 10:50:54 EST] Dataset size is 3 files
+-------Processing recovered dataset for paths-------
+Removing HPSS files as not accessible in syntax=paths
+[2018.12.04 10:50:54 EST] Dataset size is 3 files
+Skipping (Removing RCRS node files) no such files
+Dropping files with duplicate LFN (files that are the same)
+[2018.12.04 10:50:54 EST] Started with 3 files, current size is 3files, 0 duplicate files dropped.
+Skipping (Sorting by node) all NFS files
+Skipping (Splitting by node) all NFS files
+Splitting dataset entries by size (minSize=1 ,maxSize=1 )
+[2018.12.04 10:50:54 EST] Dataset size is 3 files
+----------------------------------------------------
+validating dataset ....passed
+Writting files for process 0C3DAB6974694F20ED58C1A800426D5E_2..done.
+Writting files for process 0C3DAB6974694F20ED58C1A800426D5E_1..done.
+Writting files for process 0C3DAB6974694F20ED58C1A800426D5E_0..done.
+Dispatching process 0C3DAB6974694F20ED58C1A800426D5E_0_2. done.
+Wrote scheduling report to : /star/u/zchang/jetAnalysis/jets/working_7/scripts/sched0C3DAB6974694F20ED58C1A800426D5E.report
+Reporting statistics... done.
+Scheduling successful
+runnumber=13078045
+STAR Template Scheduler 0.1 (/afs/rhic.bnl.gov/star/packages/scripts/star-submit)
+
+STAR Unified Meta Scheduler 1.10.28
+Your Log file can be found at: /afs/rhic.bnl.gov/star/doc/www/html/tmp/pub/scheduler/zchang.log
+Reading request description file : schedTemplateExp.xml
+Analyzing XML...XML OK
+Resolving File system wildcards
+[2018.12.04 10:50:59 EST] Dataset size is 3 files
+Removing files not on site BNL
+[2018.12.04 10:50:59 EST] Dataset size is 3 files
+-------Processing recovered dataset for paths-------
+Removing HPSS files as not accessible in syntax=paths
+[2018.12.04 10:50:59 EST] Dataset size is 3 files
+Skipping (Removing RCRS node files) no such files
+Dropping files with duplicate LFN (files that are the same)
+[2018.12.04 10:51:00 EST] Started with 3 files, current size is 3files, 0 duplicate files dropped.
+Skipping (Sorting by node) all NFS files
+Skipping (Splitting by node) all NFS files
+Splitting dataset entries by size (minSize=1 ,maxSize=1 )
+[2018.12.04 10:51:00 EST] Dataset size is 3 files
+----------------------------------------------------
+validating dataset ....passed
+Writting files for process FD97D7543AFD0AD83287E0A48910E829_2..done.
+Writting files for process FD97D7543AFD0AD83287E0A48910E829_1..done.
+Writting files for process FD97D7543AFD0AD83287E0A48910E829_0..done.
+Dispatching process FD97D7543AFD0AD83287E0A48910E829_0_2. done.
+Wrote scheduling report to : /star/u/zchang/jetAnalysis/jets/working_7/scripts/schedFD97D7543AFD0AD83287E0A48910E829.report
+Reporting statistics... done.
+Scheduling successful
+runnumber=13079038
+STAR Template Scheduler 0.1 (/afs/rhic.bnl.gov/star/packages/scripts/star-submit)
+
+STAR Unified Meta Scheduler 1.10.28
+Your Log file can be found at: /afs/rhic.bnl.gov/star/doc/www/html/tmp/pub/scheduler/zchang.log
+Reading request description file : schedTemplateExp.xml
+Analyzing XML...XML OK
+Resolving File system wildcards
+[2018.12.04 10:51:05 EST] Dataset size is 3 files
+Removing files not on site BNL
+[2018.12.04 10:51:05 EST] Dataset size is 3 files
+-------Processing recovered dataset for paths-------
+Removing HPSS files as not accessible in syntax=paths
+[2018.12.04 10:51:05 EST] Dataset size is 3 files
+Skipping (Removing RCRS node files) no such files
+Dropping files with duplicate LFN (files that are the same)
+[2018.12.04 10:51:05 EST] Started with 3 files, current size is 3files, 0 duplicate files dropped.
+Skipping (Sorting by node) all NFS files
+Skipping (Splitting by node) all NFS files
+Splitting dataset entries by size (minSize=1 ,maxSize=1 )
+[2018.12.04 10:51:05 EST] Dataset size is 3 files
+----------------------------------------------------
+validating dataset ....passed
+Writting files for process 7FC5AF0F76836790BB769B78EFEC5DDD_2..done.
+Writting files for process 7FC5AF0F76836790BB769B78EFEC5DDD_1..done.
+Writting files for process 7FC5AF0F76836790BB769B78EFEC5DDD_0..done.
+Dispatching process 7FC5AF0F76836790BB769B78EFEC5DDD_0_2. done.
+Wrote scheduling report to : /star/u/zchang/jetAnalysis/jets/working_7/scripts/sched7FC5AF0F76836790BB769B78EFEC5DDD.report
+Reporting statistics... done.
+Scheduling successful
+runnumber=13080004
+STAR Template Scheduler 0.1 (/afs/rhic.bnl.gov/star/packages/scripts/star-submit)
+
+STAR Unified Meta Scheduler 1.10.28
+Your Log file can be found at: /afs/rhic.bnl.gov/star/doc/www/html/tmp/pub/scheduler/zchang.log
+Reading request description file : schedTemplateExp.xml
+Analyzing XML...XML OK
+Resolving File system wildcards
+[2018.12.04 10:51:10 EST] Dataset size is 3 files
+Removing files not on site BNL
+[2018.12.04 10:51:10 EST] Dataset size is 3 files
+-------Processing recovered dataset for paths-------
+Removing HPSS files as not accessible in syntax=paths
+[2018.12.04 10:51:10 EST] Dataset size is 3 files
+Skipping (Removing RCRS node files) no such files
+Dropping files with duplicate LFN (files that are the same)
+[2018.12.04 10:51:10 EST] Started with 3 files, current size is 3files, 0 duplicate files dropped.
+Skipping (Sorting by node) all NFS files
+Skipping (Splitting by node) all NFS files
+Splitting dataset entries by size (minSize=1 ,maxSize=1 )
+[2018.12.04 10:51:10 EST] Dataset size is 3 files
+----------------------------------------------------
+validating dataset ....passed
+Writting files for process 1562A75005BFF9BA46D0A46D090D4DF1_2..done.
+Writting files for process 1562A75005BFF9BA46D0A46D090D4DF1_1..done.
+Writting files for process 1562A75005BFF9BA46D0A46D090D4DF1_0..done.
+Dispatching process 1562A75005BFF9BA46D0A46D090D4DF1_0_2. done.
+Wrote scheduling report to : /star/u/zchang/jetAnalysis/jets/working_7/scripts/sched1562A75005BFF9BA46D0A46D090D4DF1.report
+Reporting statistics... done.
+Scheduling successful
+runnumber=13080094
+STAR Template Scheduler 0.1 (/afs/rhic.bnl.gov/star/packages/scripts/star-submit)
+
+STAR Unified Meta Scheduler 1.10.28
+Your Log file can be found at: /afs/rhic.bnl.gov/star/doc/www/html/tmp/pub/scheduler/zchang.log
+Reading request description file : schedTemplateExp.xml
+Analyzing XML...XML OK
+Resolving File system wildcards
+[2018.12.04 10:51:15 EST] Dataset size is 3 files
+Removing files not on site BNL
+[2018.12.04 10:51:15 EST] Dataset size is 3 files
+-------Processing recovered dataset for paths-------
+Removing HPSS files as not accessible in syntax=paths
+[2018.12.04 10:51:15 EST] Dataset size is 3 files
+Skipping (Removing RCRS node files) no such files
+Dropping files with duplicate LFN (files that are the same)
+[2018.12.04 10:51:15 EST] Started with 3 files, current size is 3files, 0 duplicate files dropped.
+Skipping (Sorting by node) all NFS files
+Skipping (Splitting by node) all NFS files
+Splitting dataset entries by size (minSize=1 ,maxSize=1 )
+[2018.12.04 10:51:15 EST] Dataset size is 3 files
+----------------------------------------------------
+validating dataset ....passed
+Writting files for process 6C89701C9FEB26B7FE5C739262577B2C_2..done.
+Writting files for process 6C89701C9FEB26B7FE5C739262577B2C_1..done.
+Writting files for process 6C89701C9FEB26B7FE5C739262577B2C_0..done.
+Dispatching process 6C89701C9FEB26B7FE5C739262577B2C_0_2. done.
+Wrote scheduling report to : /star/u/zchang/jetAnalysis/jets/working_7/scripts/sched6C89701C9FEB26B7FE5C739262577B2C.report
+Reporting statistics... done.
+Scheduling successful
+runnumber=13082001
+STAR Template Scheduler 0.1 (/afs/rhic.bnl.gov/star/packages/scripts/star-submit)
+
+STAR Unified Meta Scheduler 1.10.28
+Your Log file can be found at: /afs/rhic.bnl.gov/star/doc/www/html/tmp/pub/scheduler/zchang.log
+Reading request description file : schedTemplateExp.xml
+Analyzing XML...XML OK
+Resolving File system wildcards
+[2018.12.04 10:51:20 EST] Dataset size is 3 files
+Removing files not on site BNL
+[2018.12.04 10:51:20 EST] Dataset size is 3 files
+-------Processing recovered dataset for paths-------
+Removing HPSS files as not accessible in syntax=paths
+[2018.12.04 10:51:20 EST] Dataset size is 3 files
+Skipping (Removing RCRS node files) no such files
+Dropping files with duplicate LFN (files that are the same)
+[2018.12.04 10:51:21 EST] Started with 3 files, current size is 3files, 0 duplicate files dropped.
+Skipping (Sorting by node) all NFS files
+Skipping (Splitting by node) all NFS files
+Splitting dataset entries by size (minSize=1 ,maxSize=1 )
+[2018.12.04 10:51:21 EST] Dataset size is 3 files
+----------------------------------------------------
+validating dataset ....passed
+Writting files for process 1D407BA3517ECD163345A741F3224D44_2..done.
+Writting files for process 1D407BA3517ECD163345A741F3224D44_1..done.
+Writting files for process 1D407BA3517ECD163345A741F3224D44_0..done.
+Dispatching process 1D407BA3517ECD163345A741F3224D44_0_2. done.
+Wrote scheduling report to : /star/u/zchang/jetAnalysis/jets/working_7/scripts/sched1D407BA3517ECD163345A741F3224D44.report
+Reporting statistics... done.
+Scheduling successful
+runnumber=13083067
+STAR Template Scheduler 0.1 (/afs/rhic.bnl.gov/star/packages/scripts/star-submit)
+
+STAR Unified Meta Scheduler 1.10.28
+Your Log file can be found at: /afs/rhic.bnl.gov/star/doc/www/html/tmp/pub/scheduler/zchang.log
+Reading request description file : schedTemplateExp.xml
+Analyzing XML...XML OK
+Resolving File system wildcards
+There was an error processing the request XML file.
+Scheduling failed!
+Couldn't parse request.
+Error while resolving wildcard: file:/star/u/zchang/jetAnalysis/jets/lists_jets/13083067.*.list
+runnumber=13084007
+STAR Template Scheduler 0.1 (/afs/rhic.bnl.gov/star/packages/scripts/star-submit)
+
+STAR Unified Meta Scheduler 1.10.28
+Your Log file can be found at: /afs/rhic.bnl.gov/star/doc/www/html/tmp/pub/scheduler/zchang.log
+Reading request description file : schedTemplateExp.xml
+Analyzing XML...XML OK
+Resolving File system wildcards
+[2018.12.04 10:51:48 EST] Dataset size is 3 files
+Removing files not on site BNL
+[2018.12.04 10:51:49 EST] Dataset size is 3 files
+-------Processing recovered dataset for paths-------
+Removing HPSS files as not accessible in syntax=paths
+[2018.12.04 10:51:49 EST] Dataset size is 3 files
+Skipping (Removing RCRS node files) no such files
+Dropping files with duplicate LFN (files that are the same)
+[2018.12.04 10:51:49 EST] Started with 3 files, current size is 3files, 0 duplicate files dropped.
+Skipping (Sorting by node) all NFS files
+Skipping (Splitting by node) all NFS files
+Splitting dataset entries by size (minSize=1 ,maxSize=1 )
+[2018.12.04 10:51:49 EST] Dataset size is 3 files
+----------------------------------------------------
+validating dataset ....passed
+Writting files for process 8609FD2D92524F61582B2A401956A842_2..done.
+Writting files for process 8609FD2D92524F61582B2A401956A842_1..done.
+Writting files for process 8609FD2D92524F61582B2A401956A842_0..done.
+Dispatching process 8609FD2D92524F61582B2A401956A842_0_2.... done.
+Wrote scheduling report to : /star/u/zchang/jetAnalysis/jets/working_7/scripts/sched8609FD2D92524F61582B2A401956A842.report
+Reporting statistics... done.
+Scheduling successful
+runnumber=13084037
+STAR Template Scheduler 0.1 (/afs/rhic.bnl.gov/star/packages/scripts/star-submit)
+
+STAR Unified Meta Scheduler 1.10.28
+Your Log file can be found at: /afs/rhic.bnl.gov/star/doc/www/html/tmp/pub/scheduler/zchang.log
+Reading request description file : schedTemplateExp.xml
+Analyzing XML...XML OK
+Resolving File system wildcards
+[2018.12.04 10:52:25 EST] Dataset size is 3 files
+Removing files not on site BNL
+[2018.12.04 10:52:25 EST] Dataset size is 3 files
+-------Processing recovered dataset for paths-------
+Removing HPSS files as not accessible in syntax=paths
+[2018.12.04 10:52:25 EST] Dataset size is 3 files
+Skipping (Removing RCRS node files) no such files
+Dropping files with duplicate LFN (files that are the same)
+[2018.12.04 10:52:25 EST] Started with 3 files, current size is 3files, 0 duplicate files dropped.
+Skipping (Sorting by node) all NFS files
+Skipping (Splitting by node) all NFS files
+Splitting dataset entries by size (minSize=1 ,maxSize=1 )
+[2018.12.04 10:52:25 EST] Dataset size is 3 files
+----------------------------------------------------
+validating dataset ....passed
+Writting files for process 6839869BA7346480E41A7BBDB3BE1E21_2..done.
+Writting files for process 6839869BA7346480E41A7BBDB3BE1E21_1..done.
+Writting files for process 6839869BA7346480E41A7BBDB3BE1E21_0..done.
+Dispatching process 6839869BA7346480E41A7BBDB3BE1E21_0_2. done.
+Wrote scheduling report to : /star/u/zchang/jetAnalysis/jets/working_7/scripts/sched6839869BA7346480E41A7BBDB3BE1E21.report
+Reporting statistics... done.
+Scheduling successful
+runnumber=13085010
+STAR Template Scheduler 0.1 (/afs/rhic.bnl.gov/star/packages/scripts/star-submit)
+
+STAR Unified Meta Scheduler 1.10.28
+Your Log file can be found at: /afs/rhic.bnl.gov/star/doc/www/html/tmp/pub/scheduler/zchang.log
+Reading request description file : schedTemplateExp.xml
+Analyzing XML...XML OK
+Resolving File system wildcards
+[2018.12.04 10:52:31 EST] Dataset size is 3 files
+Removing files not on site BNL
+[2018.12.04 10:52:31 EST] Dataset size is 3 files
+-------Processing recovered dataset for paths-------
+Removing HPSS files as not accessible in syntax=paths
+[2018.12.04 10:52:31 EST] Dataset size is 3 files
+Skipping (Removing RCRS node files) no such files
+Dropping files with duplicate LFN (files that are the same)
+[2018.12.04 10:52:31 EST] Started with 3 files, current size is 3files, 0 duplicate files dropped.
+Skipping (Sorting by node) all NFS files
+Skipping (Splitting by node) all NFS files
+Splitting dataset entries by size (minSize=1 ,maxSize=1 )
+[2018.12.04 10:52:31 EST] Dataset size is 3 files
+----------------------------------------------------
+validating dataset ....passed
+Writting files for process 9E4DB4AA6A97FB354F26C902566A1DE5_2..done.
+Writting files for process 9E4DB4AA6A97FB354F26C902566A1DE5_1..done.
+Writting files for process 9E4DB4AA6A97FB354F26C902566A1DE5_0..done.
+Dispatching process 9E4DB4AA6A97FB354F26C902566A1DE5_0_2. done.
+Wrote scheduling report to : /star/u/zchang/jetAnalysis/jets/working_7/scripts/sched9E4DB4AA6A97FB354F26C902566A1DE5.report
+Reporting statistics... done.
+Scheduling successful
+runnumber=13086067
+STAR Template Scheduler 0.1 (/afs/rhic.bnl.gov/star/packages/scripts/star-submit)
+
+STAR Unified Meta Scheduler 1.10.28
+Your Log file can be found at: /afs/rhic.bnl.gov/star/doc/www/html/tmp/pub/scheduler/zchang.log
+Reading request description file : schedTemplateExp.xml
+Analyzing XML...XML OK
+Resolving File system wildcards
+There was an error processing the request XML file.
+Scheduling failed!
+Couldn't parse request.
+Error while resolving wildcard: file:/star/u/zchang/jetAnalysis/jets/lists_jets/13086067.*.list
+runnumber=13086083
+STAR Template Scheduler 0.1 (/afs/rhic.bnl.gov/star/packages/scripts/star-submit)
+
+STAR Unified Meta Scheduler 1.10.28
+Your Log file can be found at: /afs/rhic.bnl.gov/star/doc/www/html/tmp/pub/scheduler/zchang.log
+Reading request description file : schedTemplateExp.xml
+Analyzing XML...XML OK
+Resolving File system wildcards
+[2018.12.04 10:52:39 EST] Dataset size is 3 files
+Removing files not on site BNL
+[2018.12.04 10:52:39 EST] Dataset size is 3 files
+-------Processing recovered dataset for paths-------
+Removing HPSS files as not accessible in syntax=paths
+[2018.12.04 10:52:39 EST] Dataset size is 3 files
+Skipping (Removing RCRS node files) no such files
+Dropping files with duplicate LFN (files that are the same)
+[2018.12.04 10:52:39 EST] Started with 3 files, current size is 3files, 0 duplicate files dropped.
+Skipping (Sorting by node) all NFS files
+Skipping (Splitting by node) all NFS files
+Splitting dataset entries by size (minSize=1 ,maxSize=1 )
+[2018.12.04 10:52:39 EST] Dataset size is 3 files
+----------------------------------------------------
+validating dataset ....passed
+Writting files for process 923D23FC348EBB2D56DB74F832277FA1_2..done.
+Writting files for process 923D23FC348EBB2D56DB74F832277FA1_1..done.
+Writting files for process 923D23FC348EBB2D56DB74F832277FA1_0..done.
+Dispatching process 923D23FC348EBB2D56DB74F832277FA1_0_2. done.
+Wrote scheduling report to : /star/u/zchang/jetAnalysis/jets/working_7/scripts/sched923D23FC348EBB2D56DB74F832277FA1.report
+Reporting statistics... done.
+Scheduling successful
+runnumber=13090022
+STAR Template Scheduler 0.1 (/afs/rhic.bnl.gov/star/packages/scripts/star-submit)
+
+STAR Unified Meta Scheduler 1.10.28
+Your Log file can be found at: /afs/rhic.bnl.gov/star/doc/www/html/tmp/pub/scheduler/zchang.log
+Reading request description file : schedTemplateExp.xml
+Analyzing XML...XML OK
+Resolving File system wildcards
+[2018.12.04 10:52:45 EST] Dataset size is 3 files
+Removing files not on site BNL
+[2018.12.04 10:52:45 EST] Dataset size is 3 files
+-------Processing recovered dataset for paths-------
+Removing HPSS files as not accessible in syntax=paths
+[2018.12.04 10:52:45 EST] Dataset size is 3 files
+Skipping (Removing RCRS node files) no such files
+Dropping files with duplicate LFN (files that are the same)
+[2018.12.04 10:52:45 EST] Started with 3 files, current size is 3files, 0 duplicate files dropped.
+Skipping (Sorting by node) all NFS files
+Skipping (Splitting by node) all NFS files
+Splitting dataset entries by size (minSize=1 ,maxSize=1 )
+[2018.12.04 10:52:45 EST] Dataset size is 3 files
+----------------------------------------------------
+validating dataset ....passed
+Writting files for process 1EF58736480B286AA36882C5E128F572_2..done.
+Writting files for process 1EF58736480B286AA36882C5E128F572_1..done.
+Writting files for process 1EF58736480B286AA36882C5E128F572_0..done.
+Dispatching process 1EF58736480B286AA36882C5E128F572_0_2. done.
+Wrote scheduling report to : /star/u/zchang/jetAnalysis/jets/working_7/scripts/sched1EF58736480B286AA36882C5E128F572.report
+Reporting statistics... done.
+Scheduling successful
+runnumber=13091011
+STAR Template Scheduler 0.1 (/afs/rhic.bnl.gov/star/packages/scripts/star-submit)
+
+STAR Unified Meta Scheduler 1.10.28
+Your Log file can be found at: /afs/rhic.bnl.gov/star/doc/www/html/tmp/pub/scheduler/zchang.log
+Reading request description file : schedTemplateExp.xml
+Analyzing XML...XML OK
+Resolving File system wildcards
+[2018.12.04 10:52:51 EST] Dataset size is 3 files
+Removing files not on site BNL
+[2018.12.04 10:52:51 EST] Dataset size is 3 files
+-------Processing recovered dataset for paths-------
+Removing HPSS files as not accessible in syntax=paths
+[2018.12.04 10:52:51 EST] Dataset size is 3 files
+Skipping (Removing RCRS node files) no such files
+Dropping files with duplicate LFN (files that are the same)
+[2018.12.04 10:52:51 EST] Started with 3 files, current size is 3files, 0 duplicate files dropped.
+Skipping (Sorting by node) all NFS files
+Skipping (Splitting by node) all NFS files
+Splitting dataset entries by size (minSize=1 ,maxSize=1 )
+[2018.12.04 10:52:51 EST] Dataset size is 3 files
+----------------------------------------------------
+validating dataset ....passed
+Writting files for process AF6157B05B18A47E1C706196D030D667_2..done.
+Writting files for process AF6157B05B18A47E1C706196D030D667_1..done.
+Writting files for process AF6157B05B18A47E1C706196D030D667_0..done.
+Dispatching process AF6157B05B18A47E1C706196D030D667_0_2. done.
+Wrote scheduling report to : /star/u/zchang/jetAnalysis/jets/working_7/scripts/schedAF6157B05B18A47E1C706196D030D667.report
+Reporting statistics... done.
+Scheduling successful
+runnumber=13091036
+STAR Template Scheduler 0.1 (/afs/rhic.bnl.gov/star/packages/scripts/star-submit)
+
+STAR Unified Meta Scheduler 1.10.28
+Your Log file can be found at: /afs/rhic.bnl.gov/star/doc/www/html/tmp/pub/scheduler/zchang.log
+Reading request description file : schedTemplateExp.xml
+Analyzing XML...XML OK
+Resolving File system wildcards
+[2018.12.04 10:52:56 EST] Dataset size is 3 files
+Removing files not on site BNL
+[2018.12.04 10:52:56 EST] Dataset size is 3 files
+-------Processing recovered dataset for paths-------
+Removing HPSS files as not accessible in syntax=paths
+[2018.12.04 10:52:56 EST] Dataset size is 3 files
+Skipping (Removing RCRS node files) no such files
+Dropping files with duplicate LFN (files that are the same)
+[2018.12.04 10:52:56 EST] Started with 3 files, current size is 3files, 0 duplicate files dropped.
+Skipping (Sorting by node) all NFS files
+Skipping (Splitting by node) all NFS files
+Splitting dataset entries by size (minSize=1 ,maxSize=1 )
+[2018.12.04 10:52:56 EST] Dataset size is 3 files
+----------------------------------------------------
+validating dataset ....passed
+Writting files for process 6EDFA95AC5D07FE911205748E9A534EA_2..done.
+Writting files for process 6EDFA95AC5D07FE911205748E9A534EA_1..done.
+Writting files for process 6EDFA95AC5D07FE911205748E9A534EA_0..done.
+Dispatching process 6EDFA95AC5D07FE911205748E9A534EA_0_2. done.
+Wrote scheduling report to : /star/u/zchang/jetAnalysis/jets/working_7/scripts/sched6EDFA95AC5D07FE911205748E9A534EA.report
+Reporting statistics... done.
+Scheduling successful
+runnumber=13092007
+STAR Template Scheduler 0.1 (/afs/rhic.bnl.gov/star/packages/scripts/star-submit)
+
+STAR Unified Meta Scheduler 1.10.28
+Your Log file can be found at: /afs/rhic.bnl.gov/star/doc/www/html/tmp/pub/scheduler/zchang.log
+Reading request description file : schedTemplateExp.xml
+Analyzing XML...XML OK
+Resolving File system wildcards
+[2018.12.04 10:53:02 EST] Dataset size is 3 files
+Removing files not on site BNL
+[2018.12.04 10:53:02 EST] Dataset size is 3 files
+-------Processing recovered dataset for paths-------
+Removing HPSS files as not accessible in syntax=paths
+[2018.12.04 10:53:02 EST] Dataset size is 3 files
+Skipping (Removing RCRS node files) no such files
+Dropping files with duplicate LFN (files that are the same)
+[2018.12.04 10:53:02 EST] Started with 3 files, current size is 3files, 0 duplicate files dropped.
+Skipping (Sorting by node) all NFS files
+Skipping (Splitting by node) all NFS files
+Splitting dataset entries by size (minSize=1 ,maxSize=1 )
+[2018.12.04 10:53:02 EST] Dataset size is 3 files
+----------------------------------------------------
+validating dataset ....passed
+Writting files for process FC6C46007AE67E440D58B59D07412E11_2..done.
+Writting files for process FC6C46007AE67E440D58B59D07412E11_1..done.
+Writting files for process FC6C46007AE67E440D58B59D07412E11_0..done.
+Dispatching process FC6C46007AE67E440D58B59D07412E11_0_2. done.
+Wrote scheduling report to : /star/u/zchang/jetAnalysis/jets/working_7/scripts/schedFC6C46007AE67E440D58B59D07412E11.report
+Reporting statistics... done.
+Scheduling successful
+runnumber=13093024
+STAR Template Scheduler 0.1 (/afs/rhic.bnl.gov/star/packages/scripts/star-submit)
+
+STAR Unified Meta Scheduler 1.10.28
+Your Log file can be found at: /afs/rhic.bnl.gov/star/doc/www/html/tmp/pub/scheduler/zchang.log
+Reading request description file : schedTemplateExp.xml
+Analyzing XML...XML OK
+Resolving File system wildcards
+[2018.12.04 10:53:07 EST] Dataset size is 3 files
+Removing files not on site BNL
+[2018.12.04 10:53:07 EST] Dataset size is 3 files
+-------Processing recovered dataset for paths-------
+Removing HPSS files as not accessible in syntax=paths
+[2018.12.04 10:53:07 EST] Dataset size is 3 files
+Skipping (Removing RCRS node files) no such files
+Dropping files with duplicate LFN (files that are the same)
+[2018.12.04 10:53:07 EST] Started with 3 files, current size is 3files, 0 duplicate files dropped.
+Skipping (Sorting by node) all NFS files
+Skipping (Splitting by node) all NFS files
+Splitting dataset entries by size (minSize=1 ,maxSize=1 )
+[2018.12.04 10:53:07 EST] Dataset size is 3 files
+----------------------------------------------------
+validating dataset ....passed
+Writting files for process 24D2A9ADAA88FDC80A7ED312DC7A2281_2..done.
+Writting files for process 24D2A9ADAA88FDC80A7ED312DC7A2281_1..done.
+Writting files for process 24D2A9ADAA88FDC80A7ED312DC7A2281_0..done.
+Dispatching process 24D2A9ADAA88FDC80A7ED312DC7A2281_0_2. done.
+Wrote scheduling report to : /star/u/zchang/jetAnalysis/jets/working_7/scripts/sched24D2A9ADAA88FDC80A7ED312DC7A2281.report
+Reporting statistics... done.
+Scheduling successful
+runnumber=13093046
+STAR Template Scheduler 0.1 (/afs/rhic.bnl.gov/star/packages/scripts/star-submit)
+
+STAR Unified Meta Scheduler 1.10.28
+Your Log file can be found at: /afs/rhic.bnl.gov/star/doc/www/html/tmp/pub/scheduler/zchang.log
+Reading request description file : schedTemplateExp.xml
+Analyzing XML...XML OK
+Resolving File system wildcards
+[2018.12.04 10:53:12 EST] Dataset size is 3 files
+Removing files not on site BNL
+[2018.12.04 10:53:12 EST] Dataset size is 3 files
+-------Processing recovered dataset for paths-------
+Removing HPSS files as not accessible in syntax=paths
+[2018.12.04 10:53:12 EST] Dataset size is 3 files
+Skipping (Removing RCRS node files) no such files
+Dropping files with duplicate LFN (files that are the same)
+[2018.12.04 10:53:12 EST] Started with 3 files, current size is 3files, 0 duplicate files dropped.
+Skipping (Sorting by node) all NFS files
+Skipping (Splitting by node) all NFS files
+Splitting dataset entries by size (minSize=1 ,maxSize=1 )
+[2018.12.04 10:53:12 EST] Dataset size is 3 files
+----------------------------------------------------
+validating dataset ....passed
+Writting files for process 779EB3E1EA5FB357062AA91767C1A203_2..done.
+Writting files for process 779EB3E1EA5FB357062AA91767C1A203_1..done.
+Writting files for process 779EB3E1EA5FB357062AA91767C1A203_0..done.
+Dispatching process 779EB3E1EA5FB357062AA91767C1A203_0_2. done.
+Wrote scheduling report to : /star/u/zchang/jetAnalysis/jets/working_7/scripts/sched779EB3E1EA5FB357062AA91767C1A203.report
+Reporting statistics... done.
+Scheduling successful
+runnumber=13094014
+STAR Template Scheduler 0.1 (/afs/rhic.bnl.gov/star/packages/scripts/star-submit)
+
+STAR Unified Meta Scheduler 1.10.28
+Your Log file can be found at: /afs/rhic.bnl.gov/star/doc/www/html/tmp/pub/scheduler/zchang.log
+Reading request description file : schedTemplateExp.xml
+Analyzing XML...XML OK
+Resolving File system wildcards
+[2018.12.04 10:53:18 EST] Dataset size is 3 files
+Removing files not on site BNL
+[2018.12.04 10:53:18 EST] Dataset size is 3 files
+-------Processing recovered dataset for paths-------
+Removing HPSS files as not accessible in syntax=paths
+[2018.12.04 10:53:18 EST] Dataset size is 3 files
+Skipping (Removing RCRS node files) no such files
+Dropping files with duplicate LFN (files that are the same)
+[2018.12.04 10:53:18 EST] Started with 3 files, current size is 3files, 0 duplicate files dropped.
+Skipping (Sorting by node) all NFS files
+Skipping (Splitting by node) all NFS files
+Splitting dataset entries by size (minSize=1 ,maxSize=1 )
+[2018.12.04 10:53:18 EST] Dataset size is 3 files
+----------------------------------------------------
+validating dataset ....passed
+Writting files for process 805A218726752BC65A2DF0D3C3E82127_2..done.
+Writting files for process 805A218726752BC65A2DF0D3C3E82127_1..done.
+Writting files for process 805A218726752BC65A2DF0D3C3E82127_0..done.
+Dispatching process 805A218726752BC65A2DF0D3C3E82127_0_2. done.
+Wrote scheduling report to : /star/u/zchang/jetAnalysis/jets/working_7/scripts/sched805A218726752BC65A2DF0D3C3E82127.report
+Reporting statistics... done.
+Scheduling successful
+runnumber=13094082
+STAR Template Scheduler 0.1 (/afs/rhic.bnl.gov/star/packages/scripts/star-submit)
+
+STAR Unified Meta Scheduler 1.10.28
+Your Log file can be found at: /afs/rhic.bnl.gov/star/doc/www/html/tmp/pub/scheduler/zchang.log
+Reading request description file : schedTemplateExp.xml
+Analyzing XML...XML OK
+Resolving File system wildcards
+There was an error processing the request XML file.
+Scheduling failed!
+Couldn't parse request.
+Error while resolving wildcard: file:/star/u/zchang/jetAnalysis/jets/lists_jets/13094082.*.list
+runnumber=13095013
+STAR Template Scheduler 0.1 (/afs/rhic.bnl.gov/star/packages/scripts/star-submit)
+
+STAR Unified Meta Scheduler 1.10.28
+Your Log file can be found at: /afs/rhic.bnl.gov/star/doc/www/html/tmp/pub/scheduler/zchang.log
+Reading request description file : schedTemplateExp.xml
+Analyzing XML...XML OK
+Resolving File system wildcards
+[2018.12.04 10:53:25 EST] Dataset size is 3 files
+Removing files not on site BNL
+[2018.12.04 10:53:25 EST] Dataset size is 3 files
+-------Processing recovered dataset for paths-------
+Removing HPSS files as not accessible in syntax=paths
+[2018.12.04 10:53:25 EST] Dataset size is 3 files
+Skipping (Removing RCRS node files) no such files
+Dropping files with duplicate LFN (files that are the same)
+[2018.12.04 10:53:26 EST] Started with 3 files, current size is 3files, 0 duplicate files dropped.
+Skipping (Sorting by node) all NFS files
+Skipping (Splitting by node) all NFS files
+Splitting dataset entries by size (minSize=1 ,maxSize=1 )
+[2018.12.04 10:53:26 EST] Dataset size is 3 files
+----------------------------------------------------
+validating dataset ....passed
+Writting files for process C718A4EA286825515D0684CAB78993DC_2..done.
+Writting files for process C718A4EA286825515D0684CAB78993DC_1..done.
+Writting files for process C718A4EA286825515D0684CAB78993DC_0..done.
+Dispatching process C718A4EA286825515D0684CAB78993DC_0_2.. done.
+Wrote scheduling report to : /star/u/zchang/jetAnalysis/jets/working_7/scripts/schedC718A4EA286825515D0684CAB78993DC.report
+Reporting statistics... done.
+Scheduling successful
+runnumber=13096005
+STAR Template Scheduler 0.1 (/afs/rhic.bnl.gov/star/packages/scripts/star-submit)
+
+STAR Unified Meta Scheduler 1.10.28
+Your Log file can be found at: /afs/rhic.bnl.gov/star/doc/www/html/tmp/pub/scheduler/zchang.log
+Reading request description file : schedTemplateExp.xml
+Analyzing XML...XML OK
+Resolving File system wildcards
+[2018.12.04 10:53:32 EST] Dataset size is 3 files
+Removing files not on site BNL
+[2018.12.04 10:53:32 EST] Dataset size is 3 files
+-------Processing recovered dataset for paths-------
+Removing HPSS files as not accessible in syntax=paths
+[2018.12.04 10:53:32 EST] Dataset size is 3 files
+Skipping (Removing RCRS node files) no such files
+Dropping files with duplicate LFN (files that are the same)
+[2018.12.04 10:53:32 EST] Started with 3 files, current size is 3files, 0 duplicate files dropped.
+Skipping (Sorting by node) all NFS files
+Skipping (Splitting by node) all NFS files
+Splitting dataset entries by size (minSize=1 ,maxSize=1 )
+[2018.12.04 10:53:32 EST] Dataset size is 3 files
+----------------------------------------------------
+validating dataset ....passed
+Writting files for process 434C0970E29322E43D31F3C677BD2971_2..done.
+Writting files for process 434C0970E29322E43D31F3C677BD2971_1..done.
+Writting files for process 434C0970E29322E43D31F3C677BD2971_0..done.
+Dispatching process 434C0970E29322E43D31F3C677BD2971_0_2. done.
+Wrote scheduling report to : /star/u/zchang/jetAnalysis/jets/working_7/scripts/sched434C0970E29322E43D31F3C677BD2971.report
+Reporting statistics... done.
+Scheduling successful
+runnumber=13096070
+STAR Template Scheduler 0.1 (/afs/rhic.bnl.gov/star/packages/scripts/star-submit)
+
+STAR Unified Meta Scheduler 1.10.28
+Your Log file can be found at: /afs/rhic.bnl.gov/star/doc/www/html/tmp/pub/scheduler/zchang.log
+Reading request description file : schedTemplateExp.xml
+Analyzing XML...XML OK
+Resolving File system wildcards
+[2018.12.04 10:53:37 EST] Dataset size is 3 files
+Removing files not on site BNL
+[2018.12.04 10:53:37 EST] Dataset size is 3 files
+-------Processing recovered dataset for paths-------
+Removing HPSS files as not accessible in syntax=paths
+[2018.12.04 10:53:37 EST] Dataset size is 3 files
+Skipping (Removing RCRS node files) no such files
+Dropping files with duplicate LFN (files that are the same)
+[2018.12.04 10:53:37 EST] Started with 3 files, current size is 3files, 0 duplicate files dropped.
+Skipping (Sorting by node) all NFS files
+Skipping (Splitting by node) all NFS files
+Splitting dataset entries by size (minSize=1 ,maxSize=1 )
+[2018.12.04 10:53:37 EST] Dataset size is 3 files
+----------------------------------------------------
+validating dataset ....passed
+Writting files for process 08FD9B70FED3D516C8878083EA843696_2..done.
+Writting files for process 08FD9B70FED3D516C8878083EA843696_1..done.
+Writting files for process 08FD9B70FED3D516C8878083EA843696_0..done.
+Dispatching process 08FD9B70FED3D516C8878083EA843696_0_2. done.
+Wrote scheduling report to : /star/u/zchang/jetAnalysis/jets/working_7/scripts/sched08FD9B70FED3D516C8878083EA843696.report
+Reporting statistics... done.
+Scheduling successful
+runnumber=13097023
+STAR Template Scheduler 0.1 (/afs/rhic.bnl.gov/star/packages/scripts/star-submit)
+
+STAR Unified Meta Scheduler 1.10.28
+Your Log file can be found at: /afs/rhic.bnl.gov/star/doc/www/html/tmp/pub/scheduler/zchang.log
+Reading request description file : schedTemplateExp.xml
+Analyzing XML...XML OK
+Resolving File system wildcards
+[2018.12.04 10:53:43 EST] Dataset size is 3 files
+Removing files not on site BNL
+[2018.12.04 10:53:43 EST] Dataset size is 3 files
+-------Processing recovered dataset for paths-------
+Removing HPSS files as not accessible in syntax=paths
+[2018.12.04 10:53:43 EST] Dataset size is 3 files
+Skipping (Removing RCRS node files) no such files
+Dropping files with duplicate LFN (files that are the same)
+[2018.12.04 10:53:43 EST] Started with 3 files, current size is 3files, 0 duplicate files dropped.
+Skipping (Sorting by node) all NFS files
+Skipping (Splitting by node) all NFS files
+Splitting dataset entries by size (minSize=1 ,maxSize=1 )
+[2018.12.04 10:53:43 EST] Dataset size is 3 files
+----------------------------------------------------
+validating dataset ....passed
+Writting files for process FFB4C4ABE0C9B45A15C2F45F785A3274_2..done.
+Writting files for process FFB4C4ABE0C9B45A15C2F45F785A3274_1..done.
+Writting files for process FFB4C4ABE0C9B45A15C2F45F785A3274_0..done.
+Dispatching process FFB4C4ABE0C9B45A15C2F45F785A3274_0_2. done.
+Wrote scheduling report to : /star/u/zchang/jetAnalysis/jets/working_7/scripts/schedFFB4C4ABE0C9B45A15C2F45F785A3274.report
+Reporting statistics... done.
+Scheduling successful
+runnumber=13097036
+STAR Template Scheduler 0.1 (/afs/rhic.bnl.gov/star/packages/scripts/star-submit)
+
+STAR Unified Meta Scheduler 1.10.28
+Your Log file can be found at: /afs/rhic.bnl.gov/star/doc/www/html/tmp/pub/scheduler/zchang.log
+Reading request description file : schedTemplateExp.xml
+Analyzing XML...XML OK
+Resolving File system wildcards
+[2018.12.04 10:53:49 EST] Dataset size is 3 files
+Removing files not on site BNL
+[2018.12.04 10:53:49 EST] Dataset size is 3 files
+-------Processing recovered dataset for paths-------
+Removing HPSS files as not accessible in syntax=paths
+[2018.12.04 10:53:49 EST] Dataset size is 3 files
+Skipping (Removing RCRS node files) no such files
+Dropping files with duplicate LFN (files that are the same)
+[2018.12.04 10:53:49 EST] Started with 3 files, current size is 3files, 0 duplicate files dropped.
+Skipping (Sorting by node) all NFS files
+Skipping (Splitting by node) all NFS files
+Splitting dataset entries by size (minSize=1 ,maxSize=1 )
+[2018.12.04 10:53:49 EST] Dataset size is 3 files
+----------------------------------------------------
+validating dataset ....passed
+Writting files for process 5218D049931514E0BF0C3BA0426175AD_2..done.
+Writting files for process 5218D049931514E0BF0C3BA0426175AD_1..done.
+Writting files for process 5218D049931514E0BF0C3BA0426175AD_0..done.
+Dispatching process 5218D049931514E0BF0C3BA0426175AD_0_2. done.
+Wrote scheduling report to : /star/u/zchang/jetAnalysis/jets/working_7/scripts/sched5218D049931514E0BF0C3BA0426175AD.report
+Reporting statistics... done.
+Scheduling successful
+runnumber=13100011
+STAR Template Scheduler 0.1 (/afs/rhic.bnl.gov/star/packages/scripts/star-submit)
+
+STAR Unified Meta Scheduler 1.10.28
+Your Log file can be found at: /afs/rhic.bnl.gov/star/doc/www/html/tmp/pub/scheduler/zchang.log
+Reading request description file : schedTemplateExp.xml
+Analyzing XML...XML OK
+Resolving File system wildcards
+[2018.12.04 10:53:55 EST] Dataset size is 3 files
+Removing files not on site BNL
+[2018.12.04 10:53:55 EST] Dataset size is 3 files
+-------Processing recovered dataset for paths-------
+Removing HPSS files as not accessible in syntax=paths
+[2018.12.04 10:53:55 EST] Dataset size is 3 files
+Skipping (Removing RCRS node files) no such files
+Dropping files with duplicate LFN (files that are the same)
+[2018.12.04 10:53:55 EST] Started with 3 files, current size is 3files, 0 duplicate files dropped.
+Skipping (Sorting by node) all NFS files
+Skipping (Splitting by node) all NFS files
+Splitting dataset entries by size (minSize=1 ,maxSize=1 )
+[2018.12.04 10:53:55 EST] Dataset size is 3 files
+----------------------------------------------------
+validating dataset ....passed
+Writting files for process 21767D7307ACB0419FF63FDAC8DC6709_2..done.
+Writting files for process 21767D7307ACB0419FF63FDAC8DC6709_1..done.
+Writting files for process 21767D7307ACB0419FF63FDAC8DC6709_0..done.
+Dispatching process 21767D7307ACB0419FF63FDAC8DC6709_0_2... done.
+Wrote scheduling report to : /star/u/zchang/jetAnalysis/jets/working_7/scripts/sched21767D7307ACB0419FF63FDAC8DC6709.report
+Reporting statistics... done.
+Scheduling successful
+runnumber=13100031
+STAR Template Scheduler 0.1 (/afs/rhic.bnl.gov/star/packages/scripts/star-submit)
+
+STAR Unified Meta Scheduler 1.10.28
+Your Log file can be found at: /afs/rhic.bnl.gov/star/doc/www/html/tmp/pub/scheduler/zchang.log
+Reading request description file : schedTemplateExp.xml
+Analyzing XML...XML OK
+Resolving File system wildcards
+[2018.12.04 10:54:02 EST] Dataset size is 3 files
+Removing files not on site BNL
+[2018.12.04 10:54:02 EST] Dataset size is 3 files
+-------Processing recovered dataset for paths-------
+Removing HPSS files as not accessible in syntax=paths
+[2018.12.04 10:54:02 EST] Dataset size is 3 files
+Skipping (Removing RCRS node files) no such files
+Dropping files with duplicate LFN (files that are the same)
+[2018.12.04 10:54:02 EST] Started with 3 files, current size is 3files, 0 duplicate files dropped.
+Skipping (Sorting by node) all NFS files
+Skipping (Splitting by node) all NFS files
+Splitting dataset entries by size (minSize=1 ,maxSize=1 )
+[2018.12.04 10:54:02 EST] Dataset size is 3 files
+----------------------------------------------------
+validating dataset ....passed
+Writting files for process 41630AABA0A291356970AC54A5B09069_2..done.
+Writting files for process 41630AABA0A291356970AC54A5B09069_1..done.
+Writting files for process 41630AABA0A291356970AC54A5B09069_0..done.
+Dispatching process 41630AABA0A291356970AC54A5B09069_0_2. done.
+Wrote scheduling report to : /star/u/zchang/jetAnalysis/jets/working_7/scripts/sched41630AABA0A291356970AC54A5B09069.report
+Reporting statistics... done.
+Scheduling successful
+runnumber=13100053
+STAR Template Scheduler 0.1 (/afs/rhic.bnl.gov/star/packages/scripts/star-submit)
+
+STAR Unified Meta Scheduler 1.10.28
+Your Log file can be found at: /afs/rhic.bnl.gov/star/doc/www/html/tmp/pub/scheduler/zchang.log
+Reading request description file : schedTemplateExp.xml
+Analyzing XML...XML OK
+Resolving File system wildcards
+There was an error processing the request XML file.
+Scheduling failed!
+Couldn't parse request.
+Error while resolving wildcard: file:/star/u/zchang/jetAnalysis/jets/lists_jets/13100053.*.list
+runnumber=13101004
+STAR Template Scheduler 0.1 (/afs/rhic.bnl.gov/star/packages/scripts/star-submit)
+
+STAR Unified Meta Scheduler 1.10.28
+Your Log file can be found at: /afs/rhic.bnl.gov/star/doc/www/html/tmp/pub/scheduler/zchang.log
+Reading request description file : schedTemplateExp.xml
+Analyzing XML...XML OK
+Resolving File system wildcards
+[2018.12.04 10:54:08 EST] Dataset size is 3 files
+Removing files not on site BNL
+[2018.12.04 10:54:08 EST] Dataset size is 3 files
+-------Processing recovered dataset for paths-------
+Removing HPSS files as not accessible in syntax=paths
+[2018.12.04 10:54:08 EST] Dataset size is 3 files
+Skipping (Removing RCRS node files) no such files
+Dropping files with duplicate LFN (files that are the same)
+[2018.12.04 10:54:08 EST] Started with 3 files, current size is 3files, 0 duplicate files dropped.
+Skipping (Sorting by node) all NFS files
+Skipping (Splitting by node) all NFS files
+Splitting dataset entries by size (minSize=1 ,maxSize=1 )
+[2018.12.04 10:54:08 EST] Dataset size is 3 files
+----------------------------------------------------
+validating dataset ....passed
+Writting files for process FB052CDB72C56E063BDFBA676689FE29_2..done.
+Writting files for process FB052CDB72C56E063BDFBA676689FE29_1..done.
+Writting files for process FB052CDB72C56E063BDFBA676689FE29_0..done.
+Dispatching process FB052CDB72C56E063BDFBA676689FE29_0_2. done.
+Wrote scheduling report to : /star/u/zchang/jetAnalysis/jets/working_7/scripts/schedFB052CDB72C56E063BDFBA676689FE29.report
+Reporting statistics... done.
+Scheduling successful
+runnumber=13101040
+STAR Template Scheduler 0.1 (/afs/rhic.bnl.gov/star/packages/scripts/star-submit)
+
+STAR Unified Meta Scheduler 1.10.28
+Your Log file can be found at: /afs/rhic.bnl.gov/star/doc/www/html/tmp/pub/scheduler/zchang.log
+Reading request description file : schedTemplateExp.xml
+Analyzing XML...XML OK
+Resolving File system wildcards
+[2018.12.04 10:54:14 EST] Dataset size is 3 files
+Removing files not on site BNL
+[2018.12.04 10:54:14 EST] Dataset size is 3 files
+-------Processing recovered dataset for paths-------
+Removing HPSS files as not accessible in syntax=paths
+[2018.12.04 10:54:14 EST] Dataset size is 3 files
+Skipping (Removing RCRS node files) no such files
+Dropping files with duplicate LFN (files that are the same)
+[2018.12.04 10:54:14 EST] Started with 3 files, current size is 3files, 0 duplicate files dropped.
+Skipping (Sorting by node) all NFS files
+Skipping (Splitting by node) all NFS files
+Splitting dataset entries by size (minSize=1 ,maxSize=1 )
+[2018.12.04 10:54:14 EST] Dataset size is 3 files
+----------------------------------------------------
+validating dataset ....passed
+Writting files for process 37FA10FE628B49DB9EBB39E757AE2BDA_2..done.
+Writting files for process 37FA10FE628B49DB9EBB39E757AE2BDA_1..done.
+Writting files for process 37FA10FE628B49DB9EBB39E757AE2BDA_0..done.
+Dispatching process 37FA10FE628B49DB9EBB39E757AE2BDA_0_2.. done.
+Wrote scheduling report to : /star/u/zchang/jetAnalysis/jets/working_7/scripts/sched37FA10FE628B49DB9EBB39E757AE2BDA.report
+Reporting statistics... done.
+Scheduling successful
+runnumber=13101050
+STAR Template Scheduler 0.1 (/afs/rhic.bnl.gov/star/packages/scripts/star-submit)
+
+STAR Unified Meta Scheduler 1.10.28
+Your Log file can be found at: /afs/rhic.bnl.gov/star/doc/www/html/tmp/pub/scheduler/zchang.log
+Reading request description file : schedTemplateExp.xml
+Analyzing XML...XML OK
+Resolving File system wildcards
+[2018.12.04 10:54:21 EST] Dataset size is 3 files
+Removing files not on site BNL
+[2018.12.04 10:54:21 EST] Dataset size is 3 files
+-------Processing recovered dataset for paths-------
+Removing HPSS files as not accessible in syntax=paths
+[2018.12.04 10:54:21 EST] Dataset size is 3 files
+Skipping (Removing RCRS node files) no such files
+Dropping files with duplicate LFN (files that are the same)
+[2018.12.04 10:54:21 EST] Started with 3 files, current size is 3files, 0 duplicate files dropped.
+Skipping (Sorting by node) all NFS files
+Skipping (Splitting by node) all NFS files
+Splitting dataset entries by size (minSize=1 ,maxSize=1 )
+[2018.12.04 10:54:21 EST] Dataset size is 3 files
+----------------------------------------------------
+validating dataset ....passed
+Writting files for process 8B9A7EB05943132E7605F9F75FEFF7DD_2..done.
+Writting files for process 8B9A7EB05943132E7605F9F75FEFF7DD_1..done.
+Writting files for process 8B9A7EB05943132E7605F9F75FEFF7DD_0..done.
+Dispatching process 8B9A7EB05943132E7605F9F75FEFF7DD_0_2.. done.
+Wrote scheduling report to : /star/u/zchang/jetAnalysis/jets/working_7/scripts/sched8B9A7EB05943132E7605F9F75FEFF7DD.report
+Reporting statistics... done.
+Scheduling successful
+runnumber=13104008
+STAR Template Scheduler 0.1 (/afs/rhic.bnl.gov/star/packages/scripts/star-submit)
+
+STAR Unified Meta Scheduler 1.10.28
+Your Log file can be found at: /afs/rhic.bnl.gov/star/doc/www/html/tmp/pub/scheduler/zchang.log
+Reading request description file : schedTemplateExp.xml
+Analyzing XML...XML OK
+Resolving File system wildcards
+[2018.12.04 10:54:27 EST] Dataset size is 3 files
+Removing files not on site BNL
+[2018.12.04 10:54:27 EST] Dataset size is 3 files
+-------Processing recovered dataset for paths-------
+Removing HPSS files as not accessible in syntax=paths
+[2018.12.04 10:54:27 EST] Dataset size is 3 files
+Skipping (Removing RCRS node files) no such files
+Dropping files with duplicate LFN (files that are the same)
+[2018.12.04 10:54:27 EST] Started with 3 files, current size is 3files, 0 duplicate files dropped.
+Skipping (Sorting by node) all NFS files
+Skipping (Splitting by node) all NFS files
+Splitting dataset entries by size (minSize=1 ,maxSize=1 )
+[2018.12.04 10:54:27 EST] Dataset size is 3 files
+----------------------------------------------------
+validating dataset ....passed
+Writting files for process 0C1F5F96A8D1B0C52A43B8C107070E1F_2..done.
+Writting files for process 0C1F5F96A8D1B0C52A43B8C107070E1F_1..done.
+Writting files for process 0C1F5F96A8D1B0C52A43B8C107070E1F_0..done.
+Dispatching process 0C1F5F96A8D1B0C52A43B8C107070E1F_0_2. done.
+Wrote scheduling report to : /star/u/zchang/jetAnalysis/jets/working_7/scripts/sched0C1F5F96A8D1B0C52A43B8C107070E1F.report
+Reporting statistics... done.
+Scheduling successful
+runnumber=13104058
+STAR Template Scheduler 0.1 (/afs/rhic.bnl.gov/star/packages/scripts/star-submit)
+
+STAR Unified Meta Scheduler 1.10.28
+Your Log file can be found at: /afs/rhic.bnl.gov/star/doc/www/html/tmp/pub/scheduler/zchang.log
+Reading request description file : schedTemplateExp.xml
+Analyzing XML...XML OK
+Resolving File system wildcards
+[2018.12.04 10:54:33 EST] Dataset size is 3 files
+Removing files not on site BNL
+[2018.12.04 10:54:33 EST] Dataset size is 3 files
+-------Processing recovered dataset for paths-------
+Removing HPSS files as not accessible in syntax=paths
+[2018.12.04 10:54:33 EST] Dataset size is 3 files
+Skipping (Removing RCRS node files) no such files
+Dropping files with duplicate LFN (files that are the same)
+[2018.12.04 10:54:33 EST] Started with 3 files, current size is 3files, 0 duplicate files dropped.
+Skipping (Sorting by node) all NFS files
+Skipping (Splitting by node) all NFS files
+Splitting dataset entries by size (minSize=1 ,maxSize=1 )
+[2018.12.04 10:54:33 EST] Dataset size is 3 files
+----------------------------------------------------
+validating dataset ....passed
+Writting files for process 3C3AED7440F117FAF1288F9193B4430E_2..done.
+Writting files for process 3C3AED7440F117FAF1288F9193B4430E_1..done.
+Writting files for process 3C3AED7440F117FAF1288F9193B4430E_0..done.
+Dispatching process 3C3AED7440F117FAF1288F9193B4430E_0_2.. done.
+Wrote scheduling report to : /star/u/zchang/jetAnalysis/jets/working_7/scripts/sched3C3AED7440F117FAF1288F9193B4430E.report
+Reporting statistics... done.
+Scheduling successful
+runnumber=13105011
+STAR Template Scheduler 0.1 (/afs/rhic.bnl.gov/star/packages/scripts/star-submit)
+
+STAR Unified Meta Scheduler 1.10.28
+Your Log file can be found at: /afs/rhic.bnl.gov/star/doc/www/html/tmp/pub/scheduler/zchang.log
+Reading request description file : schedTemplateExp.xml
+Analyzing XML...XML OK
+Resolving File system wildcards
+[2018.12.04 10:54:40 EST] Dataset size is 3 files
+Removing files not on site BNL
+[2018.12.04 10:54:40 EST] Dataset size is 3 files
+-------Processing recovered dataset for paths-------
+Removing HPSS files as not accessible in syntax=paths
+[2018.12.04 10:54:40 EST] Dataset size is 3 files
+Skipping (Removing RCRS node files) no such files
+Dropping files with duplicate LFN (files that are the same)
+[2018.12.04 10:54:40 EST] Started with 3 files, current size is 3files, 0 duplicate files dropped.
+Skipping (Sorting by node) all NFS files
+Skipping (Splitting by node) all NFS files
+Splitting dataset entries by size (minSize=1 ,maxSize=1 )
+[2018.12.04 10:54:40 EST] Dataset size is 3 files
+----------------------------------------------------
+validating dataset ....passed
+Writting files for process 541518925DA5A68637626750D424E504_2..done.
+Writting files for process 541518925DA5A68637626750D424E504_1..done.
+Writting files for process 541518925DA5A68637626750D424E504_0..done.
+Dispatching process 541518925DA5A68637626750D424E504_0_2. done.
+Wrote scheduling report to : /star/u/zchang/jetAnalysis/jets/working_7/scripts/sched541518925DA5A68637626750D424E504.report
+Reporting statistics... done.
+Scheduling successful
+runnumber=13105040
+STAR Template Scheduler 0.1 (/afs/rhic.bnl.gov/star/packages/scripts/star-submit)
+
+STAR Unified Meta Scheduler 1.10.28
+Your Log file can be found at: /afs/rhic.bnl.gov/star/doc/www/html/tmp/pub/scheduler/zchang.log
+Reading request description file : schedTemplateExp.xml
+Analyzing XML...XML OK
+Resolving File system wildcards
+[2018.12.04 10:54:46 EST] Dataset size is 3 files
+Removing files not on site BNL
+[2018.12.04 10:54:46 EST] Dataset size is 3 files
+-------Processing recovered dataset for paths-------
+Removing HPSS files as not accessible in syntax=paths
+[2018.12.04 10:54:46 EST] Dataset size is 3 files
+Skipping (Removing RCRS node files) no such files
+Dropping files with duplicate LFN (files that are the same)
+[2018.12.04 10:54:46 EST] Started with 3 files, current size is 3files, 0 duplicate files dropped.
+Skipping (Sorting by node) all NFS files
+Skipping (Splitting by node) all NFS files
+Splitting dataset entries by size (minSize=1 ,maxSize=1 )
+[2018.12.04 10:54:46 EST] Dataset size is 3 files
+----------------------------------------------------
+validating dataset ....passed
+Writting files for process 192E4768FB595720769FEC52DBBE81A2_2..done.
+Writting files for process 192E4768FB595720769FEC52DBBE81A2_1..done.
+Writting files for process 192E4768FB595720769FEC52DBBE81A2_0..done.
+Dispatching process 192E4768FB595720769FEC52DBBE81A2_0_2. done.
+Wrote scheduling report to : /star/u/zchang/jetAnalysis/jets/working_7/scripts/sched192E4768FB595720769FEC52DBBE81A2.report
+Reporting statistics... done.
+Scheduling successful
+runnumber=13107001
+STAR Template Scheduler 0.1 (/afs/rhic.bnl.gov/star/packages/scripts/star-submit)
+
+STAR Unified Meta Scheduler 1.10.28
+Your Log file can be found at: /afs/rhic.bnl.gov/star/doc/www/html/tmp/pub/scheduler/zchang.log
+Reading request description file : schedTemplateExp.xml
+Analyzing XML...XML OK
+Resolving File system wildcards
+[2018.12.04 10:54:53 EST] Dataset size is 3 files
+Removing files not on site BNL
+[2018.12.04 10:54:53 EST] Dataset size is 3 files
+-------Processing recovered dataset for paths-------
+Removing HPSS files as not accessible in syntax=paths
+[2018.12.04 10:54:53 EST] Dataset size is 3 files
+Skipping (Removing RCRS node files) no such files
+Dropping files with duplicate LFN (files that are the same)
+[2018.12.04 10:54:53 EST] Started with 3 files, current size is 3files, 0 duplicate files dropped.
+Skipping (Sorting by node) all NFS files
+Skipping (Splitting by node) all NFS files
+Splitting dataset entries by size (minSize=1 ,maxSize=1 )
+[2018.12.04 10:54:53 EST] Dataset size is 3 files
+----------------------------------------------------
+validating dataset ....passed
+Writting files for process 130969ED261ED0834FAA09EBBD67F5F0_2..done.
+Writting files for process 130969ED261ED0834FAA09EBBD67F5F0_1..done.
+Writting files for process 130969ED261ED0834FAA09EBBD67F5F0_0..done.
+Dispatching process 130969ED261ED0834FAA09EBBD67F5F0_0_2. done.
+Wrote scheduling report to : /star/u/zchang/jetAnalysis/jets/working_7/scripts/sched130969ED261ED0834FAA09EBBD67F5F0.report
+Reporting statistics... done.
+Scheduling successful
+runnumber=13107027
+STAR Template Scheduler 0.1 (/afs/rhic.bnl.gov/star/packages/scripts/star-submit)
+
+STAR Unified Meta Scheduler 1.10.28
+Your Log file can be found at: /afs/rhic.bnl.gov/star/doc/www/html/tmp/pub/scheduler/zchang.log
+Reading request description file : schedTemplateExp.xml
+Analyzing XML...XML OK
+Resolving File system wildcards
+[2018.12.04 10:54:58 EST] Dataset size is 3 files
+Removing files not on site BNL
+[2018.12.04 10:54:58 EST] Dataset size is 3 files
+-------Processing recovered dataset for paths-------
+Removing HPSS files as not accessible in syntax=paths
+[2018.12.04 10:54:59 EST] Dataset size is 3 files
+Skipping (Removing RCRS node files) no such files
+Dropping files with duplicate LFN (files that are the same)
+[2018.12.04 10:54:59 EST] Started with 3 files, current size is 3files, 0 duplicate files dropped.
+Skipping (Sorting by node) all NFS files
+Skipping (Splitting by node) all NFS files
+Splitting dataset entries by size (minSize=1 ,maxSize=1 )
+[2018.12.04 10:54:59 EST] Dataset size is 3 files
+----------------------------------------------------
+validating dataset ....passed
+Writting files for process 5CCA9BCD34F5E436F137F89A48F09106_2..done.
+Writting files for process 5CCA9BCD34F5E436F137F89A48F09106_1..done.
+Writting files for process 5CCA9BCD34F5E436F137F89A48F09106_0..done.
+Dispatching process 5CCA9BCD34F5E436F137F89A48F09106_0_2. done.
+Wrote scheduling report to : /star/u/zchang/jetAnalysis/jets/working_7/scripts/sched5CCA9BCD34F5E436F137F89A48F09106.report
+Reporting statistics... done.
+Scheduling successful
+runnumber=13108008
+STAR Template Scheduler 0.1 (/afs/rhic.bnl.gov/star/packages/scripts/star-submit)
+
+STAR Unified Meta Scheduler 1.10.28
+Your Log file can be found at: /afs/rhic.bnl.gov/star/doc/www/html/tmp/pub/scheduler/zchang.log
+Reading request description file : schedTemplateExp.xml
+Analyzing XML...XML OK
+Resolving File system wildcards
+[2018.12.04 10:55:04 EST] Dataset size is 3 files
+Removing files not on site BNL
+[2018.12.04 10:55:04 EST] Dataset size is 3 files
+-------Processing recovered dataset for paths-------
+Removing HPSS files as not accessible in syntax=paths
+[2018.12.04 10:55:04 EST] Dataset size is 3 files
+Skipping (Removing RCRS node files) no such files
+Dropping files with duplicate LFN (files that are the same)
+[2018.12.04 10:55:04 EST] Started with 3 files, current size is 3files, 0 duplicate files dropped.
+Skipping (Sorting by node) all NFS files
+Skipping (Splitting by node) all NFS files
+Splitting dataset entries by size (minSize=1 ,maxSize=1 )
+[2018.12.04 10:55:04 EST] Dataset size is 3 files
+----------------------------------------------------
+validating dataset ....passed
+Writting files for process 2568933BAE0541D0F16CB7D4FEB0A8BB_2..done.
+Writting files for process 2568933BAE0541D0F16CB7D4FEB0A8BB_1..done.
+Writting files for process 2568933BAE0541D0F16CB7D4FEB0A8BB_0..done.
+Dispatching process 2568933BAE0541D0F16CB7D4FEB0A8BB_0_2. done.
+Wrote scheduling report to : /star/u/zchang/jetAnalysis/jets/working_7/scripts/sched2568933BAE0541D0F16CB7D4FEB0A8BB.report
+Reporting statistics... done.
+Scheduling successful
+runnumber=13108033
+STAR Template Scheduler 0.1 (/afs/rhic.bnl.gov/star/packages/scripts/star-submit)
+
+STAR Unified Meta Scheduler 1.10.28
+Your Log file can be found at: /afs/rhic.bnl.gov/star/doc/www/html/tmp/pub/scheduler/zchang.log
+Reading request description file : schedTemplateExp.xml
+Analyzing XML...XML OK
+Resolving File system wildcards
+[2018.12.04 10:55:10 EST] Dataset size is 3 files
+Removing files not on site BNL
+[2018.12.04 10:55:10 EST] Dataset size is 3 files
+-------Processing recovered dataset for paths-------
+Removing HPSS files as not accessible in syntax=paths
+[2018.12.04 10:55:10 EST] Dataset size is 3 files
+Skipping (Removing RCRS node files) no such files
+Dropping files with duplicate LFN (files that are the same)
+[2018.12.04 10:55:10 EST] Started with 3 files, current size is 3files, 0 duplicate files dropped.
+Skipping (Sorting by node) all NFS files
+Skipping (Splitting by node) all NFS files
+Splitting dataset entries by size (minSize=1 ,maxSize=1 )
+[2018.12.04 10:55:10 EST] Dataset size is 3 files
+----------------------------------------------------
+validating dataset ....passed
+Writting files for process F020A1B65FC48FF570D36118FCDB6B2F_2..done.
+Writting files for process F020A1B65FC48FF570D36118FCDB6B2F_1..done.
+Writting files for process F020A1B65FC48FF570D36118FCDB6B2F_0..done.
+Dispatching process F020A1B65FC48FF570D36118FCDB6B2F_0_2. done.
+Wrote scheduling report to : /star/u/zchang/jetAnalysis/jets/working_7/scripts/schedF020A1B65FC48FF570D36118FCDB6B2F.report
+Reporting statistics... done.
+Scheduling successful
+runnumber=13109016
+STAR Template Scheduler 0.1 (/afs/rhic.bnl.gov/star/packages/scripts/star-submit)
+
+STAR Unified Meta Scheduler 1.10.28
+Your Log file can be found at: /afs/rhic.bnl.gov/star/doc/www/html/tmp/pub/scheduler/zchang.log
+Reading request description file : schedTemplateExp.xml
+Analyzing XML...XML OK
+Resolving File system wildcards
+[2018.12.04 10:55:16 EST] Dataset size is 3 files
+Removing files not on site BNL
+[2018.12.04 10:55:16 EST] Dataset size is 3 files
+-------Processing recovered dataset for paths-------
+Removing HPSS files as not accessible in syntax=paths
+[2018.12.04 10:55:16 EST] Dataset size is 3 files
+Skipping (Removing RCRS node files) no such files
+Dropping files with duplicate LFN (files that are the same)
+[2018.12.04 10:55:16 EST] Started with 3 files, current size is 3files, 0 duplicate files dropped.
+Skipping (Sorting by node) all NFS files
+Skipping (Splitting by node) all NFS files
+Splitting dataset entries by size (minSize=1 ,maxSize=1 )
+[2018.12.04 10:55:16 EST] Dataset size is 3 files
+----------------------------------------------------
+validating dataset ....passed
+Writting files for process A166C4C991123ADD46CDCB5998FF9492_2..done.
+Writting files for process A166C4C991123ADD46CDCB5998FF9492_1..done.
+Writting files for process A166C4C991123ADD46CDCB5998FF9492_0..done.
+Dispatching process A166C4C991123ADD46CDCB5998FF9492_0_2. done.
+Wrote scheduling report to : /star/u/zchang/jetAnalysis/jets/working_7/scripts/schedA166C4C991123ADD46CDCB5998FF9492.report
+Reporting statistics... done.
+Scheduling successful

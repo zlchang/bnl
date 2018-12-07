@@ -1,0 +1,169 @@
+#ifndef ROOT_MYJETRESPONSE
+#define ROOT_MYJETRESPONSE
+#include "TObject.h"
+#include "TH2F.h"
+#include "TH3F.h"
+#include "TAxis.h"
+//#include "TProfile2D.h"
+#include"StMyJetPool/StMyDef/MyDef.h"
+#include "StMyHistUtil/StMyHist.h"
+class MyJetRes : public TObject{
+ public:
+  virtual TH2D* GetJetRes() const = 0;
+  //virtual TH1D *GetParJet() const = 0;
+  //virtual TH1D *GetParTwoJet() const = 0;
+
+  virtual StMyProfile *GetJetMatchRatio() const = 0;
+  virtual StMyProfile *GetJetPtScale() const = 0;
+  virtual StMyProfile *GetJetPtShift() const = 0;
+ private:
+  ClassDef(MyJetRes, 0);
+};
+class MyJetRes2D : public MyJetRes{
+
+ public:
+  MyJetRes2D(){};
+  
+  MyJetRes2D(const char* name, int nxpt, double *xptbins, int nxeta, double *xetabins, int nypt, double *yptbins, int nyeta, double *yetabins){
+    TH1::StatOverflows(kTRUE);
+    TH1::SetDefaultSumw2(kTRUE);
+
+    xpt = new TAxis(nxpt, xptbins);
+    xeta = new TAxis(nxeta, xetabins);
+    ypt = new TAxis(nypt, yptbins);
+    yeta = new TAxis(nyeta, yetabins);
+    //response matrix
+    int nx = (nxpt+2)*(nxeta+2);
+    int ny = (nypt+2)*(nyeta+2);
+    hjetres = new TH2D(Form("%sResponse", name), "; index x; index y", nx, 0, nx, ny, 0, ny);
+    //matching ratio
+    hjetmatchratioprof = new StMyProfile(Form("%sMatchRatioProf", name), "; index x; matchRatio", nx, 0, nx);
+    //pt shift
+    hjetptshiftprof = new StMyProfile(Form("%sJetPtShiftProf", name), ";index x;jet p_{T} shift [GeV]", nx, 0, nx);
+    hjetptratioprof = new StMyProfile(Form("%sJetPtRatioProf", name), ";index x;p_{T} ratio", nx, 0, nx);
+    //particle spectrum
+    //hjetpar = new TH1D(Form("%sParJet", name), ";par jet p_{T} [GeV]", ny, 0, ny);
+    //hjetparT = new TH1D(Form("%sParMatchedTwoJets", name), ";parton jet _{T} [GeV]", ny, 0, ny);
+  }
+  ~MyJetRes2D(){
+    delete hjetmatchratioprof;
+    //response
+    delete hjetres;
+    delete hjetptshiftprof;
+    delete hjetptratioprof;
+    //delete hjetpar;
+    //delete hjetparT;
+
+    delete xpt;
+    delete xeta;
+    delete ypt;
+    delete yeta;
+  }
+  void Add(MyJetRes2D *jetyield, float w);
+  //response matrix
+  TH2D* GetJetRes() const{
+    return hjetres;
+  }	
+  //TH1D *GetParJet() const{
+  //return hjetpar;
+  //}
+  //TH1D *GetParTwoJet() const{
+  //return hjetparT;
+  //}
+  StMyProfile *GetJetMatchRatio() const {return hjetmatchratioprof;} 
+  StMyProfile *GetJetPtScale() const {return hjetptratioprof;} 
+  StMyProfile *GetJetPtShift() const {return hjetptshiftprof;} 
+
+  void FillJetMatchRatio(double pt, double eta, bool match, double w) {
+    int ii = XIndex(pt, eta);
+    hjetmatchratioprof->Fill(ii, match, w);
+  }   
+  //void *FillParJet(double pt, double eta, double w){
+  //hjetpar->Fill(YIndex(pt, eta), w);
+  //}
+  //void *FillParTwoJet(double pt, double eta, double w){
+  //hjetparT->Fill(YIndex(pt, eta), w);
+  //}
+  void FillResponse(float pt1, float eta1, float pt2, float eta2, float weight);
+
+ protected:
+  int XIndex(double pt, double eta);
+  int YIndex(double pt, double eta);
+ private:
+  StMyProfile *hjetmatchratioprof;
+  //response
+  TH2D *hjetres;
+  //profile
+  StMyProfile *hjetptshiftprof;
+  StMyProfile *hjetptratioprof;
+  //TH1D *hjetpar;
+  //TH1D *hjetparT;
+
+  TAxis *xpt;
+  TAxis *xeta;
+  TAxis *ypt;
+  TAxis *yeta;
+  
+  ClassDef(MyJetRes2D, 1);
+};
+class MyJetRes1D : public MyJetRes{
+
+ public:
+  MyJetRes1D(){};
+  
+  MyJetRes1D(const char* name, int nxpt, double *xptbins, int nypt, double *yptbins){
+    TH1::StatOverflows(kTRUE);
+    TH1::SetDefaultSumw2(kTRUE);
+
+    //response matrix
+    hjetres = new TH2D(Form("%sResponse", name), "; index x; index y", nxpt, xptbins, nypt, yptbins);
+    //matching ratio
+    hjetmatchratioprof = new StMyProfile(Form("%sMatchRatioProf", name), "; index x; matchRatio", nxpt, xptbins);
+    //pt shift
+    hjetptshiftprof = new StMyProfile(Form("%sJetPtShiftProf", name), ";index x;jet p_{T} shift [GeV]", nxpt, xptbins);
+    hjetptratioprof = new StMyProfile(Form("%sJetPtRatioProf", name), ";index x;p_{T} ratio", nxpt, xptbins);
+    //particle spectrum
+    //hjetpar = new TH1D(Form("%sParJet", name), ";par jet p_{T} [GeV]", nypt, yptbins);
+    //hjetparT = new TH1D(Form("%sParMatchedTwoJets", name), ";parton jet _{T} [GeV]", nypt, yptbins);
+  }
+  ~MyJetRes1D(){
+    delete hjetmatchratioprof;
+    //response
+    delete hjetres;
+    delete hjetptshiftprof;
+    delete hjetptratioprof;
+    //delete hjetpar;
+    //delete hjetparT;
+  }
+  void Add(MyJetRes1D *jetyield, float w);
+  //response matrix
+  TH2D* GetJetRes() const{
+    return hjetres;
+  }	
+  //TH1D *GetParJet() const{
+  //return hjetpar;
+  //}
+  //TH1D *GetParTwoJet() const{
+  //  return hjetparT;
+  //}
+
+  StMyProfile *GetJetMatchRatio() const {return hjetmatchratioprof;} 
+  StMyProfile *GetJetPtScale() const {return hjetptratioprof;} 
+  StMyProfile *GetJetPtShift() const {return hjetptshiftprof;} 
+  
+  void FillResponse(float pt1, float pt2, float weight);
+
+ protected:
+ private:
+  //response
+  TH2D *hjetres;
+  //profile
+  StMyProfile *hjetmatchratioprof;
+  StMyProfile *hjetptshiftprof;
+  StMyProfile *hjetptratioprof;
+  //TH1D *hjetpar;
+  //TH1D *hjetparT;
+  
+  ClassDef(MyJetRes1D, 2);
+};
+#endif

@@ -1,0 +1,15 @@
+#ifndef ST_UE_JET
+#define ST_UE_JET
+
+class StUeJet : public TObject{
+
+ public:
+
+  StUeJet(){
+  }
+  ~StUeJet(){}
+ private:
+  int mJetId;
+  ClassDef(StUeJet, 1);
+};
+#endif

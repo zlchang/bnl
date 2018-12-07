@@ -1,0 +1,46 @@
+#include "MyJet.h"
+
+#include "StSpinPool/StJetEvent/StJetCandidate.h"
+#include "StSpinPool/StUeEvent/StUeOffAxisConesJet.h"
+#include "StSpinPool/StUeEvent/StUeOffAxisCones.h"
+//ClassImp(MyJet);
+int MyJet::Compare(const TObject* obj) const{
+  MyJet* p = (MyJet*) obj;
+  if(pt() > p->pt()) return -1;
+  else if(pt() < p->pt()) return 1;
+  return 0;
+}
+
+
+float MyJet::pt() const{ return mJet->pt(); }
+float MyJet::eta() const{ return mJet->eta(); }
+float MyJet::phi() const{ return mJet->phi(); }
+float MyJet::rt() const{ return mJet->rt(); }
+int MyJet::trackmult() const{return mJet->numberOfTracks(); }
+int MyJet::towermult() const { return mJet->numberOfTowers(); }
+float MyJet::uedensity(const char *branch) const{ map<string, float> ue = mJet->ueDensity(); return ue[string(branch)];}
+float MyJet::area() const { return mJet->area(); }
+int MyJet::trackmultUe() const
+{
+  if(! mJetUe) return 0;
+  int mult = 0;
+  int nCones = mJetUe->numberOfCones();
+  for(int icone = 0; icone < nCones; icone++){
+    StUeOffAxisCones *jcone = mJetUe->cone(icone);
+    mult += jcone->numberOfTracks();
+  }
+  return mult;
+
+}
+int MyJet::towermultUe() const
+{
+  if(! mJetUe) return 0;
+  int mult = 0;
+  int nCones = mJetUe->numberOfCones();
+  for(int icone = 0; icone < nCones; icone++){
+    StUeOffAxisCones *jcone = mJetUe->cone(icone);
+    mult += jcone->numberOfTowers();
+  }
+  return mult;
+
+}

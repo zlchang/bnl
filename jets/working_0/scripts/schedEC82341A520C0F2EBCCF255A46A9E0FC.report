@@ -1,0 +1,53 @@
+STAR Unified Meta Scheduler 1.10.28
+File generated at : Tue Dec 04 10:50:58 EST 2018
+This file is a detailed report of SUMS meta job EC82341A520C0F2EBCCF255A46A9E0FC and its 3 processes.
+
+Jobs table :
++------------------------------------------------------------Jobs Of Request EC82341A520C0F2EBCCF255A46A9E0FC-------------------------------------------------------------+
++------------------------------------+----------------------+-------+--------+------------+--------+----------------------+----------------------+---------+--------------+
+| Job_ID                             | Queue                | Files | Events | estRunTime | Target | SubmitTime           | Dispatcher           | Success | DispatchTime |
++------------------------------------+----------------------+-------+--------+------------+--------+----------------------+----------------------+---------+--------------+
+| EC82341A520C0F2EBCCF255A46A9E0FC_0 | bnl_condor_RCF_quick | 1     | 0      | 240min     | Any    | 4/12/2018 10:50:57AM | CondorFastDispatcher | YES     | 1ms          |
+| EC82341A520C0F2EBCCF255A46A9E0FC_1 | bnl_condor_RCF_quick | 1     | 0      | 240min     | Any    | 4/12/2018 10:50:57AM | CondorFastDispatcher | YES     | 1ms          |
+| EC82341A520C0F2EBCCF255A46A9E0FC_2 | bnl_condor_RCF_quick | 1     | 0      | 240min     | Any    | 4/12/2018 10:50:57AM | CondorFastDispatcher | YES     | 1ms          |
++------------------------------------+----------------------+-------+--------+------------+--------+----------------------+----------------------+---------+--------------+
+Request object report :
+ 
++----------------------------------------------Queues-----------------------------------------------+
++-------------------------+------+--------+-----------+---------+-------+--------+------------------+
+| ID                      | Name | Type   | TimeLimit | MaxMem  | Local | S.O.P. | Cluster          |
++-------------------------+------+--------+-----------+---------+-------+--------+------------------+
+| bnl_condor_RCF_quick    |      | CONDOR | 300min    | none    | N     | 1      | rcrs.rcf.bnl.gov |
+| bnl_condor_short_quick  |      | CONDOR | 180min    | 10000MB | N     | 10     | rcrs.rcf.bnl.gov |
+| BNL_condor_medium_quick |      | CONDOR | 300min    | 10000MB | N     | 50     | rcrs.rcf.bnl.gov |
+| bnl_condor_long_quick   |      | CONDOR | 7200min   | 10000MB | N     | 100    | rcrs.rcf.bnl.gov |
++-------------------------+------+--------+-----------+---------+-------+--------+------------------+
+
+*************************************************************************
+
+*   This is a history of Job assignments.                               *
+
+*   If your Jobs are going to the wrong queue, this may tell you why.   *
+
+*************************************************************************
+
+
+
+
+Job object EC82341A520C0F2EBCCF255A46A9E0FC_0 report :
+ EC82341A520C0F2EBCCF255A46A9E0FC_0 trying (bnl_condor_RCF_quick)
+EC82341A520C0F2EBCCF255A46A9E0FC_0 assigned to (bnl_condor_RCF_quick)
+ 
+
+Job object EC82341A520C0F2EBCCF255A46A9E0FC_1 report :
+ EC82341A520C0F2EBCCF255A46A9E0FC_1 trying (bnl_condor_RCF_quick)
+EC82341A520C0F2EBCCF255A46A9E0FC_1 assigned to (bnl_condor_RCF_quick)
+ 
+
+Job object EC82341A520C0F2EBCCF255A46A9E0FC_2 report :
+ EC82341A520C0F2EBCCF255A46A9E0FC_2 trying (bnl_condor_RCF_quick)
+EC82341A520C0F2EBCCF255A46A9E0FC_2 assigned to (bnl_condor_RCF_quick)
+ 
+
+End of Report
+

@@ -1,0 +1,11 @@
+#ifndef PROFILE_UTILITIES
+#define PROFILE_UTILITIES
+
+class TH1D;
+class TProfile;
+class TFile;
+
+TH1D *convertTProfile(TProfile *hw, TProfile *hw2);
+TH1D *convertTProfile(TFile *f, const char*name);
+
+#endif

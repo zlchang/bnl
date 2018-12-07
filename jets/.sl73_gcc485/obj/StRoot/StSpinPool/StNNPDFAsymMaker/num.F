@@ -1,0 +1,1 @@
+../../../../../StRoot/StSpinPool/StNNPDFAsymMaker/num.F

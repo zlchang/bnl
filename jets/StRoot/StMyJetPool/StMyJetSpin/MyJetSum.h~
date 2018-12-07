@@ -1,0 +1,41 @@
+#ifndef MYJETSUM
+#define MYJETSUM
+
+#include "TObject.h"
+
+class MyJetAsym;
+class MyJetCrs;
+class MyJetPtAsym;
+class MyJetSpin;
+class MyJetPtSpin;
+
+class MyJetSum : public TObject{
+public:
+
+  MyJetSum():mAsym(0x0), mPol(0x0), mUnp(0x0), mPtAsym(0x0), mDptAsym(0x0){
+  }
+  MyJetSum(const char *name);{
+    mAsym = new MyJetAsym(Form("%sAsym", name));
+    mPol = new MyJetCrs(Form("%sPol", name));
+    mUnp = new MyJetCrs(Form("%sUnp", name));
+    mPtAsym = new MyJetPtAsym(Form("%sPtAsym", name));
+    mDptAsym = new MyJetPtAsym(Form("%sDptAsym", name));
+  }
+  MyJetAsym *GetAsym() const{ return mAsym;}
+  MyJetCrs *GetPol() const { return mPol; }
+  MyJetCrs *GetUnp() const { return mUnp; }
+  MyJetPtAsym *GetPtAsym const { return mPtAsym; }
+  MyJetDptAsym *GetDptAsym const { return mDptAsym; }
+
+  void FillJetSpin(MyJetSpin *jetspin, float rel[], float pb, float py, float scale = 1.0);
+  void FillJetPtSpin(MyJetPtSpin *jetptspin, float pb = 0.55, float py = 0.55);
+  void FillAsym();
+private:
+  MyJetAsym *mAsym;
+  MyJetCrs *mPol;
+  MyJetCrs *mUnp;
+  MyJetPtAsym *mPtAsym;
+  MyJetPtAsym *mDptAsym;
+  ClassDef(MyJetSum, 1);
+}
+#endif

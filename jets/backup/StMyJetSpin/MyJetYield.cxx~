@@ -1,0 +1,122 @@
+#include "MyJetYield.h"
+
+ClassImp(MyJetYield);
+
+void MyJetYield::Add(MyJetYield *jetyield, float w)
+{
+  hjetptvtxprof->Add(jetyeild->GetJetVertexProf(), w);
+  hjetpartonratioprof->Add(jetyield->GetJetPartonRatioProfile(), w);
+  hjetparticleratioprof->Add(jetyield->GetJetParticleRatioProfile(), w);
+  hjettwojet->Add(jetyield->GetJetTwoJet(), w);
+    //response
+  hjetptpartonres->Add(jetyield->GetJetPartonResMC(), w);
+  hjetptparticleres->Add(jetyield->GetJetParticleResMC(), w);
+  //hjetptparticlecrrres->Add(jetyield->GetJetParticleCrrResMC(), w);
+  hjetparton->Add(jetyield->GetJetPartonJet(), w);
+  hjetparticle->Add(jetyield->GetJetParticleJet(), w);
+  hjetpartonT->Add(jetyield->GetJetPartonTwoJet(), w);
+  hjetparticleT->Add(jetyield->GetJetParticleTwoJet(), w);
+  //crr
+  //hjetparticlecrr->Add(jetyield->GetJetParticleJet(), w);
+  //hjetparticlecrrT->Add(jetyield->GetJetParticleTwoJetCrr(), w);
+
+}
+void MyJetYield::FillJetTwoJet(float pt1, float eta1, float pt2, float eta2, float weight)
+{
+  TAxis *xdet = hjetdetector->GetXaxis();
+  int x1 = xdet->FindBin(pt1);
+  if(x1 == 0 || x1 == xdet->GetNbins()+1) return;
+  TAxis *ydet = hjetdetector->GetYaxis();
+  int y1 = ydet->FindBin(eta1);
+  if(y1 == 0 || y1 == ydet->GetNbins()+1) return;
+  int aa = (x1-1)+(y1-1)*xdet->GetNbins();
+  
+  int x2 = xdet->FindBin(pt2);
+  if(x2 == 0 || x2 == xdet->GetNbins()+1) return;
+  int y2 = ydet->FindBin(eta2);
+  if(y2 == 0 || y2 == ydet->GetNbins()+1) return;
+  
+  int bb = (x2-1)+(y2-1)*xpar->GetNbins();
+  hjettwojet->Fill(aa, bb, weight);
+  hjettwojet->Fill(bb, aa, weight);
+}
+void MyJetYield::FillPartonResponse(float pt1, float eta1, float pt2, float eta2, float weight){
+  //
+  TAxis *xdet = hjetdetector->GetXaxis();
+  int x1 = xdet->FindBin(pt1);
+  if(x1 == 0 || x1 == xdet->GetNbins()+1) return;
+  TAxis *ydet = hjetdetector->GetYaxis();
+  int y1 = ydet->FindBin(eta1);
+  if(y1 == 0 || y1 == ydet->GetNbins()+1) return;
+  
+  int aa = (x1-1)+(y1-1)*xdet->GetNbins();
+  //
+  TAxis *xpar = hjetparton->GetXaxis();
+  int x2 = xpar->FindBin(pt2);
+  if(x2 == 0 || x2 == xpar->GetNbins()+1) return;
+  TAxis *ypar = hjetparton->GetYaxis();
+  int y2 = ypar->FindBin(eta2);
+  if(y2 == 0 || y2 == ypar->GetNbins()+1) return;
+      
+  int bb = (x2-1)+(y2-1)*xpar->GetNbins();
+  
+  hjetptpartonres->Fill(aa, bb, weight);
+  hjetparton->Fill(pt2, eta2, weight);
+} 
+
+void MyJetYield::FillParticleResponse(float pt1, float eta1, float pt2, float eta2, float weight){
+  //
+  TAxis *xdet = hjetdetector->GetXaxis();
+  int x1 = xdet->FindBin(pt1);
+  if(x1 == 0 || x1 == xdet->GetNbins()+1) return;
+  TAxis *ydet = hjetdetector->GetYaxis();
+  int y1 = ydet->FindBin(eta1);
+  if(y1 == 0 || y1 == ydet->GetNbins()+1) return;
+  
+  int aa = (x1-1)+(y1-1)*xdet->GetNbins();
+  //
+  TAxis *xpar = hjetparticle->GetXaxis();
+  int x2 = xpar->FindBin(pt2);
+  if(x2 == 0 || x2 == xpar->GetNbins()+1) return;
+  TAxis *ypar = hjetparticle->GetYaxis();
+  int y2 = ypar->FindBin(eta2);
+  if(y2 == 0 || y2 == ypar->GetNbins()+1) return;
+      
+  int bb = (x2-1)+(y2-1)*xpar->GetNbins();
+  
+  hjetptparticleres->Fill(aa, bb, weight);
+  hjetparticle->Fill(pt2, eta2, weight);
+} 
+/*
+void MyJetYield::FillParticleCrrResponse(float pt1, float eta1, float pt2, float eta2, float weight){
+  //
+  TAxis *xdet = hjetdetector->GetXaxis();
+  int x1 = xdet->FindBin(pt1);
+  if(x1 == 0 || x1 == xdet->GetNbins()+1) return;
+  TAxis *ydet = hjetdetector->GetYaxis();
+  int y1 = ydet->FindBin(eta1);
+  if(y1 == 0 || y1 == ydet->GetNbins()+1) return;
+  
+  int aa = (x1-1)+(y1-1)*xdet->GetNbins();
+  //
+  TAxis *xpar = hjetparticlecrr->GetXaxis();
+  int x2 = xpar->FindBin(pt2);
+  if(x2 == 0 || x2 == xpar->GetNbins()+1) return;
+  TAxis *ypar = hjetparticlecrr->GetYaxis();
+  int y2 = ypar->FindBin(eta2);
+  if(y2 == 0 || y2 == ypar->GetNbins()+1) return;
+      
+  int bb = (x2-1)+(y2-1)*xpar->GetNbins();
+  
+  hjetptparticlecrrres->Fill(aa, bb, weight);
+  hjetparticlecrr->Fill(pt2, eta2, weight);
+} 
+*/
+
+ClassImp(MyJetYieldPar);
+
+void MyJetYieldPar::Add(MyJetYieldPar *par, float w)
+{
+  hpteta->Add(par->GetPtEta(), w);
+  //hptetacrr->Add(par->GetPtEtaCrr(), w);
+}

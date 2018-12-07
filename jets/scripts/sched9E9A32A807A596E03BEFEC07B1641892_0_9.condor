@@ -1,0 +1,150 @@
+Universe       = vanilla
+Notification        = never
+Executable     = /star/u/zchang/jetAnalysis/jets/scripts/sched9E9A32A807A596E03BEFEC07B1641892_9.csh
+Output         = /star/u/zchang/data05/Run12JetsCrsUe/pt3_4/pt3_4.9.log
+Error          = /star/u/zchang/data05/Run12JetsCrsUe/pt3_4/pt3_4.9.err
+Requirements   = ((CPU_Experiment == "sdcc" ) || (CPU_Experiment == "star") || (CPU_Experiment == "phenix"))
+Log            = /star/u/zchang/jetAnalysis/jets/scripts/sched9E9A32A807A596E03BEFEC07B1641892_9.condor.log
+Initialdir     = /star/u/zchang/jetAnalysis/jets
++Experiment     = "general"                              
++Job_Type       = "cas"
+kill_sig        = SIGINT
+PeriodicRemove  = (NumJobStarts >=1 && JobStatus==1) || (JobStatus == 2 && (CurrentTime - JobCurrentStartDate > (54000)) && ((RemoteUserCpu+RemoteSysCpu)/(CurrentTime-JobCurrentStartDate) < 0.10))  || (((CurrentTime - EnteredCurrentStatus) > (2*24*3600)) && JobStatus == 5)
+Priority        = +10
+Queue
+
+Universe       = vanilla
+Notification        = never
+Executable     = /star/u/zchang/jetAnalysis/jets/scripts/sched9E9A32A807A596E03BEFEC07B1641892_8.csh
+Output         = /star/u/zchang/data05/Run12JetsCrsUe/pt3_4/pt3_4.8.log
+Error          = /star/u/zchang/data05/Run12JetsCrsUe/pt3_4/pt3_4.8.err
+Requirements   = ((CPU_Experiment == "sdcc" ) || (CPU_Experiment == "star") || (CPU_Experiment == "phenix"))
+Log            = /star/u/zchang/jetAnalysis/jets/scripts/sched9E9A32A807A596E03BEFEC07B1641892_8.condor.log
+Initialdir     = /star/u/zchang/jetAnalysis/jets
++Experiment     = "general"                              
++Job_Type       = "cas"
+kill_sig        = SIGINT
+PeriodicRemove  = (NumJobStarts >=1 && JobStatus==1) || (JobStatus == 2 && (CurrentTime - JobCurrentStartDate > (54000)) && ((RemoteUserCpu+RemoteSysCpu)/(CurrentTime-JobCurrentStartDate) < 0.10))  || (((CurrentTime - EnteredCurrentStatus) > (2*24*3600)) && JobStatus == 5)
+Priority        = +10
+Queue
+
+Universe       = vanilla
+Notification        = never
+Executable     = /star/u/zchang/jetAnalysis/jets/scripts/sched9E9A32A807A596E03BEFEC07B1641892_7.csh
+Output         = /star/u/zchang/data05/Run12JetsCrsUe/pt3_4/pt3_4.7.log
+Error          = /star/u/zchang/data05/Run12JetsCrsUe/pt3_4/pt3_4.7.err
+Requirements   = ((CPU_Experiment == "sdcc" ) || (CPU_Experiment == "star") || (CPU_Experiment == "phenix"))
+Log            = /star/u/zchang/jetAnalysis/jets/scripts/sched9E9A32A807A596E03BEFEC07B1641892_7.condor.log
+Initialdir     = /star/u/zchang/jetAnalysis/jets
++Experiment     = "general"                              
++Job_Type       = "cas"
+kill_sig        = SIGINT
+PeriodicRemove  = (NumJobStarts >=1 && JobStatus==1) || (JobStatus == 2 && (CurrentTime - JobCurrentStartDate > (54000)) && ((RemoteUserCpu+RemoteSysCpu)/(CurrentTime-JobCurrentStartDate) < 0.10))  || (((CurrentTime - EnteredCurrentStatus) > (2*24*3600)) && JobStatus == 5)
+Priority        = +10
+Queue
+
+Universe       = vanilla
+Notification        = never
+Executable     = /star/u/zchang/jetAnalysis/jets/scripts/sched9E9A32A807A596E03BEFEC07B1641892_6.csh
+Output         = /star/u/zchang/data05/Run12JetsCrsUe/pt3_4/pt3_4.6.log
+Error          = /star/u/zchang/data05/Run12JetsCrsUe/pt3_4/pt3_4.6.err
+Requirements   = ((CPU_Experiment == "sdcc" ) || (CPU_Experiment == "star") || (CPU_Experiment == "phenix"))
+Log            = /star/u/zchang/jetAnalysis/jets/scripts/sched9E9A32A807A596E03BEFEC07B1641892_6.condor.log
+Initialdir     = /star/u/zchang/jetAnalysis/jets
++Experiment     = "general"                              
++Job_Type       = "cas"
+kill_sig        = SIGINT
+PeriodicRemove  = (NumJobStarts >=1 && JobStatus==1) || (JobStatus == 2 && (CurrentTime - JobCurrentStartDate > (54000)) && ((RemoteUserCpu+RemoteSysCpu)/(CurrentTime-JobCurrentStartDate) < 0.10))  || (((CurrentTime - EnteredCurrentStatus) > (2*24*3600)) && JobStatus == 5)
+Priority        = +10
+Queue
+
+Universe       = vanilla
+Notification        = never
+Executable     = /star/u/zchang/jetAnalysis/jets/scripts/sched9E9A32A807A596E03BEFEC07B1641892_5.csh
+Output         = /star/u/zchang/data05/Run12JetsCrsUe/pt3_4/pt3_4.5.log
+Error          = /star/u/zchang/data05/Run12JetsCrsUe/pt3_4/pt3_4.5.err
+Requirements   = ((CPU_Experiment == "sdcc" ) || (CPU_Experiment == "star") || (CPU_Experiment == "phenix"))
+Log            = /star/u/zchang/jetAnalysis/jets/scripts/sched9E9A32A807A596E03BEFEC07B1641892_5.condor.log
+Initialdir     = /star/u/zchang/jetAnalysis/jets
++Experiment     = "general"                              
++Job_Type       = "cas"
+kill_sig        = SIGINT
+PeriodicRemove  = (NumJobStarts >=1 && JobStatus==1) || (JobStatus == 2 && (CurrentTime - JobCurrentStartDate > (54000)) && ((RemoteUserCpu+RemoteSysCpu)/(CurrentTime-JobCurrentStartDate) < 0.10))  || (((CurrentTime - EnteredCurrentStatus) > (2*24*3600)) && JobStatus == 5)
+Priority        = +10
+Queue
+
+Universe       = vanilla
+Notification        = never
+Executable     = /star/u/zchang/jetAnalysis/jets/scripts/sched9E9A32A807A596E03BEFEC07B1641892_4.csh
+Output         = /star/u/zchang/data05/Run12JetsCrsUe/pt3_4/pt3_4.4.log
+Error          = /star/u/zchang/data05/Run12JetsCrsUe/pt3_4/pt3_4.4.err
+Requirements   = ((CPU_Experiment == "sdcc" ) || (CPU_Experiment == "star") || (CPU_Experiment == "phenix"))
+Log            = /star/u/zchang/jetAnalysis/jets/scripts/sched9E9A32A807A596E03BEFEC07B1641892_4.condor.log
+Initialdir     = /star/u/zchang/jetAnalysis/jets
++Experiment     = "general"                              
++Job_Type       = "cas"
+kill_sig        = SIGINT
+PeriodicRemove  = (NumJobStarts >=1 && JobStatus==1) || (JobStatus == 2 && (CurrentTime - JobCurrentStartDate > (54000)) && ((RemoteUserCpu+RemoteSysCpu)/(CurrentTime-JobCurrentStartDate) < 0.10))  || (((CurrentTime - EnteredCurrentStatus) > (2*24*3600)) && JobStatus == 5)
+Priority        = +10
+Queue
+
+Universe       = vanilla
+Notification        = never
+Executable     = /star/u/zchang/jetAnalysis/jets/scripts/sched9E9A32A807A596E03BEFEC07B1641892_3.csh
+Output         = /star/u/zchang/data05/Run12JetsCrsUe/pt3_4/pt3_4.3.log
+Error          = /star/u/zchang/data05/Run12JetsCrsUe/pt3_4/pt3_4.3.err
+Requirements   = ((CPU_Experiment == "sdcc" ) || (CPU_Experiment == "star") || (CPU_Experiment == "phenix"))
+Log            = /star/u/zchang/jetAnalysis/jets/scripts/sched9E9A32A807A596E03BEFEC07B1641892_3.condor.log
+Initialdir     = /star/u/zchang/jetAnalysis/jets
++Experiment     = "general"                              
++Job_Type       = "cas"
+kill_sig        = SIGINT
+PeriodicRemove  = (NumJobStarts >=1 && JobStatus==1) || (JobStatus == 2 && (CurrentTime - JobCurrentStartDate > (54000)) && ((RemoteUserCpu+RemoteSysCpu)/(CurrentTime-JobCurrentStartDate) < 0.10))  || (((CurrentTime - EnteredCurrentStatus) > (2*24*3600)) && JobStatus == 5)
+Priority        = +10
+Queue
+
+Universe       = vanilla
+Notification        = never
+Executable     = /star/u/zchang/jetAnalysis/jets/scripts/sched9E9A32A807A596E03BEFEC07B1641892_2.csh
+Output         = /star/u/zchang/data05/Run12JetsCrsUe/pt3_4/pt3_4.2.log
+Error          = /star/u/zchang/data05/Run12JetsCrsUe/pt3_4/pt3_4.2.err
+Requirements   = ((CPU_Experiment == "sdcc" ) || (CPU_Experiment == "star") || (CPU_Experiment == "phenix"))
+Log            = /star/u/zchang/jetAnalysis/jets/scripts/sched9E9A32A807A596E03BEFEC07B1641892_2.condor.log
+Initialdir     = /star/u/zchang/jetAnalysis/jets
++Experiment     = "general"                              
++Job_Type       = "cas"
+kill_sig        = SIGINT
+PeriodicRemove  = (NumJobStarts >=1 && JobStatus==1) || (JobStatus == 2 && (CurrentTime - JobCurrentStartDate > (54000)) && ((RemoteUserCpu+RemoteSysCpu)/(CurrentTime-JobCurrentStartDate) < 0.10))  || (((CurrentTime - EnteredCurrentStatus) > (2*24*3600)) && JobStatus == 5)
+Priority        = +10
+Queue
+
+Universe       = vanilla
+Notification        = never
+Executable     = /star/u/zchang/jetAnalysis/jets/scripts/sched9E9A32A807A596E03BEFEC07B1641892_1.csh
+Output         = /star/u/zchang/data05/Run12JetsCrsUe/pt3_4/pt3_4.1.log
+Error          = /star/u/zchang/data05/Run12JetsCrsUe/pt3_4/pt3_4.1.err
+Requirements   = ((CPU_Experiment == "sdcc" ) || (CPU_Experiment == "star") || (CPU_Experiment == "phenix"))
+Log            = /star/u/zchang/jetAnalysis/jets/scripts/sched9E9A32A807A596E03BEFEC07B1641892_1.condor.log
+Initialdir     = /star/u/zchang/jetAnalysis/jets
++Experiment     = "general"                              
++Job_Type       = "cas"
+kill_sig        = SIGINT
+PeriodicRemove  = (NumJobStarts >=1 && JobStatus==1) || (JobStatus == 2 && (CurrentTime - JobCurrentStartDate > (54000)) && ((RemoteUserCpu+RemoteSysCpu)/(CurrentTime-JobCurrentStartDate) < 0.10))  || (((CurrentTime - EnteredCurrentStatus) > (2*24*3600)) && JobStatus == 5)
+Priority        = +10
+Queue
+
+Universe       = vanilla
+Notification        = never
+Executable     = /star/u/zchang/jetAnalysis/jets/scripts/sched9E9A32A807A596E03BEFEC07B1641892_0.csh
+Output         = /star/u/zchang/data05/Run12JetsCrsUe/pt3_4/pt3_4.0.log
+Error          = /star/u/zchang/data05/Run12JetsCrsUe/pt3_4/pt3_4.0.err
+Requirements   = ((CPU_Experiment == "sdcc" ) || (CPU_Experiment == "star") || (CPU_Experiment == "phenix"))
+Log            = /star/u/zchang/jetAnalysis/jets/scripts/sched9E9A32A807A596E03BEFEC07B1641892_0.condor.log
+Initialdir     = /star/u/zchang/jetAnalysis/jets
++Experiment     = "general"                              
++Job_Type       = "cas"
+kill_sig        = SIGINT
+PeriodicRemove  = (NumJobStarts >=1 && JobStatus==1) || (JobStatus == 2 && (CurrentTime - JobCurrentStartDate > (54000)) && ((RemoteUserCpu+RemoteSysCpu)/(CurrentTime-JobCurrentStartDate) < 0.10))  || (((CurrentTime - EnteredCurrentStatus) > (2*24*3600)) && JobStatus == 5)
+Priority        = +10
+Queue
+

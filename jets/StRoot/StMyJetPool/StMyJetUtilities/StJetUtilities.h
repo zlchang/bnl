@@ -1,0 +1,10 @@
+#ifndef STJETUTILITIES
+#define STJEtUTILITIES
+class TH1D;
+class TH2D;
+
+TH1D* updateErrors(const TH1D *h, const TH2D *h2d);
+TH2D *getVariance(const TH1D *h, const TH2D *h2d, bool norm = false);
+TH2D *getVariance(const TH2D *h, const TH2D *h2d, bool norm = false);
+
+#endif

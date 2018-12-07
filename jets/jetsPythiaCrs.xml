@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<job name="pmc.&pt;.job" maxFilesPerProcess="1" fileListSyntax="paths" filesPerHour="1">
+    <command>
+        setenv LHAPDF_DATA_PATH $HOME/public/pdfs/
+	root -b -q readMyJetPythiaCrs.C\(\"$INPUTFILE0\",\"&pt;.pmc.$JOBINDEX.root\"\)
+        echo $INPUTFILE0
+    </command>
+    <input URL="file:&listdir;/&pt;.jets.subset.*.list" />
+    <stdout URL="file:&outdir;/&pt;/log/&pt;.$JOBINDEX.log" />
+    <stderr URL="file:&outdir;/&pt;/err/&pt;.$JOBINDEX.err" />
+    <output fromScratch="&pt;.pmc.$JOBINDEX.root" toURL="file:&outdir;/&pt;" />
+    <SandBox>
+        <Package>
+            <File>file:./readMyJetPythiaCrs.C</File>
+            <File>file:./.sl64_gcc482</File>
+            <!--
+            <File>file:./readJetMC</File>
+            <File>file:./libMyJetMC.so</File>
+            <File>file:./libtrgUtilities.so</File>
+            -->
+        </Package>
+    </SandBox>
+    <Generator>
+        <Location>./scripts</Location>
+    </Generator>
+</job>
