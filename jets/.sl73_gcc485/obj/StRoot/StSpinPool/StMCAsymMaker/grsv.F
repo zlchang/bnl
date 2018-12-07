@@ -1,1 +1,0 @@
-../../../../../StRoot/StSpinPool/StMCAsymMaker/grsv.F

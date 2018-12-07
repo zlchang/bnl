@@ -1,1 +1,0 @@
-../../../../../StRoot/StSpinPool/StMCAsymMaker/Ctq5Par.F

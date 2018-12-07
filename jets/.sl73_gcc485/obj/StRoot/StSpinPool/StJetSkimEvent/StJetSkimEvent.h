@@ -1,1 +1,0 @@
-../../../../../StRoot/StSpinPool/StJetSkimEvent/StJetSkimEvent.h

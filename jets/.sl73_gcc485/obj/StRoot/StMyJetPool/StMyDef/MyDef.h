@@ -1,1 +1,0 @@
-../../../../../StRoot/StMyJetPool/StMyDef/MyDef.h

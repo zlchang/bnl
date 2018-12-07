@@ -1,1 +1,0 @@
-../../../../../StRoot/StMyJetPool/StMyJetSpin/MyJetTest.h

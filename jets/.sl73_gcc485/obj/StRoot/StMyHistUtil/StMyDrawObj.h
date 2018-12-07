@@ -1,1 +1,0 @@
-../../../../StRoot/StMyHistUtil/StMyDrawObj.h

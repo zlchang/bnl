@@ -1,1 +1,0 @@
-../../../../../StRoot/StSpinPool/StUeEvent/StUeOffAxisCones.h

@@ -1,1 +1,0 @@
-../../../../../StRoot/StSpinPool/StMCAsymMaker/aac06.F

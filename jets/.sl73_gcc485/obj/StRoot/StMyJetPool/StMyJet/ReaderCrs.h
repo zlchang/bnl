@@ -1,1 +1,0 @@
-../../../../../StRoot/StMyJetPool/StMyJet/ReaderCrs.h

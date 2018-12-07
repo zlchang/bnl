@@ -1,1 +1,0 @@
-../../../../../StRoot/StSpinPool/StNNPDFAsymMaker/StNNPDFPythiaEventMaker.cxx

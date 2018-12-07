@@ -1,1 +1,0 @@
-../../../../../StRoot/StSpinPool/StMCAsymMaker/polnlo.F
