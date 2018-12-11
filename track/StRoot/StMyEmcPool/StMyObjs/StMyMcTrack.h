@@ -18,6 +18,9 @@ class StMyMcTrack : public TObject{
   long id;
   long  geantid;
   long ntpchits;
+  double pt() const {return mom.Pt();}
+  double eta() const {return mom.Eta();}
+  double phi() const {return mom.Phi();}
   unsigned int size() const{ return towers.size(); }
   float sumE() const{ 
     float sum = 0; 

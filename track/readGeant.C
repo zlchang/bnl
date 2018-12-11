@@ -1,5 +1,5 @@
 const unsigned long nevents = 100;
-void readGeant(const char* geantfile = "/global/homes/z/zchang/data_embed/pp500_production_2012/pt11_15_100_20160201/P13ib.SL13b/2012/109/13109015/pt11_15_st_zerobias_adc_13109015_raw_1590002_12.geant.root")
+void readGeant(const char* geantfile = "/star/u/zchang/data05/pp500_production_2012/pt11_15_100_20160201/P13ib.SL13b/2012/109/13109015/pt11_15_st_zerobias_adc_13109015_raw_1590002_12.geant.root")
 {
   gROOT->Macro("loadMuDst.C");
   gROOT->Macro("LoadLogger.C");

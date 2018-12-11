@@ -1,15 +1,14 @@
 #ifndef FUNCEMCFROMGEANT
 #define FUNCEMCFROMGEANT
 
-#include "StMcEvent/StMcVertex.hh"
+#include "StarClassLibrary/StThreeVectorD.hh"
 
-float dcaT(StMcVertex *a, StMcVertex *b)
-{
-  StThreeVectorF av = a->position();
-  StThreeVectorF bv = b->position();
+class StMcVertex;
+class StMuTrack;
+class StEmcGeom;
+class StMcTrack;
 
-  StThreeVectorF cv = av - bv;
-  return cv.mag();
-}
-
+float dcaT(StMcVertex *a, StMcVertex *b);
+int projTowerId(const StMuTrack *muTrack, StThreeVectorD *momentum, StThreeVectorD *position, double mag, double bemcRadius, const StEmcGeom* geom);
+StThreeVectorD projTrack(const StMcTrack *mcTrack, double mag, double radius);
 #endif

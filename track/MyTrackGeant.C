@@ -1,5 +1,5 @@
 void MyTrackGeant(
-const char* MuDst = "test.list",
+const char* MuDst = "test.emb.list",
 const char* Outfile = "test.track.root"
 //const char* Outfile = "MyMatchTrackToEmc.root"
 )
@@ -48,7 +48,7 @@ const char* Outfile = "test.track.root"
   geantMaker->SetOutfile(Outfile);
   chain->Init();
   //for(int iEvent = 0; iEvent < 2; iEvent++)
-  for(int iEvent = 0; iEvent < 100000; iEvent++)
+  for(int iEvent = 0; iEvent < 10000; iEvent++)
     {
       chain->Clear();
       int status = chain->Make(iEvent);

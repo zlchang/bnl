@@ -1,6 +1,6 @@
-void readMuDstTrack(//const char* MuDst = "/star/u/zchang/2013-08-trgsimu/MuDst/st_physics_13109014_raw_*.MuDst.root")//,st_physics_13109014_raw_0040001.MuDst.root"
-const char* MuDst = "/global/homes/z/zchang/data_embed/pp500_production_2012/pt11_15_100_20160201/P13ib.SL13b/2012/109/13109015/pt11_15_st_zerobias_adc_13109015_raw_1590002_12.MuDst.root"
-)
+void readMuDstTrack(const char* MuDst = "/star/u/zchang/public/MuDst/st_physics_13109014_raw_*.MuDst.root")//,st_physics_13109014_raw_0040001.MuDst.root"
+//const char* MuDst = "/star/u/zchang/data05/pp500_production_2012/pt11_15_100_20160201/P13ib.SL13b/2012/109/13109015/pt11_15_st_zerobias_adc_13109015_raw_1590002_12.MuDst.root"
+//)
 {
   gROOT->Macro("loadMuDst.C");
   gROOT->Macro("LoadLogger.C");
@@ -34,7 +34,7 @@ const char* MuDst = "/global/homes/z/zchang/data_embed/pp500_production_2012/pt1
   TH2D *hepvspt = new TH2D("epvspt", ";track p_{T}; E/p_{T}", 100, -1, 10, 100, 0, 1); 
   //  StMuEvent *muEvt= muDst->event();
   //  cout<<muEvt->eventId()<<" "<<muEvt->runId()<<"\n";
-  for(int iEvent = 0; iEvent < 10; iEvent++)
+  for(int iEvent = 0; iEvent < 100; iEvent++)
     {
       chain->Clear();
       int status = chain->Make(iEvent);
@@ -46,8 +46,8 @@ const char* MuDst = "/global/homes/z/zchang/data_embed/pp500_production_2012/pt1
       if(!vertex) continue;
       if(vertex->ranking() < 0.1) continue;
       double mag = StMuDst::event()->magneticField()/10.0;
-      Printf("mag field = %lf\n", mag);
-      return ;
+      //Printf("mag field = %lf\n", mag);
+      //return ;
       //emc towers
       double energy[4800];
       StEmcCollection *emc = StMuDst::emcCollection();
@@ -74,7 +74,7 @@ const char* MuDst = "/global/homes/z/zchang/data_embed/pp500_production_2012/pt1
 	  if(muTrack->dcaGlobal().mag() > 3) continue;
 	  double pt = muTrack->pt();
 	  double eta = muTrack->eta();
-	  double mom = muTrack->p()->mag();
+	  double mom = muTrack->p().mag();
           if(pt < 0.2) continue;
 	  if(eta < -2.5 || eta > 2.5) continue;
           //Printf("pt = %.2lf B = %.2lf", pt, mag);
@@ -87,10 +87,10 @@ const char* MuDst = "/global/homes/z/zchang/data_embed/pp500_production_2012/pt1
              int exitTowerId = 0;
 	     StEmcGeom::instance("bemc")->getId(exitPhi, exitEta, exitTowerId);
 
-	     Printf("eta=%4.3lf, phi=%4.3lf\n", exitPhi, exitEta);
+	     //Printf("eta=%4.3lf, phi=%4.3lf\n", exitPhi, exitEta);
              if(exitTowerId <=0 || exitTowerId > 4800) continue;
              double et = energy[exitTowerId-1];
-             Printf("tower Id %d, energy %lf, track pt %.2lf eta %.2lf", exitTowerId, et, pt, eta);
+             //Printf("tower Id %d, energy %lf, track pt %.2lf eta %.2lf", exitTowerId, et, pt, eta);
 	     htrack->Fill(pt);
 	     htower->Fill(et);
              double res0 = et-pt;
@@ -106,6 +106,9 @@ const char* MuDst = "/global/homes/z/zchang/data_embed/pp500_production_2012/pt1
 	     hnsige->Fill(nsigE);
 	     double nsigPi = muTrack->nSigmaPion();
 	     hnsigpi->Fill(nsigPi);
+	     double nsigK = muTrack->nSigmaKaon();
+	     double nsigP = muTrack->nSigmaProton();
+             if(nsigPi < -10) Printf("nsigPi=%f nsigE=%f, nsigK=%f, nsigP=%f\n", nsigPi, nsigE, nsigK, nsigP);
 	     if(nsigE < -2. || nsigE > 2.){
 	       hprofept->Fill(pt, et/pt);
 	       hepvspt->Fill(pt, et/pt);

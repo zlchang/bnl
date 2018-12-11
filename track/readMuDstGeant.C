@@ -18,8 +18,8 @@ public:
 */
 void readMuDstGeant(//const char* mudstfile = "/global/homes/z/zchang/data_embed/pp500_production_2012/pt11_15_100_20160201/P13ib.SL13b/2012/109/13109015/pt11_15_st_zerobias_adc_13109015_raw_1590002_12.MuDst.root",
 		    //const char* geantfile = "/global/homes/z/zchang/data_embed/pp500_production_2012/pt11_15_100_20160201/P13ib.SL13b/2012/109/13109015/pt11_15_st_zerobias_adc_13109015_raw_1590002_12.geant.root", 
-                    const char* mudstfile = "/global/homes/z/zchang/data_embed/pp500_production_2012/pt5_7_100_20160201/P13ib.SL13b/2012/078/13078035/pt5_7_st_zerobias_adc_13078035_raw_3580001_7.MuDst.root",
-		    const char* geantfile = "/global/homes/z/zchang/data_embed/pp500_production_2012/pt5_7_100_20160201/P13ib.SL13b/2012/078/13078035/pt5_7_st_zerobias_adc_13078035_raw_3580001_7.geant.root",
+                    const char* mudstfile = "/star/u/zchang/data05/pp500_production_2012/pt5_7_100_20160201/P13ib.SL13b/2012/078/13078035/pt5_7_st_zerobias_adc_13078035_raw_3580001_7.MuDst.root",
+		    const char* geantfile = "/star/u/zchang/data05/pp500_production_2012/pt5_7_100_20160201/P13ib.SL13b/2012/078/13078035/pt5_7_st_zerobias_adc_13078035_raw_3580001_7.geant.root",
 	            const char* ver = "v1"
 //		     const char* geantfile = "test.list",
 //		     const char* ver = "v1"
@@ -76,6 +76,7 @@ void readMuDstGeant(//const char* mudstfile = "/global/homes/z/zchang/data_embed
     
   TFile *fout = new TFile(Form("simu.emc.%s.root", ver), "recreate");
   TProfile *htrkeff = new TProfile("trackEff", "; p_{T} [GeV]", 50, 0, 50);  
+  TH1D *htrkphi = new TH1D("trackPhi", "; #phi", 126, -3.15, 3.15);  
   chain->Init();
   
   for (int iEvent = 0; iEvent < nevents; ++iEvent) {
@@ -141,17 +142,19 @@ void readMuDstGeant(//const char* mudstfile = "/global/homes/z/zchang/data_embed
        long dgid = dtrk->geantId();
        float dpt = dtrk->pt();
        float deta = dtrk->momentum().pseudoRapidity();
+       float dphi = dtrk->momentum().phi();
        long dkey = dtrk->key();
        unsigned int dntpc = dtrk->tpcHits().size();
        //if(dgid != 8 && dgid != 9) continue;
        if(TMath::Abs(deta) > 2.5) continue;
        //Printf("did=%d dpt=%f deta=%f dgid=%d dntpc=%d\n", idt, dpt, deta, dgid, dntpc);
-       if(dntpc < 12) continue;
+       if(dntpc == 0) continue;
        bool match = false;
        if(myIds.find(dkey) != myIds.end()){
           match = true;
        }
        htrkeff->Fill(dpt, match);
+       htrkphi->Fill(dphi);
        counter++;
 
        //stop vertex
@@ -161,7 +164,7 @@ void readMuDstGeant(//const char* mudstfile = "/global/homes/z/zchang/data_embed
        Printf("dkey=%d dpt=%f deta=%f dgid=%d dntpc=%d match=%d daughters=%d\n", dkey, dpt, deta, dgid, dntpc, match, dnd);
     }
     Printf("%d mudst %d mc\n", myIds.size(), counter);
-    ///*
+    /*
     StSPtrVecMcTrack gTracks = mcEvent->tracks();
     for(int igt = 0; igt < gTracks.size(); igt++){
       StMcTrack *trk = gTracks[igt];
@@ -198,9 +201,10 @@ void readMuDstGeant(//const char* mudstfile = "/global/homes/z/zchang/data_embed
 	//Printf("sec=%d, pad=%d, adc=%f, lgamma=%f, pad=%f\n", sec, padrow, adc, lgamma, pad);
       }
     }
-   //*/
+   */
   }
   htrkeff->Print("all");
+  htrkphi->Print("all");
   fout->Write();
   fout->Close();
 }

@@ -1,5 +1,6 @@
 #!/bin/sh
-dir=$HOME/data_embed/pp500_production_2012
+#dir=$HOME/data_embed/pp500_production_2012
+dir=$HOME/data05/pp500_production_2012
 list=lists_mudst
 
 mkdir -p $list

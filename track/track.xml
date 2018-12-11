@@ -5,7 +5,8 @@
 	root4star -b -q MyMatchTrack.C\(\"$INPUTFILE0\",\"&pt;.track.$JOBINDEX.root\"\)
         echo $INPUTFILE0
     </command>
-    <input URL="file:&listdir;/&pt;.mudst.subset.*.list" />
+    <!-- <input URL="file:&listdir;/&pt;.mudst.subset.*.list" />-->
+    <input URL="file:&listdir;/&pt;.subset.*.list" />
     <stdout URL="file:&outdir;/&pt;/log/&pt;.$JOBINDEX.log" />
     <stderr URL="file:&outdir;/&pt;/err/&pt;.$JOBINDEX.err" />
     <output fromScratch="&pt;.track.$JOBINDEX.root" toURL="file:&outdir;/&pt;" />
@@ -13,12 +14,8 @@
         <Package>
             <File>file:./MyMatchTrack.C</File>
             <File>file:./LoadJetMaker.C</File>
-            <File>file:./.sl64_gcc482</File>
-            <!--
-            <File>file:./readJetMC</File>
-            <File>file:./libMyJetMC.so</File>
-            <File>file:./libtrgUtilities.so</File>
-            -->
+            <File>file:./.sl73_gcc485/</File>
+            <!-- <File>file:./.sl64_gcc482</File>-->
         </Package>
     </SandBox>
     <Generator>

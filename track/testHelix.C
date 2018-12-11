@@ -104,7 +104,7 @@ int testHelix()
   return 1;
 }
 
-void getPos(const StPhysicalHelix &hx, double radius, double &x, double &y, double &z)
+void getPos(const StPhysicalHelixD &hx, double radius, double &x, double &y, double &z)
 {
   pairD pathLength = hx.pathLength(radius);
   double s1 = pathLength.first;

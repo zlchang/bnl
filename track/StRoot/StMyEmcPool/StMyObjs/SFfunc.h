@@ -3,9 +3,9 @@
 
 #include "TMath.h"
 
-double mSF[3] = {14.356, -0.512, 0.668};
-double samplingFraction(double eta) {
-  double x = TMath::Abs(eta);
-  return 1./(mSF[0]+mSF[1]*x+mSF[2]*x*x);
-}
+double samplingFraction(double eta);
+float getRadiusConstant();
+float getRadiusLinear(float pt);
+float linear(float x, const float &x1, const float &y1, const float &x2, const float &y2);
+
 #endif

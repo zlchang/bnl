@@ -26,10 +26,10 @@ public:
 };
 const char *ver="v0";
 int plotMyEmc(//const char* file = "test.track.root"
-const char* file = "ptbin.list.run12.b.emc.v0.w.root" 
+const char* file = "ptbin.list.run12.c.emc.v0.w.root" 
 )
 {
-  gSystem->Load("StMyMatchTrackToEmcHist.so");
+  gSystem->Load("StMyObjs.so");
   gSystem->Load("StMyEmcFromGeantHist.so");
 
   
@@ -45,16 +45,17 @@ const char* file = "ptbin.list.run12.b.emc.v0.w.root"
   gStyle->SetPadGridX(0);
   ///*
 
-  drawObject d1;
-  d1.setYrange(-0.1, 1.46);
-  d1.setLegend(0.7, 0.85, 0.99, 0.99);
-  drawHistProfile("EptVsptProf", d1);
+  //drawObject d1;
+  //d1.setYrange(-0.1, 1.46);
+  //d1.setLegend(0.7, 0.85, 0.99, 0.99);
+  //drawHistProfile("EpVsPtProf", d1);
     
-  drawObject d12;
+/*  drawObject d12;
   d12.setLegend(0.7, 0.85, 0.99, 0.99);
   d12.setYrange(2e-8, 0.01);
   d12.setLogy(true);
   drawHistProjY("EptVsptScatter", 11, 15, d12);
+*/
 /*
   drawObject d2;
   //d2.setYrange(-0.1, 1.46);
@@ -69,6 +70,12 @@ const char* file = "ptbin.list.run12.b.emc.v0.w.root"
   //d14.setYrange(-0.001, 0.005);
   //drawHistProjY("EptVsPtScatter", 6, 10, d14);
 */
+
+  drawObject d3;
+  d3.setYrange(-0.1, 1.46);
+  d3.setLegend(0.68, 0.68, 0.97, 0.95);
+  drawTrackHistProfile("EpVsPtProf", d3);
+
   return 1;
 }
 void drawHist(const char *name, const drawObject &obj)
@@ -128,12 +135,46 @@ void drawHistProfile(const char *name, const drawObject &obj)
       hh[ih]->Draw("same");
     }
     hh[ih]->SetLineColor(ih%3+2);
-    lg->AddEntry(hh[ih], Form("%s #bf{%3.2lf#pm%3.2lf}", type[ih], hmean[ih], herror[ih]), "l");
+    lg->AddEntry(hh[ih], Form("%s %3.2lf#pm%3.2lf", type[ih], hmean[ih], herror[ih]), "l");
     if(ih%3==2 || ih == Nids-1){
       lg->Draw("same");
       c->Print(Form("%s%d%s.png", name, ih/3, ver));
     }
   }
+}
+void drawTrackHistProfile(const char *name, const drawObject &obj)
+{
+  TProfile *hp[Nids], *hpw2[Nids];
+  TH1D *hh[Nids];
+  double hmean[Nids], herror[Nids];
+  for(int ih = 0; ih < Nids; ih++){
+    hp[ih] =(TProfile*)mFile->Get(Form("Track%s%s", type[ih], name));
+    hp[ih]->Print();
+    hpw2[ih] =(TProfile*)mFile->Get(Form("Track%s%sW2", type[ih], name));
+    hpw2[ih]->Print();
+    hh[ih] = convertTProfile(hp[ih], hpw2[ih]);
+    getStatTProfile(hp[ih], hpw2[ih], hmean[ih], herror[ih]);
+    Printf("%d, hmean=%lf, herror=%lf\n", ih, hmean[ih], herror[ih]);
+  }
+
+  TCanvas *c = new TCanvas(Form("cTrack%s", name), Form("cTrack%s", name), 480, 360); 
+  TLegend *lg = new TLegend(obj.lx1, obj.ly1, obj.lx2, obj.ly2);
+  int counter = 0;
+  for(int ih = 3; ih < Nids; ih++){
+    //Printf("%d\n", ih);
+    if(ih%3 == 0) continue;
+    if(counter == 0){
+      hh[ih]->Draw();
+      if(obj.ymax > obj.ymin) hh[ih]->GetYaxis()->SetRangeUser(obj.ymin, obj.ymax);
+    }else{
+      hh[ih]->Draw("same");
+    }
+    hh[ih]->SetLineColor(++counter);
+    lg->AddEntry(hh[ih], Form("%s %3.2lf#pm%3.2lf", type[ih], hmean[ih], herror[ih]), "l");
+  }
+  //
+  lg->Draw("same");
+  c->Print(Form("Track%s%s.png", name, ver));
 }
 TH1D *convertTProfile(TProfile *hw, TProfile *hw2)
 {

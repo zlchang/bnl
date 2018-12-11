@@ -7,12 +7,18 @@
 
 #include "StMcEvent/StMcEventTypes.hh"
 
-#include "StMyEmcPool/StMyEmcFromGeantHist/StMyMcTrackHist.h"
+#include "StMyEmcPool/StMyEmcFromGeantHist/StMyEmcTrackHist.h"
 #include "StMyEmcPool/StMyObjs/StMyGeantId.h"
 #include "StMyEmcPool/StMyObjs/StMyMcTrack.h"
 #include "StMyEmcPool/StMyObjs/StMyMcTower.h"
 
 #include "StMyEmcPool/StMyUtils/func.h"
+
+#include "StarClassLibrary/StParticleTable.hh"
+#include "StarClassLibrary/StParticleDefinition.hh"
+
+#include "StMyEmcPool/StMyUtils/StMyTrackProjEmc.h"
+
 int StMyEmcFromGeantMaker::Init()
 {
   mBemcTable = new StBemcTables;
@@ -40,7 +46,8 @@ int StMyEmcFromGeantMaker::Init()
   StMyGeantId geantId;
   for(vector<long>::const_iterator ii = mIds.begin(); ii != mIds.end(); ii++){
     long id = *ii;
-    mMapHists.insert(pair<long, StMyMcTrackHist*>(id, new StMyMcTrackHist(geantId.getName(id))));
+    mMapHists.insert(pair<long, StMyEmcTrackHist*>(id, new StMyEmcTrackHist(geantId.getName(id))));
+    mMapTrackHists.insert(pair<long, StMyEmcTrackMatchHist*>(id, new StMyEmcTrackMatchHist(Form("Track%s", geantId.getName(id)))));
   }
   
   return StMaker::Init();
@@ -162,15 +169,99 @@ int StMyEmcFromGeantMaker::Make()
     const StMyMcTrack &track = im->second;
     long id = track.geantid;
     float p = track.mom.P();
+    float pt = track.mom.Pt();
     float e = track.sumE();
     unsigned int n = track.size();
 
     if(mMapHists.find(id) == mMapHists.end()) continue;
     if(!(p > 0)) continue;
-    mMapHists[id]->mEpVsP->Fill(p, e/p);
-    mMapHists[id]->mNVsP->Fill(p, n);
+    mMapHists[id]->mEpVsPt->Fill(pt, e/p);
+    mMapHists[id]->mNVsPt->Fill(pt, n);
   }
+  //match track to tower
+  map<long, StMyMcTower> towers;
   
+  for(unsigned int im = 1; im <= nmodules; im++){
+    StMcEmcModuleHitCollection *module = emcHits->module(im);
+    if(!module) { Printf("module %d not found\n", im); continue; }
+    StSPtrVecMcCalorimeterHit &hits = module->hits();
+    //Printf("geant hit size: %d\n", hits.size());
+    for(unsigned long ih = 0; ih < hits.size(); ih++){
+      StMcCalorimeterHit *hh = hits[ih];
+      if(!hh) continue;
+      float dE = hh->dE();
+      int towerId;
+      int sub = hh->sub();
+      //if(sub < 0) Print("sub = %d\n", sub);
+      mBemcGeom->getId(im, hh->eta(), sub, towerId);
+      float eta; mBemcGeom->getEta(im, hh->eta(), eta);
+      //double f_sample = samplingFraction(eta);
+      //double ee = dE/f_sample;
+      //Printf("id=%d e=%f\n", towerId, ee);
+      
+      StMyMcTower tower;
+      tower.dE = dE;
+      tower.eta = eta;
+      //tower.e = ee;
+      tower.id = towerId;
+      towers.insert(pair<long, StMyMcTower>(towerId,tower));
+    }
+  }
+
+  StMcVertex* mcVx = mcEvent->primaryVertex();
+  StPtrVecMcTrack& daughters = mcVx->daughters();
+  vector<StMyMcTrack> myMcPrimaryTracks;
+  //  int counter = 0;
+  for(unsigned int idt = 0; idt < daughters.size(); idt++){
+    StMcTrack *dtrk = daughters[idt];
+    long dgid = dtrk->geantId();
+    //Printf("dgid=%d\n", dgid);
+    StParticleTable *table = StParticleTable::instance();
+    StParticleDefinition *def = table->findParticleByGeantId(dgid);
+    double chrg = def->charge();
+    if(round(chrg) == 0) continue;
+    StLorentzVectorF dmom = dtrk->fourMomentum();
+    long dkey = dtrk->key();
+    unsigned int dntpc = dtrk->tpcHits().size();
+    //if(dgid != 8 && dgid != 9) continue;
+    //float deta = dtrk->momentum().pseudoRapidity();
+    float dpt = dtrk->pt();
+    if(dpt < 0.2) continue;
+    int towerId = mTrackProj->findTower(dtrk, -0.5);
+    if(towerId <= 0 || towerId > 4800) continue;
+    //bool dmatch = (myMcTrackGeantMap.find(dkey) != myMcTrackGeantMap.end());
+    //bool ddecay = (dtrk->stopVertex() != 0);
+    //if(dntpc == 45) Printf("did=%d dpt=%f deta=%f dgid=%d dntpc=%d dmatch=%d ddecay=%d\n", idt, dpt, deta, dgid, dntpc, dmatch, ddecay);
+    //if(dntpc == 0) continue;
+    if(towers.find(towerId) != towers.end()){
+      StMyMcTrack ptrack;
+      ptrack.mom = TLorentzVector(dmom.x(), dmom.y(), dmom.z(), dmom.t());
+      ptrack.id = dkey;
+      ptrack.geantid = dgid;
+      ptrack.ntpchits = dntpc;
+      //
+      ptrack.towers.push_back(towers[towerId]);
+      myMcPrimaryTracks.push_back(ptrack);
+    }
+    //*/
+    //htrkeff->Fill(dpt, match);
+    //counter++;
+    //Printf("did=%d dpt=%f deta=%f dgid=%d dntpc=%d\n", idt, dpt, deta, dgid, dntpc);
+  }
+
+  //fill tracks
+  for(vector<StMyMcTrack>::const_iterator im = myMcPrimaryTracks.begin(); im != myMcPrimaryTracks.end(); im++){
+    const StMyMcTrack &track = *im;
+    long id = track.geantid;
+    float p = track.mom.P();
+    float pt = track.mom.Pt();
+    float e = track.sumE();
+  
+    if(!(p > 0)) continue;
+    mMapTrackHists[id]->mEpVsPt->Fill(pt, e/p);
+  }
+
+
   return StMaker::Make();
 }
 

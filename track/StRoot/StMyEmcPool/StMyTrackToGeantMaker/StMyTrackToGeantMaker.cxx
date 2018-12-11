@@ -10,6 +10,7 @@
 #include "StMyEmcPool/StMyUtils/StMyVertexCut.h"
 #include "StMyEmcPool/StMyUtils/StMyVertexZCut.h"
 #include "StMyEmcPool/StMyUtils/StMyVertexRankingCut.h"
+#include "StMyEmcPool/StMyUtils/func.h"
 
 #include "StMyEmcPool/StMyObjs/StMyTrackGeant.h"
 
@@ -25,6 +26,9 @@
 #include "StEventTypes.h"
 #include "StMuDSTMaker/COMMON/StMuTypes.hh"
 #include "StMcEvent/StMcEventTypes.hh"
+#include "StTpcDb/StTpcDb.h"
+#include "StarClassLibrary/StParticleTable.hh"
+#include "StarClassLibrary/StParticleDefinition.hh"
 
 #include <vector>
 #include <map>
@@ -89,12 +93,16 @@ int StMyTrackToGeantMaker::Make()
     double pt = muTrack->pt();
     double eta = muTrack->eta();
     double phi = muTrack->phi();
+    double dca = muTrack->dcaGlobal().mag();
     double nsigE = muTrack->nSigmaElectron();
     double nsigPi = muTrack->nSigmaPion();
     int charge = muTrack->charge();
     long id = muTrack->idTruth();
     int qa = muTrack->qaTruth();
     int nhits = muTrack->nHits();
+    int nhitsfit = muTrack->nHitsFit();
+    int nhitsposs = muTrack->nHitsPoss();
+    double nhitfitr = (nhitsfit+0.0)/(nhitsposs+0.0);
     if(id != 0 && myMcTrackList.find(id) == myMcTrackList.end()){
       myMcTrackList.insert(pair<long, StMyMcTrack>(id, StMyMcTrack()));
       myMcTrackGeantMap.insert(pair<long, vector<StMyTrackGeant>>(id, vector<StMyTrackGeant>(0)));
@@ -108,11 +116,14 @@ int StMyTrackToGeantMaker::Make()
     myTrack.mPhi = phi;   
     myTrack.mNSigmaElectron = nsigE;
     myTrack.mNSigmaPion = nsigPi;
-    myTrack.mCharge = charge;    
+    myTrack.mCharge = charge;   
+    myTrack.mDca = dca;
+    myTrack.mNHits = nhits;
+    myTrack.mNHitsFit = nhitsfit;
+    myTrack.mNHitsFitRatio = nhitfitr;
 
     myTrack.mKey = id;
     myTrack.mQa = qa;
-    myTrack.mNhits = nhits;
 
     myTrackList.push_back(myTrack);
     myMcTrackGeantMap[id].push_back(myTrack);
@@ -120,6 +131,7 @@ int StMyTrackToGeantMaker::Make()
 
   int muEventId = StMuDst::event()->eventNumber();
   float muVz = vertex->position().z();
+  double mag = StMuDst::event()->magneticField()/10.0;
   //McEvent
   StMcEvent* mcEvent = (StMcEvent*) GetDataSet("StMcEvent");
   if (!mcEvent) return kStSkip;
@@ -188,15 +200,28 @@ int StMyTrackToGeantMaker::Make()
   for(unsigned int idt = 0; idt < daughters.size(); idt++){
     StMcTrack *dtrk = daughters[idt];
     long dgid = dtrk->geantId();
+    //Printf("dgid=%d\n", dgid);
+    StParticleTable *table = StParticleTable::instance();
+    StParticleDefinition *def = table->findParticleByGeantId(dgid);
+    double chrg = def->charge();
+    if(round(chrg) == 0) continue;
     StLorentzVectorF dmom = dtrk->fourMomentum();
     long dkey = dtrk->key();
     unsigned int dntpc = dtrk->tpcHits().size();
     //if(dgid != 8 && dgid != 9) continue;
     float deta = dtrk->momentum().pseudoRapidity();
-    if(TMath::Abs(deta) > 2.5) continue;
-    //float dpt = dtrk->pt();
-    //Printf("did=%d dpt=%f deta=%f dgid=%d dntpc=%d\n", idt, dpt, deta, dgid, dntpc);
-    //if(dntpc < 12) continue;
+    float dpt = dtrk->pt();
+    if(dpt < 0.2) continue;
+    if(TMath::Abs(deta) > 0.9) continue;
+    StTpcDb *tpcdb = StTpcDb::instance();                                                      
+    double radius = tpcdb->Dimensions()->ofcRadius();                                         
+    StThreeVectorD dproj = projTrack(dtrk, mag, radius);
+    //Printf("dzproj=%f\n", dproj.z());
+    if(TMath::Abs(dproj.z()) > 200) continue; 
+    //bool dmatch = (myMcTrackGeantMap.find(dkey) != myMcTrackGeantMap.end());
+    //bool ddecay = (dtrk->stopVertex() != 0);
+    //if(dntpc == 45) Printf("did=%d dpt=%f deta=%f dgid=%d dntpc=%d dmatch=%d ddecay=%d\n", idt, dpt, deta, dgid, dntpc, dmatch, ddecay);
+    //if(dntpc == 0) continue;
     StMyMcTrack ptrack;
     ptrack.mom = TLorentzVector(dmom.x(), dmom.y(), dmom.z(), dmom.t());
     ptrack.id = dkey;
@@ -221,8 +246,8 @@ int StMyTrackToGeantMaker::Make()
   //fill histogram
   for(vector<StMyMcTrack>::const_iterator ipt = myMcPrimaryTracks.begin(); ipt != myMcPrimaryTracks.end(); ipt++){
     const StMyMcTrack &myPrim = *ipt;
-    long nhits = myPrim.ntpchits;
-    if(nhits < 12) continue;
+    //long nhits = myPrim.ntpchits;
+    //if(nhits < 12) continue;
     //fillHist(myPrim, myReco);
     fillHist(myPrim, myMcTrackGeantMap, mHistMc);
     if(myPrim.geantid == 8){
@@ -250,29 +275,52 @@ void StMyTrackToGeantMaker::fillHist(const StMyTrackGeant &track, const StMyMcTr
 {
   double tpt = track.mPt;
   double teta = track.mEta;
+  double tphi = track.mPhi;
   double tqa = track.mQa;
   long tkey = track.mKey;
   bool match = tkey != 0;
-
+  double tdca = track.mDca;
+  int tnhits = track.mNHits;
+  int tnhitsfit = track.mNHitsFit;
+  double tnfitr = track.mNHitsFitRatio;
+  
+  hist->mTrack->mHist->Fill(tpt);
+  hist->mTrack->mHistEta->Fill(teta);
+  hist->mTrack->mHistPhi->Fill(tphi);
+  hist->mTrack->mHistDcaPt->Fill(tpt, tdca);
+  hist->mTrack->mHistNHits->Fill(tpt, tnhits);
+  //hist->mTrack->mHistNHitsFit->Fill(tnhitsfit);
+  hist->mTrack->mHistNHitsFitRatio->Fill(tpt, tnfitr);
+  //
   hist->mMatchVsPt->Fill(tpt, match);
   hist->mMatchVsEta->Fill(teta, match);
+  hist->mMatchVsPhi->Fill(tphi, match);
 
   if(tkey != 0){
     hist->mQaVsPt->Fill(tpt, tqa);
     hist->mQaVsEta->Fill(teta, tqa);
+    hist->mQaVsPhi->Fill(tphi, tqa);
   }
   
   if(match){
     double mkey = mcTrack.id;
     if(mkey == tkey){
-    double mpt = mcTrack.mom.Pt();
-    double meta = mcTrack.mom.Eta();
-    hist->mPtMcVsMu->Fill(tpt, mpt);
-    hist->mEtaMcVsMu->Fill(teta, meta);
+      double mpt = mcTrack.pt();
+      double meta = mcTrack.eta();
+      double mphi = mcTrack.phi();
+      int mnhits = mcTrack.ntpchits;
+      hist->mMcTrack->mHist->Fill(mpt);
+      hist->mMcTrack->mHistEta->Fill(meta);
+      hist->mMcTrack->mHistPhi->Fill(mphi);
+      hist->mMcTrack->mHistNHits->Fill(mnhits);
+      hist->mPtMcVsMu->Fill(tpt, mpt);
+      hist->mEtaMcVsMu->Fill(teta, meta);
+      hist->mPhiMcVsMu->Fill(tphi, mphi);
+      hist->mNHitsMcVsMu->Fill(tnhits, mnhits);
     }else{
-     Printf("M/C track %d not found\n", tkey);
+      Printf("M/C track %d not found\n", tkey);
    }
- }
+  }
 }
 void StMyTrackToGeantMaker::fillHist(const StMyMcTrack &mc, map<long, vector<StMyTrackGeant>> recoMap, StMyTrackToGeantHist *hist)
 {
@@ -281,11 +329,20 @@ void StMyTrackToGeantMaker::fillHist(const StMyMcTrack &mc, map<long, vector<StM
   if(recoMap.find(mkey) != recoMap.end())
     match = true;
 
-  double mpt = mc.mom.Pt();
-  double meta = mc.mom.Eta();
+  double mpt = mc.pt();
+  double meta = mc.eta();
+  double mphi = mc.phi();
+  int mnhits = mc.ntpchits;
+
+  hist->mMcTrack->mHist->Fill(mpt);
+  hist->mMcTrack->mHistEta->Fill(meta);
+  hist->mMcTrack->mHistPhi->Fill(mphi);
+  
+  hist->mMcTrack->mHistNHits->Fill(mnhits);
   
   hist->mMatchVsPt->Fill(mpt, match);
   hist->mMatchVsEta->Fill(meta, match);
+  hist->mMatchVsPhi->Fill(mphi, match);
   
   if(match){
     vector<StMyTrackGeant> &reco = recoMap[mkey];
@@ -295,9 +352,9 @@ void StMyTrackToGeantMaker::fillHist(const StMyMcTrack &mc, map<long, vector<StM
     }
     unsigned int index = 0;
     if(reco.size() > 1){
-      int nmc = reco[index].mQa*reco[index].mNhits;
+      int nmc = reco[index].mQa*reco[index].mNHits;
       for(unsigned int ip = 1; ip < reco.size(); ip++){
-	int nmc_t = reco[ip].mQa*reco[ip].mNhits;
+	int nmc_t = reco[ip].mQa*reco[ip].mNHits;
 	if(nmc_t > nmc) index = ip;
       }
       Printf("%d recontructed tracks found select %d track\n", reco.size(), index);
@@ -305,13 +362,29 @@ void StMyTrackToGeantMaker::fillHist(const StMyMcTrack &mc, map<long, vector<StM
     StMyTrackGeant &rtrack = reco[index];
     double rpt = rtrack.mPt;
     double reta = rtrack.mEta;
+    double rphi = rtrack.mPhi;
     double rqa = rtrack.mQa;
+    double rdca = rtrack.mDca;
+    int rnhits = rtrack.mNHits;
+    //int rnhitsfit = rtrack.mNHitsFit;
+    double rnfitr = rtrack.mNHitsFitRatio;
+
+    hist->mTrack->mHist->Fill(rpt);
+    hist->mTrack->mHistEta->Fill(reta);
+    hist->mTrack->mHistPhi->Fill(rphi);
+    hist->mTrack->mHistDcaPt->Fill(rpt, rdca);
+    hist->mTrack->mHistNHits->Fill(rpt, rnhits);
+    //hist->mTrack->mHistNHitsFit->Fill(rnhitsfit);
+    hist->mTrack->mHistNHitsFitRatio->Fill(rpt, rnfitr);
     
     hist->mQaVsPt->Fill(mpt, rqa);
     hist->mQaVsEta->Fill(meta, rqa);
-
+    hist->mQaVsPhi->Fill(mphi, rqa);
+    
     hist->mPtMcVsMu->Fill(rpt, mpt);
     hist->mEtaMcVsMu->Fill(reta, meta);
+    hist->mPhiMcVsMu->Fill(rphi, mphi);
+    hist->mNHitsMcVsMu->Fill(rnhits, mnhits);
 
   }
 

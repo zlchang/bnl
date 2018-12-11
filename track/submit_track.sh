@@ -5,7 +5,7 @@ listdir=`pwd`/lists_mudst
 mkdir -p scripts/
 #for weight in 0;
 #do
-	outdir=$HOME/output/track
+	outdir=`pwd`/output/track_rn
 	for pt in $( < $1); do
 		echo pt=$pt
 		mkdir -p $outdir/$pt

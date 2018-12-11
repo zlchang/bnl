@@ -1,9 +1,9 @@
 #ifndef STMYMATCHTRACKTOEMCHIST
 #define STMYMATCHTRACKTOEMCHIST
 
-#include "StMyTowerHist.h"
-#include "StMyClusterHist.h"
-#include "StMyTrackHist.h"
+#include "StMyEmcPool/StMyObjs/StMyTowerHist.h"
+#include "StMyEmcPool/StMyObjs/StMyClusterHist.h"
+#include "StMyEmcPool/StMyObjs/StMyTrackHist.h"
 #include "StMyEmcPool/StMyObjs/StMyHist.h"
 
 class StMyMatchTrackToEmcHist : public StMyTrackHist
@@ -17,56 +17,54 @@ public:
     double max = 10;
     TH1::SetDefaultSumw2(kTRUE); 
 
-    mHistTower = new TH1D(Form("%sTower", name), "; tower E [GeV]", nbins, min, max); 
+    mHistTower = new TH2D(Form("%sTower", name), "track p_{T} [GeV]; tower E [GeV]", nbins, min, max, nbins, min, max); 
     
-    //mHistEpVsP = new StMyHist2D(Form("%sEpVsP", name), ";track p [GeV]; E/p", nbins, min, max, 150, -0.1, 1.4);
-    mHistEptVsPt = new StMyHist2D(Form("%sEptVsPt", name), ";track p_{T} [GeV]; E/p_{T}", nbins, min, max, 150, -0.1, 1.4);
+    mHistEpVsPt = new StMyHist2D(Form("%sEpVsPt", name), ";track p_{T} [GeV]; E/p", nbins, min, max, 150, -0.1, 1.4);
 
-    //mHistEpVsPCluster = new StMyHist2D(Form("%sEpVsPCluster", name), ";track p [GeV]; E/p", nbins, min, max, 150, -0.1, 1.4);
-    mHistEptVsPtCluster = new StMyHist2D(Form("%sEptVsPtCluster", name), ";track p_{T} [GeV]; E/p_{T}", nbins, min, max, 150, -0.1, 1.4);
+    mHistEpVsPtCluster = new StMyHist2D(Form("%sEpVsPtCluster", name), ";track p_{T} [GeV]; E/p", nbins, min, max, 150, -0.1, 1.4);
     
     mHistHitTowerFracCluster = new StMyHist2D(Form("%sHitTowerFracCluster", name), ";track p_{T} [GeV]; hit frac.", nbins, min, max, 150, -0.1, 1.4);
     mHistMaxTowerFracCluster = new StMyHist2D(Form("%sMaxTowerFracCluster", name), ";track p_{T} [GeV]; hit frac.", nbins, min, max, 150, -0.1, 1.4);  
-    mHistEptVsDist = new StMyProfile(Form("%sEptVsDist", name), ";d;E/p_{T}", 9, -0.01, 0.08);
+    mHistEpVsDist = new StMyProfile(Form("%sEpVsDist", name), ";d;E/p", 9, -0.01, 0.08);
 
     //mTower = new StMyTowerHist(Form("%sTower", name));
     //mCluster = new StMyClusterHist(Form("%sCluster", name));
+    mHRadius = new TH1D(Form("%sRadius", name), "; radius [cm]", 300, 225, 255);
   }
   ~StMyMatchTrackToEmcHist(){
     delete mHistTower;
 
-    //delete mHistEpVsP;
-    delete mHistEptVsPt;
+    delete mHistEpVsPt;
 
     //delete mHistEpVsPCluster;
-    delete mHistEptVsPtCluster;
+    delete mHistEpVsPtCluster;
 
     delete mHistHitTowerFracCluster;
     delete mHistMaxTowerFracCluster;
-    delete mHistEptVsDist;
+    delete mHistEpVsDist;
     //delete mTower;
     //delete mCluster;
     //StMyTrackHist::~StMyTrackHist();
+    delete mHRadius;
   }
   
   
-  TH1D *mHistTower;
+  TH2D *mHistTower;
 
   
-  //StMyHist2D *mHistEpVsP;
-  StMyHist2D *mHistEptVsPt;
+  StMyHist2D *mHistEpVsPt;
 
-  //StMyHist2D *mHistEpVsPCluster;
-  StMyHist2D *mHistEptVsPtCluster;
+  StMyHist2D *mHistEpVsPtCluster;
 
   StMyHist2D *mHistHitTowerFracCluster;
   StMyHist2D *mHistMaxTowerFracCluster;
 
-  StMyProfile *mHistEptVsDist;
+  StMyProfile *mHistEpVsDist;
 
   //StMyTowerHist *mTower;
   //StMyClusterHist *mCluster;
 
+  TH1D *mHRadius;
   ClassDef(StMyMatchTrackToEmcHist, 1);
 };
 #endif

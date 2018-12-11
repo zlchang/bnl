@@ -18,9 +18,10 @@ public:
   void setYrange(double min, double max){ymin = min; ymax = max;}
   void setLogy(bool flag){logy = flag;}
 };
-const char* ver = "v1";
+const char* ver = "Datav2";
 int plotMyTrack(//const char* file = "test.track.root"
-const char* file = "ptbin.list.run12.b.track.v0.w.track.root"
+//const char* file = "ptbin.list.run12.d.track.v0.w.track.root"
+const char* file = "run.emc.list.run12.d.track.v0.w.track.root"
 )
 {
   
@@ -53,12 +54,12 @@ const char* file = "ptbin.list.run12.b.track.v0.w.track.root"
   drawObject d1;
   d1.setYrange(-0.1, 1.2);
   d1.setLegend(0.2, 0.7, 0.5, 0.85);
-  drawHistProfile("EptVsPtProf", d1);
+  drawHistProfile("EpVsPtProf", d1);
   
   drawObject d2;
   d2.setYrange(-0.1, 1.2);
   d2.setLegend(0.2, 0.7, 0.5, 0.85);
-  drawHistProfile("EptVsPtClusterProf", d2);
+  drawHistProfile("EpVsPtClusterProf", d2);
 
   drawObject d3;
   d3.setYrange(-0.1, 1.2);
@@ -73,7 +74,7 @@ const char* file = "ptbin.list.run12.b.track.v0.w.track.root"
   drawObject d5;
   //d5.setYrange(-0.1, 0.29);
   //d5.setLegend(0.46, 0.74, 0.76, 0.89);
-  drawHistProfile("EptVsDistProf", d5);
+  drawHistProfile("EpVsDistProf", d5);
 
   drawObject d6;
   drawHist("NSigmaElectron", d6);
@@ -83,10 +84,10 @@ const char* file = "ptbin.list.run12.b.track.v0.w.track.root"
   drawHist("NSigmaPion", d7);
 
   drawObject d8;
-  drawHist2D("EptVsPtScatter", d8);
+  drawHist2D("EpVsPtScatter", d8);
 
   drawObject d9;
-  drawHist2D("EptVsPtClusterScatter", d9);
+  drawHist2D("EpVsPtClusterScatter", d9);
 
   drawObject d10;
   drawHist2D("HitTowerFracClusterScatter", d10);
@@ -96,15 +97,15 @@ const char* file = "ptbin.list.run12.b.track.v0.w.track.root"
   //*/  
   drawObject d12;
   //d12.setYrange(-0.001, 0.005);
-  drawHistProjY("EptVsPtScatter", 11, 15, d12);
+  drawHistProjY("EpVsPtScatter", 11, 15, d12);
 
   drawObject d13;
   //d13.setYrange(-0.0005, 0.002);
-  drawHistProjY("EptVsPtScatter", 16, 55, d13);
+  drawHistProjY("EpVsPtScatter", 16, 55, d13);
 
   drawObject d14;
   //d14.setYrange(-0.001, 0.005);
-  drawHistProjY("EptVsPtScatter", 6, 10, d14);
+  drawHistProjY("EpVsPtScatter", 6, 10, d14);
   return 1;
 }
 void drawHist(const char *name, const drawObject &obj)

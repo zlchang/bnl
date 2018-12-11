@@ -16,6 +16,7 @@ class StMyClusterHist;
 class StMyMatchTrackToEmcHist;
 class StMyTrackCut;
 class StMyVertexCut;
+class StMyTrackProjEmc;
 
 class StMyMatchTrackToEmcMaker : public StMaker{
 
@@ -28,6 +29,7 @@ public:
   int Finish();
   void addTrackCut(StMyTrackCut* tcut){ mTrackCuts.push_back(tcut); }
   void addVertexCut(StMyVertexCut* vcut){ mVertexCuts.push_back(vcut); }
+  void setTrackProjEmc(StMyTrackProjEmc* proj){ mTrackProj = proj; }
   void SetOutfile(const char* file){mFileName =  file; }  
  protected:
   StEmcGeom *mBemcGeom;
@@ -47,6 +49,7 @@ public:
   StMyClusterHist *mHistCluster;
   vector<StMyTrackCut*> mTrackCuts;
   vector<StMyVertexCut*> mVertexCuts;
+  StMyTrackProjEmc *mTrackProj;
   ClassDef(StMyMatchTrackToEmcMaker, 0);
 };
 #endif

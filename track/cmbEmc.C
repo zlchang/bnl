@@ -1,4 +1,4 @@
-TFile *mFile;
+//TFile *mFile;
 long ids[] = {1, 2, 3,
 	      7, 8, 9,
 	      10, 11, 12,
@@ -7,19 +7,21 @@ long ids[] = {1, 2, 3,
 const int Nids = 13;
 
 int cmbEmc(char *file = "ptbin.list", char* runlist = "text.full",
-	     char* dir_base = "output/MyReadEmcGeant", char* mcfilepre = "run12.b.emc",
+	     char* dir_base = "output/geant_t", char* mcfilepre = "run12.c.emc",
 	     int ver = 0, int first = 0)
 {
-  TH1::SetDefaultSumw2(kTRUE);
-  gSystem->Load("StMyMatchTrackToEmcHist.so");
+  //TH1::SetDefaultSumw2(kTRUE);
+  gSystem->Load("StMyObjs.so");
   gSystem->Load("StMyEmcFromGeantHist.so");
 
   TFile *fout = new TFile(Form("%s.%s.v%d.w.root", file, mcfilepre, ver), "recreate");
   //
-  StMyMcTrackHist *hist[Nids];
+  StMyEmcTrackHist *hist[Nids];
+  StMyEmcTrackMatchHist *histTrack[Nids];
   StMyGeantId geant;
   for(int it = 0; it < Nids; it++){
-    hist[it] = new StMyMcTrackHist(Form("%s", geant.getName(ids[it])));
+    hist[it] = new StMyEmcTrackHist(Form("%s", geant.getName(ids[it])));
+    histTrack[it] = new StMyEmcTrackMatchHist(Form("Track%s", geant.getName(ids[it])));
   }
 
   TFile *finfo = TFile::Open(Form("analyze_logs/ptbin.info.%s.root", runlist));
@@ -57,21 +59,26 @@ int cmbEmc(char *file = "ptbin.list", char* runlist = "text.full",
     //ww = 1;
     for(int ii = 0; ii < 10; ii++){
       //if(ii%2 == 0) continue;
-      mFile = TFile::Open(Form("%s/%s/%s.%d.MyReadEmcGeant.root", dir_base, ptbin, ptbin, ii));
+      yFile = TFile::Open(Form("%s/%s/%s.emcGeant.%d.root", dir_base, ptbin, ptbin, ii));
       //mFile = TFile::Open(Form("%s/%s/%s.mudst.subset.%d.list.emcGeant.root", dir_base, ptbin, ptbin, ii));
       //mFile = TFile::Open(Form("%s/%s/%s.emcGeant.%d.root", dir_base, ptbin, ptbin, ii));
-      cout<<Form("%s/%s/%s.MyReadEmcGeant.%d.root", dir_base, ptbin, ptbin, ii)<<endl;
+      cout<<Form("%s/%s/%s.emcGeant.%d.root", dir_base, ptbin, ptbin, ii)<<endl;
 
       for(int it = 0; it < Nids; it++){
 	const char* nn = geant.getName(ids[it]);
-	StMyMcTrackHist *pp = hist[it];
-	AddHist(pp->mEptVsPt->mProfile, Form("%sEptVsptProf", nn), ww);
-	AddHist(pp->mEptVsPt->mProfileW2, Form("%sEptVsptProfW2", nn), ww*ww);
-	AddHist(pp->mEptVsPt->mScatter, Form("%sEptVsptScatter", nn), ww);
+        //Printf("%s\n", nn);
+	StMyEmcTrackHist *pp = hist[it];
+	AddHist(pp->mEpVsPt, Form("%sEpVsPt", nn), ww);
+	//AddHist(pp->mEptVsPt->mProfile, Form("%sEptVsptProf", nn), ww);
+	//AddHist(pp->mEptVsPt->mProfileW2, Form("%sEptVsptProfW2", nn), ww*ww);
+	//AddHist(pp->mEptVsPt->mScatter, Form("%sEptVsptScatter", nn), ww);
 	//
-	AddHist(pp->mNVsPt->mProfile, Form("%sNVsptProf", nn), ww);
-	AddHist(pp->mNVsPt->mProfileW2, Form("%sNVsptProfW2", nn), ww*ww);
-	AddHist(pp->mNVsPt->mScatter, Form("%sNVsptScatter", nn), ww);
+	AddHist(pp->mNVsPt, Form("%sNVsPt", nn), ww);
+	//AddHist(pp->mNVsPt->mProfile, Form("%sNVsptProf", nn), ww);
+	//AddHist(pp->mNVsPt->mProfileW2, Form("%sNVsptProfW2", nn), ww*ww);
+	//AddHist(pp->mNVsPt->mScatter, Form("%sNVsptScatter", nn), ww);
+	StMyEmcTrackMatchHist *pm = histTrack[it];
+	AddHist(pm->mEpVsPt, Form("Track%sEpVsPt", nn), ww);
       }
     }
     counter++;
@@ -81,7 +88,7 @@ int cmbEmc(char *file = "ptbin.list", char* runlist = "text.full",
   fout->Close();
   return 1;
 }
-
+/*
 void AddHist(TH1D *hist, const char* name, double w)
 {
   TH1D* hh = (TH1D*) mFile->Get(name);
@@ -110,3 +117,4 @@ void AddHist(TProfile *hist, const char* name, double w)
   else
   Printf("%s not found\n", name);
 }
+*/

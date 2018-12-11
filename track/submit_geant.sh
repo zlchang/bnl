@@ -5,7 +5,7 @@ listdir=`pwd`/lists_mudst
 mkdir -p scripts/
 #for weight in 0;
 #do
-	outdir=$HOME/output/geant
+	outdir=`pwd`/output/geant_t
 	for pt in $( < $1); do
 		echo pt=$pt
 		mkdir -p $outdir/$pt

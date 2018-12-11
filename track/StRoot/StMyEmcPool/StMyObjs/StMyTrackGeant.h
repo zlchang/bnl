@@ -7,7 +7,7 @@ class StMyTrackGeant : public StMyTrack{
   StMyTrackGeant(){StMyTrack(); mKey=0;}
   long mKey;
   int mQa;
-  int mNhits;
+  //int mNhits;
   ClassDef(StMyTrackGeant, 0);
 };
 

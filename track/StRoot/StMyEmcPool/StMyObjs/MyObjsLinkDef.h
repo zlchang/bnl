@@ -6,4 +6,8 @@
 #pragma link C++ global yFile;
 #pragma link C++ function AddHist;
 //IncFile=StMyEmcPool/StMyObjs/Histfunc.h
+#pragma link C++ function getRadiusConstant;
+#pragma link C++ function getRadiusLinear;
+#pragma link C++ function linear;
+//IncFile=StMyEmcPool/StMyObjs/SFfunc.h
 #endif

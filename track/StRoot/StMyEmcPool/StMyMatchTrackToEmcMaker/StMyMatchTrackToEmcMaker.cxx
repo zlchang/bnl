@@ -10,17 +10,21 @@
 #include "StMyEmcPool/StMyUtils/StMyVertexCut.h"
 #include "StMyEmcPool/StMyUtils/StMyVertexZCut.h"
 #include "StMyEmcPool/StMyUtils/StMyVertexRankingCut.h"
+#include "StMyEmcPool/StMyUtils/func.h"
+#include "StMyEmcPool/StMyUtils/StMyTrackProjEmc.h"
 
 #include "StMyEmcPool/StMyMatchTrackToEmcHist/StMyMatchTrackToEmcHist.h"
-#include "StMyEmcPool/StMyMatchTrackToEmcHist/StMyTowerHist.h"
-#include "StMyEmcPool/StMyMatchTrackToEmcHist/StMyClusterHist.h"
 #include "StMyEmcPool/StMyObjs/StMyTrackMatch.h"
 #include "StMyEmcPool/StMyObjs/StMyTower.h"
 #include "StMyEmcPool/StMyObjs/StMyCluster.h"
+#include "StMyEmcPool/StMyObjs/SFfunc.h"
+#include "StMyEmcPool/StMyObjs/StMyTowerHist.h"
+#include "StMyEmcPool/StMyObjs/StMyClusterHist.h"
 
 #include "TFile.h"
 #include "TProfile.h"
 #include "TVector2.h"
+#include "TVector3.h"
 #include "TH1D.h"
 #include "TH2D.h"
 
@@ -30,6 +34,10 @@
 #include "StEmcUtil/geometry/StEmcGeom.h"
 #include "StEmcUtil/database/StBemcTables.h"
 #include "StEmcADCtoEMaker/StEmcADCtoEMaker.h"
+#include "StTriggerUtilities/StTriggerSimuMaker.h"
+#include "StTriggerUtilities/Emc/StEmcTriggerSimu.h"
+#include "StTriggerUtilities/Bemc/StBemcTriggerSimu.h"
+#include "StTriggerUtilities/Eemc/StEemcTriggerSimu.h"
 
 #include <vector>
 #include <map>
@@ -65,6 +73,8 @@ int StMyMatchTrackToEmcMaker::Init()
 }
 int StMyMatchTrackToEmcMaker::Make()
 {
+
+  StTriggerSimuMaker *trgsim = (StTriggerSimuMaker*) GetMakerInheritsFrom("StTriggerSimuMaker");  if(!trgsim->emc->JP0()) return kStSkip;	
   StMuPrimaryVertex *vertex = StMuDst::primaryVertex();
   if(!vertex) return kStSkip;
   //if(vertex->ranking() < 0.1) return kStSkip;
@@ -91,26 +101,29 @@ int StMyMatchTrackToEmcMaker::Make()
 	mBemcGeom->getId(hit->module(), hit->eta(), abs(hit->sub()), towerId);
 	if(towerId >=1 && towerId <= 4800){
           double he = hit->energy();
-          unsigned int adc = hit->adc();
 	  int status = 0;
           mBemcTable->getStatus(1, towerId, status);
-	  float pedestal, rms;
-          int CAP = 0;
-	  mBemcTable->getPedestal(1, towerId, CAP, pedestal, rms);
-          if(adc < pedestal+4){ 
+          //unsigned int adc = hit->adc();
+	  //float pedestal, rms;
+          //int CAP = 0;
+	  //mBemcTable->getPedestal(1, towerId, CAP, pedestal, rms);
+          //if(adc < pedestal+4){ 
             //Printf("adc = %d pedestal = %f\n", adc, pedestal); 
-            he = 0;
-          }
-          if(adc < pedestal+3.0*rms){ 
+            //he = 0;
+          //}
+          //if(adc < pedestal+3.0*rms){ 
             //Printf("adc = %d pedestal = %f rms = %f\n", adc, pedestal, rms); 
-            he = 0;
-          }
+            //he = 0;
+          //}
           //if(mBemcTable->status(1, towerId, "calib") != 1) status = 0;
-          if(status != 1) {
+          //if(status != 1) {
             //Printf("id: %d status: %d\n", towerId, status); 
-            he = 0;
-          } 
- 	  if(he < 0.2) he = 0;
+            //he = 0;
+          //}
+          myTowerList[towerId-1].mStatus = (status == 1); 
+ 	  //if(he < 0.2) he = 0;
+ 	  if(he < 0) { //Printf("Setting tower %d energy %f to 0\n", towerId, he); 
+                     he = 0;}
 	  (myTowerList[towerId-1]).mId = towerId;
 	  (myTowerList[towerId-1]).mE = he;
           //Printf("ee = %lf\n", he);
@@ -139,70 +152,82 @@ int StMyMatchTrackToEmcMaker::Make()
     const StMuTrack *muTrack = *it;
     double pt = muTrack->pt();
     double eta = muTrack->eta();
+    double phi = muTrack->phi();
 
     StMyTrackMatch myTrack;
     myTrack.mPt = pt;
+    myTrack.mEta = eta;
+    myTrack.mPhi = phi;
     //
     double nsigE = muTrack->nSigmaElectron();
     myTrack.mNSigmaElectron = nsigE;
     
     double nsigPi = muTrack->nSigmaPion();
     myTrack.mNSigmaPion = nsigPi;
+
+    double nsigK = muTrack->nSigmaKaon();
+    myTrack.mNSigmaKaon = nsigK;
+    
+    double nsigP = muTrack->nSigmaProton();
+    myTrack.mNSigmaProton = nsigP;
     
     int charge = muTrack->charge();
     myTrack.mCharge = charge;
     
     //Printf("pt = %.2lf B = %.2lf", pt, mag);
-    StThreeVectorD momentumAt, positionAt;
-    //StMuEmcPosition EmcPosition;
-    StEmcPosition EmcPosition;
-    double bemcRadius = 238.6;
-    //double bemcRadius = 245;
-    //double bemcRadius = 225.405;
-    if(EmcPosition.trackOnEmc(&positionAt, &momentumAt, muTrack, mag, bemcRadius)){
-      double exitEta = positionAt.pseudoRapidity();
-      double exitPhi = positionAt.phi();
-      int exitTowerId = 0;
+    //StThreeVectorD momentumAt, positionAt;
+    //StEmcPosition EmcPosition;
+    //double bemcRadius = getRadiusLinear(pt);
+    //double bemcRadius = 225.405, depth = 30;
+    //Printf("Using bemc radius %lf to project towers\n", bemcRadius);
+    //if(EmcPosition.trackOnEmc(&positionAt, &momentumAt, muTrack, mag, bemcRadius)){
+    //double exitEta = positionAt.pseudoRapidity();
+      //double exitPhi = positionAt.phi();
+      //int exitTowerId = 0;
       //Printf("tower Id %d, exit eta: %.2lf, phi: %.2lf", exitTowerId, exitEta, exitPhi);
       //StEmcGeom::instance("bemc")->getId(exitPhi, exitEta, exitTowerId);
-      mBemcGeom->getId(exitPhi, exitEta, exitTowerId);
-      
-      if(exitTowerId <=0 || exitTowerId > 4800){ 
-	Printf("exitTowerId %d out of range\n", exitTowerId);
-        myTrack.mMatch = false;
-        myTrackList.push_back(myTrack);
-	//hprofmatch->Fill(pt, false); 
-	continue;
-      }
-      if(!(myTowerList[exitTowerId-1].mE > 0)){
-        //Printf("track with pt %lf matching to tower with energy 0\n", pt);
-        myTrack.mMatch = false;
-        myTrackList.push_back(myTrack);
-        continue;
-      }
-      (myTowerList[exitTowerId-1].mHits)++;
-      //hprofmatch->Fill(pt, true);
-      //double ee = myTowerList[exitTowerId-1].mE;//energy[exitTowerId-1];
-
-      //Printf("tower Id %d, energy %lf, track pt %.2lf eta %.2lf", exitTowerId, ee, pt, eta);
-      float beta, bphi;
-      mBemcGeom->getEtaPhi(exitTowerId, beta, bphi);
-      //Printf("tower Id %d, center eta: %.2lf, phi: %.2lf", exitTowerId, beta, bphi);
-      double dd = TMath::Power(beta-exitEta, 2)+TMath::Power(TVector2::Phi_mpi_pi(bphi-exitPhi), 2);
-      dd = TMath::Sqrt(dd);
-      //hprofevsd->Fill(dd, ee/pt);
-      //h2devsd->Fill(dd, ee/pt);
-      //
-      myTrack.mTower = myTowerList[exitTowerId-1];
-      myTrack.mDist = dd;
-      myTrack.mMatch = true;
-    }else{
+      //mBemcGeom->getId(exitPhi, exitEta, exitTowerId);
+    //}
+    //int towerId = projTowerId(muTrack, &momentumAt, &positionAt, mag, bemcRadius, mBemcGeom);
+    int towerId = mTrackProj->findTower(muTrack, mag);
+    double bemcRadius = mTrackProj->getRadius();
+    //if(t_towerId != towerId) Printf("t_towerId=%d, towerId=%d\n", t_towerId, towerId);
+    myTrack.mRadius = bemcRadius;
+    //Printf("mRadius=%f\n", myTrack.mRadius);
+    //
+    if(towerId <=0 || towerId > 4800){ 
+      //Printf("towerId %d out of range\n", towerId);
       myTrack.mMatch = false;
+      myTrackList.push_back(myTrack);
       Printf("no match for track pt %.2lf eta %.2lf", pt, eta);
+      continue;
+    }    
+    if(!myTowerList[towerId-1].mStatus){
+      myTrack.mMatch = false;
+      myTrackList.push_back(myTrack);
+      Printf("track with pt %lf and eta %lf matching to tower with bad status\n", pt, eta);
+      continue;
     }
+    (myTowerList[towerId-1].mHits)++;
+    myTrack.mMatch = true;
+    myTrack.mTower = myTowerList[towerId-1];
+    //Printf("pt=%f, id=%d, tower hits %d, ee=%f\n", pt, myTrack.mTower.mId, myTrack.mTower.mHits, myTrack.mTower.mE);
+    //double ee = myTowerList[towerId-1].mE;//energy[towerId-1];    
+    //Printf("tower Id %d, energy %lf, track pt %.2lf eta %.2lf", towerId, ee, pt, eta);
+    StThreeVectorD &positionAt = mTrackProj->mPositionAt;
+    double exitEta = positionAt.pseudoRapidity();
+    double exitPhi = positionAt.phi();
+    //Printf("exitEta=%lf, exitPhi=%lf, id=%d\n", exitEta, exitPhi,towerId);
+    float beta, bphi;
+    mBemcGeom->getEtaPhi(towerId, beta, bphi);
+    //Printf("tower Id %d, center eta: %.2lf, phi: %.2lf", towerId, beta, bphi);
+    double dd = TMath::Power(beta-exitEta, 2)+TMath::Power(TVector2::Phi_mpi_pi(bphi-exitPhi), 2);
+    dd = TMath::Sqrt(dd);
+    myTrack.mDist = dd;
     myTrackList.push_back(myTrack);
   }
   map<int, StMyCluster> myClusterList;
+
   for(vector<StMyTrackMatch>::iterator it = myTrackList.begin(); it != myTrackList.end(); it++){
     StMyTrackMatch &myTrack = *it;
     if(!myTrack.mMatch) continue;
@@ -242,6 +267,7 @@ int StMyMatchTrackToEmcMaker::Make()
   //fill histograms
   for(vector<StMyTrackMatch>::const_iterator it = myTrackList.begin(); it != myTrackList.end(); it++){
     const StMyTrackMatch &myTrack = *it;
+    //Printf("track list: pt=%f, id=%d, tower hits %d, ee=%f\n", myTrack.mPt, myTrack.mTower.mId, myTrack.mTower.mHits, myTrack.mTower.mE);
     
     fillHist(myTrack, mHistNoCut);	
 
@@ -274,21 +300,33 @@ int StMyMatchTrackToEmcMaker::Finish()
 void StMyMatchTrackToEmcMaker::fillHist(const StMyTrackMatch &track, StMyMatchTrackToEmcHist *hist)
 {
   double tpt = track.mPt;
+  double teta = track.mEta;
+  double tphi = track.mPhi;
+  TVector3 tmom; tmom.SetPtEtaPhi(tpt, teta, tphi);
+  double tp = tmom.Mag();
   double tnsigE = track.mNSigmaElectron;
   double tnsigPi = track.mNSigmaPion;
+  double tnsigK = track.mNSigmaKaon;
+  double tnsigP = track.mNSigmaProton;
+  double tr = track.mRadius;
   bool match = track.mMatch;
-  //Printf("match = %d\n", match);
-  hist->mHistTrack->Fill(tpt);
-  hist->mHistNSigmaElectron->Fill(tnsigE);
-  hist->mHistNSigmaPion->Fill(tnsigPi);
-  hist->mHistTrackFrac->Fill(tpt, match);
+  double tdd = track.mDist;
+  //Printf("fill hist: match=%d tpt=%f tnhits=%d id=%d tee=%f\n", match, tpt, track.mTower.mHits, track.mTower.mId, track.mTower.mE);
+  hist->mHist->Fill(tpt);
+  hist->mHistNSigmaElectron->Fill(tpt, tnsigE);
+  hist->mHistNSigmaPion->Fill(tpt, tnsigPi);
+  hist->mHistNSigmaKaon->Fill(tpt, tnsigK);
+  hist->mHistNSigmaProton->Fill(tpt, tnsigP);
+  hist->mHistFrac->Fill(tpt, match);
+  hist->mHRadius->Fill(tr);
   if(match){
     double tee = track.mTower.mE;
-    double tdd = track.mDist;
-    double tnhits = track.mTower.mHits;
+    int tnhits = track.mTower.mHits;
+    //Printf("filling: tpt=%f tnhits=%d id=%d tee=%f\n", tpt, tnhits, track.mTower.mId, tee);
     if(tnhits == 1){
-      hist->mHistTower->Fill(tee);
-      hist->mHistEptVsPt->Fill(tpt, tee/tpt);
+      hist->mHistTower->Fill(tpt, tee);
+      hist->mHistEpVsPt->Fill(tpt, tee/tp);
+      hist->mHistEpVsDist->Fill(tdd, tee/tp);
     }
     double tcluster = track.mCluster.mE;
     double tclustermax = track.mCluster.mEMax;
@@ -296,16 +334,15 @@ void StMyMatchTrackToEmcMaker::fillHist(const StMyTrackMatch &track, StMyMatchTr
     if(tcluster > 0) tfee = tee/tcluster;
     double tfmax = 0;
     if(tcluster > 0) tfmax = tclustermax/tcluster;    
-    int cnhits = track.mCluster.mHits;
+    int cnhits = track.mCluster.mHits;//test
     //Printf("nhits = %d\n", nhits);
     //isolation cut
     if(cnhits == 1){
-      //maximum cut
-      if(!(tfee < tfmax)) hist->mHistEptVsPtCluster->Fill(tpt, tcluster/tpt);
       hist->mHistHitTowerFracCluster->Fill(tpt, tfee);
       hist->mHistMaxTowerFracCluster->Fill(tpt, tfmax);
+      //maximum cut
+      if(!(tfee < tfmax)) hist->mHistEpVsPtCluster->Fill(tpt, tcluster/tp);
     }
-    hist->mHistEptVsDist->Fill(tdd, tee/tpt);
   }
 }
 void StMyMatchTrackToEmcMaker::fillHistTower(const StMyTower &tower, StMyTowerHist *hist)
@@ -313,6 +350,7 @@ void StMyMatchTrackToEmcMaker::fillHistTower(const StMyTower &tower, StMyTowerHi
     hist->hE->Fill(tower.mE);
     hist->hNHits->Fill(tower.mHits);
     hist->hHits->Fill(tower.mId);
+    //Printf("e=%f, id=%d, nhits=%d", tower.mE, tower.mId, tower.mHits);
 }
 void StMyMatchTrackToEmcMaker::fillHistCluster(const StMyCluster &cluster, StMyClusterHist *hist)
 {

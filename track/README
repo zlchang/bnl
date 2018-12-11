@@ -1,3 +1,6 @@
+#on rcf
+cons CC=/usr/bin/gcc44 CXX=/usr/bin/g++44 LD=/usr/bin/g++44 FC=/usr/bin/gfortran44 FEXTEND='-Mextend -m32'
+#on pdsf
 cons CC=/usr/bin/gcc CXX=/usr/bin/g++ LD=/usr/bin/g++ FC=/usr/bin/gfortran FEXTEND='-Mextend -m32'
 //generating history
 
@@ -16,3 +19,7 @@ dir=working
 
 iDir=30
 dir=working
+
+Log:
+
+Add radius interpolation in SFfunc.h
