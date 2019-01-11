@@ -7,7 +7,7 @@ long ids[] = {1, 2, 3,
 const int Nids = 13;
 
 int cmbEmc(char *file = "ptbin.list", char* runlist = "text.full",
-	     char* dir_base = "output/geant_t", char* mcfilepre = "run12.c.emc",
+	     char* dir_base = "output/geant_r0", char* mcfilepre = "run12.c.r0.emc",
 	     int ver = 0, int first = 0)
 {
   //TH1::SetDefaultSumw2(kTRUE);
@@ -79,6 +79,7 @@ int cmbEmc(char *file = "ptbin.list", char* runlist = "text.full",
 	//AddHist(pp->mNVsPt->mScatter, Form("%sNVsptScatter", nn), ww);
 	StMyEmcTrackMatchHist *pm = histTrack[it];
 	AddHist(pm->mEpVsPt, Form("Track%sEpVsPt", nn), ww);
+	AddHist(pm->mDVsPt, Form("Track%sDVsPt", nn), ww);
       }
     }
     counter++;
