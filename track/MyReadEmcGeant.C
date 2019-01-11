@@ -52,7 +52,7 @@ void MyReadEmcGeant(//const char* mudstfile = "/global/homes/z/zchang/data_embed
   ioMaker->SetBranch("*",0,"0");             // Deactivate all branches
   ioMaker->SetBranch("geantBranch",0,"r");   // Activate geant branch
  
-  StEmcGeom *emcGeom = StEmcGeom::instance("bemc"); 
+  //StEmcGeom *emcGeom = StEmcGeom::instance("bemc"); 
   // Monte Carlo event maker
   StMcEventMaker* mcEventMaker = new StMcEventMaker;
   mcEventMaker->doPrintEventInfo  = false;
@@ -68,7 +68,10 @@ void MyReadEmcGeant(//const char* mudstfile = "/global/homes/z/zchang/data_embed
   //adc->saveAllStEvent(true);
 
   //StEmcSimulatorMaker *emcSimu = new StEmcSimulatorMaker;
-  StMyTrackProjEmcPtRadius *proj = new StMyTrackProjEmcPtRadius;
+  //StMyTrackProjEmcPtRadius *proj = new StMyTrackProjEmcPtRadius;
+  StMyTrackProjEmcAtRadius *proj = new StMyTrackProjEmcAtRadius;
+  //proj->setRadius(238.6);
+  //StMyTrackProjEmcSameTower *proj = new StMyTrackProjEmcSameTower;
   StMyEmcFromGeantMaker *emcGeant = new StMyEmcFromGeantMaker;
   emcGeant->SetOutfile(outfile);
   emcGeant->addVertexCut(new StMyMcVertexZCut);
