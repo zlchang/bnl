@@ -1,5 +1,8 @@
 const char* type[] = {"All", "Pos", "Neg", "NoCut"};
 const int Ntype = 4;
+const char* trg[] = {"JP0", "JP1", "JP2"};
+const int Ntrg = 3;
+
 const int Npt = 13;
 
 double weight[Npt];
@@ -36,14 +39,14 @@ double sumxw = 0, sumx2w = 0;
 void test(TProfile *profile, const char* name);
 
 int cmbTrack(
-	       char *file = "ptbin.list",
-	       bool mode = 1,
-	       int index = 10,
-	     //char *file = "run.emc.list",
+	     char *file = "ptbin.list",
+	     bool mode = 1,
+	     int index = 10,
+	     //char *file = "run12.final.v2.list",
 	     //bool mode = 0,
 	     //int index = 1,
-	     char* dir_base = "output/track_rn", 
-	     char* mcfilepre = "run12.en.track",
+	     char* dir_base = "output/track_filt", 
+	     char* mcfilepre = "run12.ef.track",
 	     int ver = 0)
 {
   //TH1::SetDefaultSumw2(kTRUE);
@@ -52,13 +55,21 @@ int cmbTrack(
 
   TFile *fout = new TFile(Form("%s.%s.v%d.w.track.root", file, mcfilepre, ver), "recreate");
   //
-  StMyMatchTrackToEmcHist *hist[Ntype];
+  StMyMatchTrackToEmcHist *hist[Ntype][Ntrg];
   for(int it = 0; it < Ntype; it++){
-    hist[it] = new StMyMatchTrackToEmcHist(Form("Cmb%s", type[it]));
+     for(int jt = 0; jt < Ntrg; jt++){
+        hist[it][jt] = new StMyMatchTrackToEmcHist(Form("Cmb%s%s", trg[jt], type[it]));
+        //hist[it][jt] = new StMyMatchTrackToEmcHist(Form("Cmb%s%s", trg[jt], type[it]));
+     }
   }
-  StMyTowerHist *histTower = new StMyTowerHist("CmbTower");
-  StMyClusterHist *histCluster = new StMyClusterHist("CmbCluster");
-
+  StMyTowerHist *histTower[Ntrg];
+  for(int it = 0; it < Ntrg; it++){
+    histTower[it] = new StMyTowerHist(Form("Cmb%sTower", type[it]));
+  }
+  StMyClusterHist *histCluster[Ntrg];
+  for(int it = 0; it < Ntrg; it++){
+    histCluster[it]  = new StMyClusterHist(Form("Cmb%sCluster", type[it]));
+  }
   if(mode) loadFudge();
 
   ifstream in(file);
@@ -69,39 +80,30 @@ int cmbTrack(
     double ww = 1;
     if(mode) ww = fudge[counter]*weight[counter];
     for(int ii = 0; ii < index; ii++){
-      //if(ii%2 == 0) continue;
-      yFile = TFile::Open(Form("%s/%s/%s.track.%d.root", dir_base, ptbin, ptbin, ii));
-      //mFile = TFile::Open(Form("%s/%s/%s.track.%d.root", dir_base, ptbin, ptbin, ii));
+      //yFile = TFile::Open(Form("%s/%s/%s.track.%d.root", dir_base, ptbin, ptbin, ii));
+      TFile *fin = TFile::Open(Form("%s/%s/%s.track.%d.root", dir_base, ptbin, ptbin, ii));
+      StMyMatchTrackToEmcFile ff(fin);
       cout<<Form("%s/%s/%s.track.%d.root", dir_base, ptbin, ptbin, ii)<<endl;
       for(int it = 0; it < Ntype; it++){
-	const char* nn = type[it];
-	StMyMatchTrackToEmcHist *pp = hist[it];
-	AddHist(pp->mHist, Form("%sTrack", nn), ww);
-	AddHist(pp->mHistEta, Form("%sTrackEta", nn), ww);
-	AddHist(pp->mHistPhi, Form("%sTrackPhi", nn), ww);
-	AddHist(pp->mHistFrac, Form("%sTrackFrac", nn), ww);
-	//AddHist(pp->mHistTower, Form("%sTower", nn), ww);
-	AddHist(pp->mHistNSigmaElectron, Form("%sNSigmaElectron", nn), ww);
-	AddHist(pp->mHistNSigmaPion, Form("%sNSigmaPion", nn), ww);
-	AddHist(pp->mHistNSigmaKaon, Form("%sNSigmaKaon", nn), ww);
-	AddHist(pp->mHistNSigmaProton, Form("%sNSigmaProton", nn), ww);
-	AddHist(pp->mHistEpVsPt, Form("%sEpVsPt", nn), ww);
-	if(it == 0) test(pp->mHistEpVsPt->mProfile, Form("%sEpVsPtProf", nn), ww);
-	AddHist(pp->mHistEpVsPtCluster, Form("%sEpVsPtCluster", nn), ww);
-	//hit frac
-	AddHist(pp->mHistHitTowerFracCluster, Form("%sHitTowerFracCluster", nn), ww);
-	//max frac
-	AddHist(pp->mHistMaxTowerFracCluster, Form("%sMaxTowerFracCluster", nn), ww);
-	//
-	AddHist(pp->mHistEpVsDist, Form("%sEpVsDist", nn), ww);
+	for(int jt = 0; jt < Ntrg; jt++){
+	  const char* nn = type[it];
+	  const char* mm = trg[jt];
+          if(jt == 2){
+		if(mode == 1 && counter < 4) continue;
+          }
+	  StMyMatchTrackToEmcHist *pp = hist[it][jt];
+	  ff.Add(pp, Form("%s%s", mm, nn), ww);
+	}
       }
-      AddHist(histTower->hE, "TowerE", ww);
-      AddHist(histTower->hHits, "TowerHits", ww);
-      AddHist(histTower->hNHits, "TowerNHits", ww);
-      //cluster
-      AddHist(histCluster->hE, "ClusterE", ww);
-      AddHist(histCluster->hNHits, "ClusterNHits", ww);
-      AddHist(histCluster->hMaxFrac, "ClusterMaxFrac", ww);
+      for(int jt = 0; jt < Ntrg; jt++){
+	const char* mm = trg[jt];
+	StMyTowerFile ftwr(fin);
+	ftwr.Add(histTower[jt], Form("%s", mm), ww);
+	//cluster
+	StMyClusterFile fcls(fin);
+	fcls.Add(histCluster[jt], Form("%s", mm), ww);
+      }
+      fin->Close();
     }
     counter++;
   }
@@ -134,7 +136,7 @@ void test(TProfile *profile, const char* name, double ww)
   if(sumw2 > 0){ 
     cons = sumxw/sumw;
     effs = ens*ens/sumw2;
-    errs = 1/effs*(sumx2w/sumw-TMath::Power(sumxw/sumw,2));
+    if(effs > 0) errs = 1/effs*(sumx2w/sumw-TMath::Power(sumxw/sumw,2));
     rmss = (sumx2w/sumw-TMath::Power(sumxw/sumw,2))/sumw;
   }
   errs = TMath::Sqrt(errs);
