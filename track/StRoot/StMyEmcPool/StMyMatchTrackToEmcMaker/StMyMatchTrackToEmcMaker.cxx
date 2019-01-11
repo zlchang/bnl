@@ -10,8 +10,10 @@
 #include "StMyEmcPool/StMyUtils/StMyVertexCut.h"
 #include "StMyEmcPool/StMyUtils/StMyVertexZCut.h"
 #include "StMyEmcPool/StMyUtils/StMyVertexRankingCut.h"
+#include "StMyEmcPool/StMyUtils/StMyTrackNSigmaCut.h"
 #include "StMyEmcPool/StMyUtils/func.h"
 #include "StMyEmcPool/StMyUtils/StMyTrackProjEmc.h"
+#include "StMyEmcPool/StMyUtils/StMyEventTrigger.h"
 
 #include "StMyEmcPool/StMyMatchTrackToEmcHist/StMyMatchTrackToEmcHist.h"
 #include "StMyEmcPool/StMyObjs/StMyTrackMatch.h"
@@ -44,13 +46,20 @@
 int StMyMatchTrackToEmcMaker::Init()
 {
   mFile = new TFile(mFileName, "recreate");
-  mHistNoCut = new StMyMatchTrackToEmcHist("NoCut");
-  mHist = new StMyMatchTrackToEmcHist("All");
-  mHistPos = new StMyMatchTrackToEmcHist("Pos");
-  mHistNeg = new StMyMatchTrackToEmcHist("Neg");
 
-  mHistTower = new StMyTowerHist("Tower");
-  mHistCluster = new StMyClusterHist("Cluster");
+  mTriggers.push_back("JP0");
+  mTriggers.push_back("JP1");
+  mTriggers.push_back("JP2");
+
+  for(size_t i = 0; i < mTriggers.size(); i++){
+    string name = mTriggers[i];
+    mHistNoCutVec.push_back(new StMyMatchTrackToEmcHist(Form("%sNoCut", name.c_str())));
+    mHistVec.push_back(new StMyMatchTrackToEmcHist(Form("%sAll", name.c_str())));
+    mHistPosVec.push_back(new StMyMatchTrackToEmcHist(Form("%sPos", name.c_str())));
+    mHistNegVec.push_back(new StMyMatchTrackToEmcHist(Form("%sNeg", name.c_str())));
+    mHistTowerVec.push_back(new StMyTowerHist(Form("%sTower", name.c_str())));
+    mHistClusterVec.push_back(new StMyClusterHist(Form("%sCluster", name.c_str())));
+  }
 
   mTrackCuts.push_back(new StMyTrackFlagCut());
   mTrackCuts.push_back(new StMyTrackFtpcCut());
@@ -62,6 +71,11 @@ int StMyMatchTrackToEmcMaker::Init()
   mTrackCuts.push_back(new StMyTrackPtMinCut());
   mTrackCuts.push_back(new StMyTrackEtaMinCut());
   mTrackCuts.push_back(new StMyTrackEtaMaxCut());
+  //Nsigma cut
+  mTrackCuts.push_back(new StMyTrackNSigmaPionCut());
+  mTrackCuts.push_back(new StMyTrackNSigmaKaonCut());
+  mTrackCuts.push_back(new StMyTrackNSigmaProtonCut());
+  mTrackCuts.push_back(new StMyTrackNSigmaElectronCut());
   
   mVertexCuts.push_back(new StMyVertexRankingCut());
 
@@ -74,7 +88,22 @@ int StMyMatchTrackToEmcMaker::Init()
 int StMyMatchTrackToEmcMaker::Make()
 {
 
-  StTriggerSimuMaker *trgsim = (StTriggerSimuMaker*) GetMakerInheritsFrom("StTriggerSimuMaker");  if(!trgsim->emc->JP0()) return kStSkip;	
+  StTriggerSimuMaker *trgsim = (StTriggerSimuMaker*) GetMakerInheritsFrom("StTriggerSimuMaker");  
+  //if(!trgsim->emc->JP2()) return kStSkip;	
+  //StMyEventTrigger trig;
+  int state = -1;
+  if(!mFlagMc) state = StMyEventTrigger()(StMuDst::event()->triggerIdCollection().nominal(),trgsim->emc);
+  else state = StMyEventTrigger()(trgsim->emc);
+  if(state >= int(mTriggers.size()) || state < 0) return kStSkip;
+
+  StMyMatchTrackToEmcHist *mHistNoCut = mHistNoCutVec[state];
+  StMyMatchTrackToEmcHist *mHist = mHistVec[state];
+  StMyMatchTrackToEmcHist *mHistPos = mHistPosVec[state];
+  StMyMatchTrackToEmcHist *mHistNeg = mHistNegVec[state];
+  StMyTowerHist *mHistTower = mHistTowerVec[state];
+  StMyClusterHist *mHistCluster = mHistClusterVec[state];
+  
+  //Printf("state=%d", state);
   StMuPrimaryVertex *vertex = StMuDst::primaryVertex();
   if(!vertex) return kStSkip;
   //if(vertex->ranking() < 0.1) return kStSkip;
@@ -103,23 +132,25 @@ int StMyMatchTrackToEmcMaker::Make()
           double he = hit->energy();
 	  int status = 0;
           mBemcTable->getStatus(1, towerId, status);
-          //unsigned int adc = hit->adc();
-	  //float pedestal, rms;
-          //int CAP = 0;
-	  //mBemcTable->getPedestal(1, towerId, CAP, pedestal, rms);
-          //if(adc < pedestal+4){ 
+          /*
+          unsigned int adc = hit->adc();
+	  float pedestal, rms;
+          int CAP = 0;
+	  mBemcTable->getPedestal(1, towerId, CAP, pedestal, rms);
+          if(adc < pedestal+4){ 
             //Printf("adc = %d pedestal = %f\n", adc, pedestal); 
-            //he = 0;
-          //}
-          //if(adc < pedestal+3.0*rms){ 
+            he = 0;
+          }
+          if(adc < pedestal+3.0*rms){ 
             //Printf("adc = %d pedestal = %f rms = %f\n", adc, pedestal, rms); 
-            //he = 0;
-          //}
-          //if(mBemcTable->status(1, towerId, "calib") != 1) status = 0;
-          //if(status != 1) {
+            he = 0;
+          }
+          */
+          if(mBemcTable->status(1, towerId, "calib") != 1) status = 0;
+          if(status != 1) {
             //Printf("id: %d status: %d\n", towerId, status); 
-            //he = 0;
-          //}
+            he = 0;
+          }
           myTowerList[towerId-1].mStatus = (status == 1); 
  	  //if(he < 0.2) he = 0;
  	  if(he < 0) { //Printf("Setting tower %d energy %f to 0\n", towerId, he); 
@@ -164,7 +195,7 @@ int StMyMatchTrackToEmcMaker::Make()
     
     double nsigPi = muTrack->nSigmaPion();
     myTrack.mNSigmaPion = nsigPi;
-
+    //if(nsigPi < -900 || nsigPi > 900) Printf("nsigPi = %lf", nsigPi);
     double nsigK = muTrack->nSigmaKaon();
     myTrack.mNSigmaKaon = nsigK;
     
@@ -173,7 +204,13 @@ int StMyMatchTrackToEmcMaker::Make()
     
     int charge = muTrack->charge();
     myTrack.mCharge = charge;
-    
+   
+    int nhits = muTrack->nHits();
+    myTrack.mNHits = nhits;
+    double nhitfitr = (muTrack->nHitsFit()+0.0)/(muTrack->nHitsPoss()+0.0);
+    myTrack.mNHitsFitRatio = nhitfitr;
+    double dca = muTrack->dcaGlobal().mag();
+    myTrack.mDca = dca; 
     //Printf("pt = %.2lf B = %.2lf", pt, mag);
     //StThreeVectorD momentumAt, positionAt;
     //StEmcPosition EmcPosition;
@@ -265,6 +302,7 @@ int StMyMatchTrackToEmcMaker::Make()
     fillHistTower(myTower, mHistTower);
   }
   //fill histograms
+  int cntr = 0, cntrpos = 0, cntrneg = 0;
   for(vector<StMyTrackMatch>::const_iterator it = myTrackList.begin(); it != myTrackList.end(); it++){
     const StMyTrackMatch &myTrack = *it;
     //Printf("track list: pt=%f, id=%d, tower hits %d, ee=%f\n", myTrack.mPt, myTrack.mTower.mId, myTrack.mTower.mHits, myTrack.mTower.mE);
@@ -276,13 +314,20 @@ int StMyMatchTrackToEmcMaker::Make()
     if(nsigE < -2. || nsigE > 2.){
       if(charge > 0){
 	fillHist(myTrack, mHistPos);
+        cntrpos++;
       }
       if(charge < 0){
 	fillHist(myTrack, mHistNeg);
+        cntrneg++;
       }
       fillHist(myTrack, mHist);
+      cntr++;
     }    
   }
+  mHistNoCut->mHistMult->Fill(myTrackList.size());
+  mHist->mHistMult->Fill(cntr);
+  mHistPos->mHistMult->Fill(cntrpos);
+  mHistNeg->mHistMult->Fill(cntrneg);
   //fill cluster histogram
   for(map<int, StMyCluster>::const_iterator it = myClusterList.begin(); it != myClusterList.end(); it++){
     //int Id = it->first;
@@ -308,6 +353,9 @@ void StMyMatchTrackToEmcMaker::fillHist(const StMyTrackMatch &track, StMyMatchTr
   double tnsigPi = track.mNSigmaPion;
   double tnsigK = track.mNSigmaKaon;
   double tnsigP = track.mNSigmaProton;
+  int tnh = track.mNHits;
+  double tnhr = track.mNHitsFitRatio;
+  double tdca = track.mDca;
   double tr = track.mRadius;
   bool match = track.mMatch;
   double tdd = track.mDist;
@@ -318,12 +366,16 @@ void StMyMatchTrackToEmcMaker::fillHist(const StMyTrackMatch &track, StMyMatchTr
   hist->mHistNSigmaKaon->Fill(tpt, tnsigK);
   hist->mHistNSigmaProton->Fill(tpt, tnsigP);
   hist->mHistFrac->Fill(tpt, match);
+  hist->mHistNHits->Fill(tpt, tnh);
+  hist->mHistNHitsFitRatio->Fill(tpt, tnhr);
+  hist->mHistDcaPt->Fill(tpt, tdca);
+  hist->mHistFrac->Fill(tpt, match);
   hist->mHRadius->Fill(tr);
   if(match){
     double tee = track.mTower.mE;
     int tnhits = track.mTower.mHits;
     //Printf("filling: tpt=%f tnhits=%d id=%d tee=%f\n", tpt, tnhits, track.mTower.mId, tee);
-    if(tnhits == 1){
+    if(tnhits == 1 && tee > 0){
       hist->mHistTower->Fill(tpt, tee);
       hist->mHistEpVsPt->Fill(tpt, tee/tp);
       hist->mHistEpVsDist->Fill(tdd, tee/tp);
@@ -337,7 +389,7 @@ void StMyMatchTrackToEmcMaker::fillHist(const StMyTrackMatch &track, StMyMatchTr
     int cnhits = track.mCluster.mHits;//test
     //Printf("nhits = %d\n", nhits);
     //isolation cut
-    if(cnhits == 1){
+    if(cnhits == 1 && tee > 0){
       hist->mHistHitTowerFracCluster->Fill(tpt, tfee);
       hist->mHistMaxTowerFracCluster->Fill(tpt, tfmax);
       //maximum cut

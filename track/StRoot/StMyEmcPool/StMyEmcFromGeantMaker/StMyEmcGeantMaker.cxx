@@ -211,6 +211,10 @@ int StMyEmcFromGeantMaker::Make()
   StMcVertex* mcVx = mcEvent->primaryVertex();
   StPtrVecMcTrack& daughters = mcVx->daughters();
   vector<StMyMcTrack> myMcPrimaryTracks;
+  map<long, int> mapTowerCounter;
+  for(map<long, StMyMcTower>::const_iterator mt = towers.begin(); mt != towers.end(); mt++){
+      mapTowerCounter.insert(pair<long, int>(mt->first, 0));
+  }
   //  int counter = 0;
   for(unsigned int idt = 0; idt < daughters.size(); idt++){
     StMcTrack *dtrk = daughters[idt];
@@ -228,7 +232,21 @@ int StMyEmcFromGeantMaker::Make()
     float dpt = dtrk->pt();
     if(dpt < 0.2) continue;
     int towerId = mTrackProj->findTower(dtrk, -0.5);
+    //double drr = mTrackProj->getRadius();
+    //Printf("pt = %f radius = %f towerId = %d", dpt, drr, towerId);
     if(towerId <= 0 || towerId > 4800) continue;
+    //CAUTION test+fill 
+    int mtowerId = tracks[dkey].maxTowerId();
+    if(mtowerId != 0){
+      float twrEta, twrPhi; mBemcGeom->getEtaPhi(towerId, twrEta, twrPhi);
+      float mtwrEta, mtwrPhi; mBemcGeom->getEtaPhi(mtowerId, mtwrEta, mtwrPhi);
+      double dtwr = TMath::Power(twrEta-mtwrEta, 2)+TMath::Power(TVector2::Phi_mpi_pi(twrPhi-mtwrPhi), 2);
+      dtwr = TMath::Sqrt(dtwr);
+      mMapTrackHists[dgid]->mDVsPt->Fill(dpt, dtwr);
+      //Printf("pt = %lf towerId = %d, mtowerId = %d dist = %lf", dpt, towerId, mtowerId, dtwr);
+    }else
+      Printf("pt = %lf towerId = %d, mtowerId = %d", dpt, towerId, mtowerId);
+
     //bool dmatch = (myMcTrackGeantMap.find(dkey) != myMcTrackGeantMap.end());
     //bool ddecay = (dtrk->stopVertex() != 0);
     //if(dntpc == 45) Printf("did=%d dpt=%f deta=%f dgid=%d dntpc=%d dmatch=%d ddecay=%d\n", idt, dpt, deta, dgid, dntpc, dmatch, ddecay);
@@ -242,6 +260,7 @@ int StMyEmcFromGeantMaker::Make()
       //
       ptrack.towers.push_back(towers[towerId]);
       myMcPrimaryTracks.push_back(ptrack);
+      mapTowerCounter[towerId]++;
     }
     //*/
     //htrkeff->Fill(dpt, match);
@@ -258,6 +277,9 @@ int StMyEmcFromGeantMaker::Make()
     float e = track.sumE();
   
     if(!(p > 0)) continue;
+    if(track.towers.size() != 1){ Printf("tower size %d", track.towers.size()); continue;}
+    int tid = track.towers[0].id;
+    if(mapTowerCounter[tid] != 1) {Printf("multiple hits for tower %d", tid); continue;}
     mMapTrackHists[id]->mEpVsPt->Fill(pt, e/p);
   }
 

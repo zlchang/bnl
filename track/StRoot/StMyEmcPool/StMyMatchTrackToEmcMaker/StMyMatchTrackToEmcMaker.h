@@ -4,6 +4,7 @@
 #include "StMaker.h"
 
 #include <vector>
+#include <string>
 
 class TFile;
 class StEmcGeom;
@@ -23,6 +24,7 @@ class StMyMatchTrackToEmcMaker : public StMaker{
 public:
  StMyMatchTrackToEmcMaker(const char* name = "StMyMatchTrackToEmcMaker"):StMaker(name){
    mFileName = "MyMatchTrackToEmc.root";
+   mFlagMc = false;
   }
   int Init();
   int Make();
@@ -30,6 +32,7 @@ public:
   void addTrackCut(StMyTrackCut* tcut){ mTrackCuts.push_back(tcut); }
   void addVertexCut(StMyVertexCut* vcut){ mVertexCuts.push_back(vcut); }
   void setTrackProjEmc(StMyTrackProjEmc* proj){ mTrackProj = proj; }
+  void setMc(bool flag) {mFlagMc = flag;}
   void SetOutfile(const char* file){mFileName =  file; }  
  protected:
   StEmcGeom *mBemcGeom;
@@ -40,15 +43,18 @@ public:
  private:
   const char *mFileName;
   TFile *mFile;
-  StMyMatchTrackToEmcHist *mHistNoCut;
-  StMyMatchTrackToEmcHist *mHist;
-  StMyMatchTrackToEmcHist *mHistPos;
-  StMyMatchTrackToEmcHist *mHistNeg;
+  bool mFlagMc;
+  vector<StMyMatchTrackToEmcHist *>mHistNoCutVec;
+  vector<StMyMatchTrackToEmcHist *>mHistVec;
+  vector<StMyMatchTrackToEmcHist *>mHistPosVec;
+  vector<StMyMatchTrackToEmcHist *>mHistNegVec;
 
-  StMyTowerHist *mHistTower;
-  StMyClusterHist *mHistCluster;
+  vector<StMyTowerHist *> mHistTowerVec;
+  vector<StMyClusterHist *>mHistClusterVec;
+  
   vector<StMyTrackCut*> mTrackCuts;
   vector<StMyVertexCut*> mVertexCuts;
+  vector<string> mTriggers;
   StMyTrackProjEmc *mTrackProj;
   ClassDef(StMyMatchTrackToEmcMaker, 0);
 };

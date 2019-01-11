@@ -37,6 +37,21 @@ class StMyMcTrack : public TObject{
       return 0;
     }
   }
+  int maxTowerId(){
+    float max = 0;
+    int id = 0;
+    //double eta = mom.PseudoRapidity();
+    //double sf = samplingFraction(eta);
+    //if(sf < 0.0001) return id;
+    for(vector<StMyMcTower>::const_iterator it = towers.begin(); it != towers.end(); it++){
+      float ee = (*it).dE;
+      if(ee > max){
+         max = ee;
+         id = (*it).id;
+      }
+    }
+    return id;
+  }
   vector<StMyMcTower> towers;
   ClassDef(StMyMcTrack, 1);
 };

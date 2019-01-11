@@ -30,6 +30,7 @@ public:
     //mTower = new StMyTowerHist(Form("%sTower", name));
     //mCluster = new StMyClusterHist(Form("%sCluster", name));
     mHRadius = new TH1D(Form("%sRadius", name), "; radius [cm]", 300, 225, 255);
+    mHistMult = new TH1D(Form("%sTrackMult", name), "; track mult", 100, 0, 100);
   }
   ~StMyMatchTrackToEmcHist(){
     delete mHistTower;
@@ -46,6 +47,7 @@ public:
     //delete mCluster;
     //StMyTrackHist::~StMyTrackHist();
     delete mHRadius;
+    delete mHistMult;
   }
   
   
@@ -65,6 +67,7 @@ public:
   //StMyClusterHist *mCluster;
 
   TH1D *mHRadius;
+  TH1D *mHistMult;
   ClassDef(StMyMatchTrackToEmcHist, 1);
 };
 #endif

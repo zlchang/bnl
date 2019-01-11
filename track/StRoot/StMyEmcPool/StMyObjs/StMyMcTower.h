@@ -9,7 +9,7 @@ class StMyMcTower : public TObject{
   float dE;
   float eta;
   //float e;
-  float id;
+  int id;
   ClassDef(StMyMcTower, 1);
 };
 #endif
