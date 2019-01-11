@@ -24,7 +24,7 @@ public:
   void setYrange(double min, double max){ymin = min; ymax = max;}
   void setLogy(bool flag){logy = flag;}
 };
-const char *ver="v0";
+const char *ver="Emcv3";
 int plotMyEmc(//const char* file = "test.track.root"
 const char* file = "ptbin.list.run12.c.emc.v0.w.root" 
 )
