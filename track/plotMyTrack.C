@@ -12,16 +12,19 @@ public:
     //lx1 = 0.2; ly1 = 0.70; lx2 = 0.5; ly2 = 0.85;
   }
   double ymin, ymax;
+  double zmin, zmax;
   double lx1,ly1,lx2,ly2;
   bool logy;
   void setLegend(double x1, double y1, double x2, double y2){ lx1 = x1; ly1 = y1; lx2 = x2; ly2 = y2;}
   void setYrange(double min, double max){ymin = min; ymax = max;}
+  void setZrange(double min, double max){zmin = min; zmax = max;}
   void setLogy(bool flag){logy = flag;}
 };
-const char* ver = "Datav2";
+const char* ver = "v3";
+//const char* ver = "Datav3";
 int plotMyTrack(//const char* file = "test.track.root"
-//const char* file = "ptbin.list.run12.d.track.v0.w.track.root"
-const char* file = "run.emc.list.run12.d.track.v0.w.track.root"
+const char* file = "ptbin.list.run12.e.track.v0.w.track.root"
+//const char* file = "run.emc.list.run12.e.track.v0.w.track.root"
 )
 {
   
@@ -29,28 +32,31 @@ const char* file = "run.emc.list.run12.d.track.v0.w.track.root"
  
   gStyle->SetOptStat(0);
   gStyle->SetPadGridX(0);
+  gStyle->SetPalette(1, 0);
   ///*
   drawObject d0;
   d0.setLogy(1);
   //d1.setYrange(-0.1, 1.7);
   //d1.setLegend(0.2, 0.7, 0.5, 0.85);
   drawHist("Track", d0);
-
+/*
   drawObject d0a;
   d0a.setLogy(1);
   drawHist("Tower", d0a);
-
+*/
+/*
   drawObject d0c;
   d0c.setLegend(0.5, 0.3, 0.8, 0.45);
   drawHistProfile("TrackFracProf", d0c);
-
+*/
+/*
   drawObject d0d;
   drawHist("NSigmaElectron", d0d);
 
   drawObject d0e;
   d0e.setLegend(0.2, 0.7, 0.5, 0.85);
   drawHist("NSigmaPion", d0e);
-
+*/
   drawObject d1;
   d1.setYrange(-0.1, 1.2);
   d1.setLegend(0.2, 0.7, 0.5, 0.85);
@@ -75,14 +81,15 @@ const char* file = "run.emc.list.run12.d.track.v0.w.track.root"
   //d5.setYrange(-0.1, 0.29);
   //d5.setLegend(0.46, 0.74, 0.76, 0.89);
   drawHistProfile("EpVsDistProf", d5);
-
+/*
   drawObject d6;
   drawHist("NSigmaElectron", d6);
   
   drawObject d7;
   d7.setLegend(0.13, 0.74, 0.43, 0.89);
   drawHist("NSigmaPion", d7);
-
+*/
+/*
   drawObject d8;
   drawHist2D("EpVsPtScatter", d8);
 
@@ -94,6 +101,7 @@ const char* file = "run.emc.list.run12.d.track.v0.w.track.root"
 
   drawObject d11;
   drawHist2D("MaxTowerFracClusterScatter", d11);
+*/
   //*/  
   drawObject d12;
   //d12.setYrange(-0.001, 0.005);
@@ -113,6 +121,7 @@ void drawHist(const char *name, const drawObject &obj)
   TH1 *hp[Nn];
   for(int ih = 0; ih < Nn; ih++){
     hp[ih] =(TH1*)mFile->Get(Form("%s%s", type[ih], name));
+    if(!hp[ih]) Printf(Form("%s%s not found", type[ih], name)); 
     hp[ih]->Print();
   }
 
@@ -161,7 +170,7 @@ void drawHistProfile(const char *name, const drawObject &obj)
   }
   TLegend *lg = new TLegend(obj.lx1, obj.ly1, obj.lx2, obj.ly2);
   for(int ih = 0; ih < Nn; ih++){
-    lg->AddEntry(hh[ih], Form("%s #bf{%3.2lf#pm%3.2lf}", type[ih], hmean[ih], herror[ih]), "l");
+    lg->AddEntry(hh[ih], Form("%s %3.2lf#pm%3.2lf", type[ih], hmean[ih], herror[ih]), "l");
   }
   lg->Draw("same");
   c->Print(Form("%s%s.png", name, ver));
@@ -214,7 +223,8 @@ void drawHist2D(const char *name, const drawObject &obj)
     hp[ih]->Draw("colz");
     if(obj.ymax > obj.ymin) hp[ih]->GetYaxis()->SetRangeUser(obj.ymin, obj.ymax);
     gPad->SetLogz(1);
-    hp[ih]->GetZaxis()->SetRangeUser(9e-13, 2.0);
+    //hp[ih]->GetZaxis()->SetRangeUser(9e-13, 2.0);
+    if(obj.zmax > obj.zmin) hp[ih]->GetZaxis()->SetRangeUser(obj.zmin, obj.zmax);
   }
   
   c->Print(Form("%s%s.png", name, ver));
@@ -245,7 +255,7 @@ void drawHistProjY(const char *name, int xlow, int xhigh, const drawObject &obj)
   TLegend *lg = new TLegend(obj.lx1, obj.ly1, obj.lx2, obj.ly2);
   lg->SetHeader(Form("%.1lf < p_{T} < %.1lf GeV", xmin, xmax));
   for(int ih = 0; ih < Nn; ih++){
-    //lg->AddEntry(hh[ih], Form("%s #bf{%3.2lf#pm%3.2lf}", type[ih], hmean[ih], herror[ih]), "l");
+    //lg->AddEntry(hh[ih], Form("%s %3.2lf#pm%3.2lf", type[ih], hmean[ih], herror[ih]), "l");
     lg->AddEntry(hp[ih], Form("%s", type[ih]), "l");
   }
   lg->Draw("same");  
